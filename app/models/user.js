@@ -22,7 +22,7 @@ var userSchema = new mongoose.Schema({
   email: String,
   lists: [
     name: String,
-    listSchema
+    list: listSchema
   ]
 });
 

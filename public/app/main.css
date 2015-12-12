@@ -3,11 +3,12 @@
   text-align:center;
   border:1 px solid black;
   border-radius:10px;
-  background-color:#c0c0c0;
+  background-color:#0066cc;
+  color:#ffffff;
   margin:5px;
   padding:5px;
   list-style-type: none;
-  cursor: move;
+  cursor: pointer;
 }
 
 .list2 {
@@ -15,10 +16,18 @@
   text-align:center;
   border:1 px solid black;
   border-radius:10px;
-  background-color:#a000a0;
+  background-color:#ffcc33;
+  color:#000000;
   margin:5px;
   padding:5px;
   list-style-type: none;
-  cursor: move;
+  cursor: pointer;
 }
 
+.list-header {
+  cursor:pointer;
+}
+
+.inline-block {
+  display: inline-block;
+}

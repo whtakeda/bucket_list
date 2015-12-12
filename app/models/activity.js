@@ -6,8 +6,7 @@ var tagSchema = new mongoose.Schema({
   created: { type: Date, default: Date.now }
 });
 
-
-var spotSchema = new mongoose.Schema({
+var activitySchema = new mongoose.Schema({
   user_id: String,
   name: String,
   description: String,

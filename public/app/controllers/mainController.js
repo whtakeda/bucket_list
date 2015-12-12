@@ -10,23 +10,26 @@
   function MainController($log) {
     var vm = this;
     vm.names = ['Nicole', 'Layne', 'Winford', 'Mattie', 'Lawanda','Joe','Mac','Sally'];
-    vm.names2 = ['Jeff','Lindsey','Chris','Matthew'];
+    vm.names2 = [['Jeff','Lindsey','Chris','Matthew'],['Jason','Ferdie','Joey','Gev']];
     vm.display = display;
 
-    vm.sourceScreens = vm.names.slice();
-    vm.selectedScreens = vm.names2;
+    var sourceScreens = vm.names.slice();
 
-
-    var slide = true;
-    vm.toggle = function(){
-      (slide) ? $('#list').slideUp() : $('#list').slideDown();
-      slide = !slide;
+    // TODO: refactor
+    var slide = [true,true];
+    vm.toggle = function(idx){
+      $log.log(idx);
+      (slide[idx]) ? $('#list'+(idx+1)).slideUp() : $('#list'+(idx+1)).slideDown();
+      slide[idx] = !slide[idx];
     }
 
+
+    // TODO: throwaway
     function display()
     {
       $log.log(vm.names);
-      $log.log(vm.names2);
+      $log.log(vm.names2[0]);
+      $log.log(vm.names2[1]);
     }
 
 
@@ -39,7 +42,7 @@
             ui.item.sortable.droptarget &&
             e.target != ui.item.sortable.droptarget[0]) {
           // clone the original model to restore the removed item
-          vm.names = vm.sourceScreens.slice();
+          vm.names = sourceScreens.slice();
         }
       },
       update: function(event, ui) {
@@ -49,13 +52,12 @@
         if (!ui.item.sortable.received) {
           var originNgModel = ui.item.sortable.sourceModel;
           var itemModel = originNgModel[ui.item.sortable.index];
-console.log(originNgModel);
-console.log(itemModel);
-console.log(vm.names2);
+          var dropTarget = ui.item.sortable.droptargetModel;
+
           // check that its an actual moving
           // between the two lists
-          if (originNgModel == vm.names && ui.item.sortable.droptargetModel == vm.names2) {
-            var exists = !!vm.names2.filter(function(x) {return x === itemModel }).length;
+          if (originNgModel == vm.names && ui.item.sortable.droptargetModel == dropTarget) {
+            var exists = !!dropTarget.filter(function(x) {return x === itemModel }).length;
             if (exists) {
              ui.item.sortable.cancel();
             }
@@ -63,31 +65,6 @@ console.log(vm.names2);
         }
       }
     };
-}
-
-
-  // $scope.sortableOptions = {
-  //   placeholder: "app",
-  //   connectWith: ".apps-container",
-  //   update: function(event, ui) {
-  //     // on cross list sortings recieved is not true
-  //     // during the first update
-  //     // which is fired on the source sortable
-  //     if (!ui.item.sortable.received) {
-  //       var originNgModel = ui.item.sortable.sourceModel;
-  //       var itemModel = originNgModel[ui.item.sortable.index];
-
-  //       // check that its an actual moving
-  //       // between the two lists
-  //       if (originNgModel == $scope.list1 &&
-  //           ui.item.sortable.droptargetModel == $scope.list2) {
-  //         var exists = !!$scope.list2.filter(function(x) {return x.title === itemModel.title }).length;
-  //         if (exists) {
-  //          ui.item.sortable.cancel();
-  //         }
-  //       }
-  //     }
-  //   }
-  // };
+  }
 
 })();
