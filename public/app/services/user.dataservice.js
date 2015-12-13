@@ -8,15 +8,15 @@
   userDataService.$inject = ['$log','$http'];
 
   function userDataService($log,$http) {
-    var baseUrl = "http://localhost:3000/"
-
-    function home() {
-      return $http
-        .get(baseUrl);
+    var user = {
+      name: "",
+      googleId: ""
     }
 
-    return {
-      home:home
-    };
+    return user;
+
+    var baseUrl = "http://localhost:3000/"
+
+
   }
 })();

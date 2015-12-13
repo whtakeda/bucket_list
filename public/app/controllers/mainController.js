@@ -5,13 +5,17 @@
     .module('app')
     .controller('MainController',MainController);
 
-  MainController.$inject = ['$log'];
+  MainController.$inject = ['$log','activityDataService'];
 
-  function MainController($log) {
+  function MainController($log,activityDataService) {
     var vm = this;
+//    vm.user = userDataService;
+    vm.activity = activityDataService;
+
     vm.names = ['Nicole', 'Layne', 'Winford', 'Mattie', 'Lawanda','Joe','Mac','Sally'];
     vm.names2 = [['Jeff','Lindsey','Chris','Matthew'],['Jason','Ferdie','Joey','Gev']];
     vm.display = display;
+
 
     var sourceScreens = vm.names.slice();
 

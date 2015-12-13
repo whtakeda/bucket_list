@@ -20,5 +20,5 @@ var activitySchema = new mongoose.Schema({
 var Activity = mongoose.model('Activity', activitySchema);
 
 
-module.exports = User;
+module.exports = Activity;
 

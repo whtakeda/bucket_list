@@ -31,3 +31,9 @@
 .inline-block {
   display: inline-block;
 }
+
+.new-activity {
+  display:inline-block;
+  width:100px;
+  margin: 5px 0px;
+}
