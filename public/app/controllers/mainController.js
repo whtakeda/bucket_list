@@ -9,18 +9,37 @@
 
   function MainController($log,activityDataService) {
     var vm = this;
+    var sourceScreens;
+
 //    vm.user = userDataService;
     vm.activity = activityDataService;
 
     vm.names = ['Nicole', 'Layne', 'Winford', 'Mattie', 'Lawanda','Joe','Mac','Sally'];
     vm.names2 = [['Jeff','Lindsey','Chris','Matthew'],['Jason','Ferdie','Joey','Gev']];
+    vm.lists = [[{title:'Bike'},{title:'Run'},{title:'Swim'}],
+                [{title:'Visit Disneyland'},{title:'Climb Mt Everest'}],
+                [{title:'Write a book'},{title:'Swim the English Channel'},{title:'Sky Dive'},{title:'Visit the North Pole'}]];
+
+    getActivities();
+    function getActivities()
+    {
+      vm.activity.getActivities()
+        .then(function(res){
+          $log.log("res is " + angular.toJson(res.data));
+          vm.activities = res.data;
+          sourceScreens = vm.activities.slice();
+        },
+        function(err){
+          $log.log(err);
+        });
+    }
+
     vm.display = display;
 
 
-    var sourceScreens = vm.names.slice();
 
     // TODO: refactor
-    var slide = [true,true];
+    var slide = [true,true,true];
     vm.toggle = function(idx){
       $log.log(idx);
       (slide[idx]) ? $('#list'+(idx+1)).slideUp() : $('#list'+(idx+1)).slideDown();
@@ -46,7 +65,7 @@
             ui.item.sortable.droptarget &&
             e.target != ui.item.sortable.droptarget[0]) {
           // clone the original model to restore the removed item
-          vm.names = sourceScreens.slice();
+          vm.activities = sourceScreens.slice();
         }
       },
       update: function(event, ui) {
@@ -60,7 +79,7 @@
 
           // check that its an actual moving
           // between the two lists
-          if (originNgModel == vm.names && ui.item.sortable.droptargetModel == dropTarget) {
+          if (originNgModel == vm.activities && ui.item.sortable.droptargetModel == dropTarget) {
             var exists = !!dropTarget.filter(function(x) {return x === itemModel }).length;
             if (exists) {
              ui.item.sortable.cancel();

@@ -5,37 +5,22 @@ var Activity = require("../models/activity");
 // var env = require('../config/environment');
 var _ = require("underscore");
 
-var create = function(req,res,next)
+function create(req,res,next)
 {
-
-  console.log(req.body);
   activity = new Activity(req.body);
   activity.save();
-  res.json(JSON.stringify(req.body));
-
-      // user.spots.push({
-      //   title: title,
-      //   description: description,
-      //   flickr_url: flickrUrl,
-      //   image_url: imageUrl,
-      //   address: address,
-      //   lat: lat,
-      //   lng: lng,
-      //   zipcode: zipcode,
-      //   rating: rating,
-      //   tags: tags //need logic on how to insert multiple tags data into tagSchema
-      // });
-      // user.save(function(err) {
-      //   res.redirect('/');  // TODO: why doesn't render work?  i have to redirect to make it work
-      // });
+  res.json(req.body);
 }
 
-var test = function(req,res,next)
+function index(req,res,next)
 {
-  res.json("testing");
+  Activity.find({},'title _id',function(err,activities){
+    if (err) { console.log(err); }
+    res.json(activities);
+  });
 }
 
 module.exports = {
   create: create,
-  test: test
+  index: index
 };

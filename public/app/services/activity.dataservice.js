@@ -18,10 +18,15 @@
       duration: "duration",
       tags: "",
       newActivity: newActivity,
-      test: test
+      getActivities: getActivities
     }
 
     return activity;
+
+    function getActivities()
+    {
+      return $http.get(baseUrl + "activities");
+    }
 
     function newActivity()
     {
@@ -47,19 +52,6 @@
       activity.cost = "";
       activity.duration = "";
       activity.tags = "";
-    }
-
-    function test()
-    {
-      $log.log("testing..")
-      $http
-        .get(baseUrl + "test")
-        .then(function(res){
-            $log.log("test complete..");
-        },
-        function(err){
-          $log.log(err);
-        });
     }
 
   }

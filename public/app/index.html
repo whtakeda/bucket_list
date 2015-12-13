@@ -21,16 +21,16 @@
   <div class="col-xs-3">
     <div ng-click="vm.toggle('list')" class="list-header">Activities</div>
     <div style="border:1px solid" id="list" class="inline-block">
-    <ul ui-sortable="vm.sortableOptions" ng-model="vm.names" class="connected-apps-container first">
-      <li class="list" ng-repeat="name in vm.names track by $index">{{name}}</li>
+    <ul ui-sortable="vm.sortableOptions" ng-model="vm.activities" class="connected-apps-container first">
+      <li class="list" ng-repeat="activity in vm.activities track by $index">{{activity.title}}</li>
     </ul>
     </div>
   </div>
   <div class="col-xs-6">
-    <div class="list-header" ng-repeat="names in vm.names2 track by $index" style="border:1px solid black; width:250px">
+    <div class="list-header" ng-repeat="list in vm.lists track by $index" style="border:1px solid black; width:250px">
       <span ng-click="vm.toggle($index)">Activity List {{$index+1}}</span>
-      <ul ui-sortable="" ng-model="names" class="connected-apps-container" id="list{{$index+1}}">
-        <li class="list2" ng-repeat="name in names">{{name}}</li>
+      <ul ui-sortable="" ng-model="list" class="connected-apps-container" id="list{{$index+1}}">
+        <li class="list2" ng-repeat="l in list">{{l.title}}</li>
       </ul>
     </div>
   </div>

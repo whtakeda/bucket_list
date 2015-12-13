@@ -14,8 +14,7 @@ module.exports = function(app) {
     res.render('index', { title: 'Express' });
   });
 
-  app.get('/activities',activitiesController.create);
-  router.get('/test',activitiesController.test);
+  app.get('/activities',activitiesController.index);
 
 
   app.use('/',router);

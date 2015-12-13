@@ -8,7 +8,7 @@ var tagSchema = new mongoose.Schema({
 
 var activitySchema = new mongoose.Schema({
   user_id: String,
-  name: String,
+  title: String,
   description: String,
   rating: {type: Number, default: 0},
   location: String,
