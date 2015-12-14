@@ -15,9 +15,13 @@
         url: '/activities',
         templateUrl: 'templates/activities.html'
       })
-      .state('newactivities',{
+      .state('newactivity',{
         url: '/activities/new',
         templateUrl: 'templates/newactivity.html'
+      })
+      .state('newlist',{
+        url: '/lists/new',
+        templateUrl: 'templates/newlist.html'
       });
   }
 

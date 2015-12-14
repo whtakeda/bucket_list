@@ -5,14 +5,15 @@
     .module('app')
     .controller('MainController',MainController);
 
-  MainController.$inject = ['$log','activityDataService'];
+  MainController.$inject = ['$log','activityDataService','listDataService'];
 
-  function MainController($log,activityDataService) {
+  function MainController($log,activityDataService,listDataService) {
     var vm = this;
     var sourceScreens;
 
 //    vm.user = userDataService;
     vm.activity = activityDataService;
+    vm.list = listDataService;
 
     vm.names = ['Nicole', 'Layne', 'Winford', 'Mattie', 'Lawanda','Joe','Mac','Sally'];
     vm.names2 = [['Jeff','Lindsey','Chris','Matthew'],['Jason','Ferdie','Joey','Gev']];
@@ -20,12 +21,28 @@
                 [{title:'Visit Disneyland'},{title:'Climb Mt Everest'}],
                 [{title:'Write a book'},{title:'Swim the English Channel'},{title:'Sky Dive'},{title:'Visit the North Pole'}]];
 
+
     getActivities();
+    getLists();
+
+    function getLists()
+    {
+      vm.list.getLists()
+        .then(function(res){
+//          $log.log("res is " + angular.toJson(res.data));
+          vm.lists.lists = res.data;
+          console.log(vm.lists.lists);
+        },
+        function(err){
+          $log.log(err);
+        });
+    }
+
     function getActivities()
     {
       vm.activity.getActivities()
         .then(function(res){
-          $log.log("res is " + angular.toJson(res.data));
+//          $log.log("res is " + angular.toJson(res.data));
           vm.activities = res.data;
           sourceScreens = vm.activities.slice();
         },
@@ -41,7 +58,6 @@
     // TODO: refactor
     var slide = [true,true,true];
     vm.toggle = function(idx){
-      $log.log(idx);
       (slide[idx]) ? $('#list'+(idx+1)).slideUp() : $('#list'+(idx+1)).slideDown();
       slide[idx] = !slide[idx];
     }

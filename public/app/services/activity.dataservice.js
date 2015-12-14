@@ -19,7 +19,7 @@
       tags: "",
       newActivity: newActivity,
       getActivities: getActivities
-    }
+    };
 
     return activity;
 
@@ -30,13 +30,12 @@
 
     function newActivity()
     {
-      $log.log("creating new activity.." + activity.title)
+      $log.log("creating new activity..." + activity.title);
       $http
         .post(baseUrl + "activities",activity)
         .then(function(res){
-            $log.log("got new activity.." + angular.fromJson(res.data));
-            clearActivity();
-//          vm.user.lists.push(res.data);
+          $log.log("got new activity..." + angular.fromJson(res.data));
+          clearActivity();
         },
         function(err){
           $log.log(err);

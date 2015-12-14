@@ -4,6 +4,8 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
+var session = require('express-session');
+var passport = require('passport');
 
 var routes = require('./app/config/routes');
 
@@ -11,6 +13,8 @@ var mongoose = require('./app/config/database');
 var env = require('./app/config/environment');
 
 var app = express();
+
+require('dotenv').load();
 
 // view engine setup
 app.set('views', path.join(__dirname, 'public/app'));
@@ -24,7 +28,18 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public/app')));
 
-require('./app/config/routes')(app);
+app.use(session({
+  secret: 'WDIRocks!',
+  resave: false,
+  saveUninitialized: true
+}));
+
+// mount passport
+app.use(passport.initialize());
+app.use(passport.session());
+
+require('./app/config/passport')(passport);
+require('./app/config/routes')(app,passport);
 app.use('/', routes);
 //app.use(express.static("public/app"));
 

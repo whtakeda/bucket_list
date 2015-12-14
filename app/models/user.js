@@ -7,27 +7,29 @@ var tagSchema = new mongoose.Schema({
 });
 
 var listSchema = new mongoose.Schema({
-  order: Number,
-  completed: Boolean,
+  name: String,
   visible: Boolean,
-  accepted: Boolean,
-  progress: {type:Number, default:0}
-  rating: {type:Number, default:0}
-  location: [Number,Number]
+  rating: {type:Number, default:0},
+  activity: {
+    activityId: String,
+    order: Number,
+    completed: Boolean,
+    accepted: Boolean,
+    progress: {type:Number, default:0},
+    location: [Number,Number],
+    reminderDate: Date
+  }
 });
 
 var userSchema = new mongoose.Schema({
-  name:   String,
+  name: String,
   googleId: String,
   email: String,
   lists: [
-    name: String,
-    list: listSchema
+    listSchema
   ]
 });
 
 var User = mongoose.model('User', userSchema);
 
 module.exports = User;
-
-users.js
