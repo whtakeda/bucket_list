@@ -25,10 +25,24 @@
       // },
       activity: {},
       newList: newList,
-      getLists: getLists
+      getLists: getLists,
+      deleteActivity: deleteActivity
     };
 
     return list;
+
+    function deleteActivity(id)
+    {
+      $log.log("Deleting activity...")
+      $http
+        .delete(baseUrl + "lists/"+id,list)
+        .then(function(res){
+          $log.log("List has been updated...");
+        },
+        function(err){
+          $log.log(err);
+        });
+    }
 
     function saveList()
     {

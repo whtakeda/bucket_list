@@ -11,6 +11,7 @@
     var vm = this;
     var baseUrl = "http://localhost:3000/"
     var sourceScreens;
+    var slide = [];
 
 //    vm.user = userDataService;
     vm.activity = activityDataService;
@@ -37,8 +38,10 @@
         .then(function(res){
 //          $log.log("res is " + angular.toJson(res.data));
           vm.lists = res.data;
-          vm.lists[0].activity[0].i = 1;
-          vm.lists[0].activity[1].i = 2;
+          // vm.lists[0].activity[0].i = 1;
+          // vm.lists[0].activity[1].i = 2;
+          vm.lists.forEach(function(x){slide.push(false);});
+
         },
         function(err){
           $log.log(err);
@@ -60,12 +63,15 @@
 
     vm.display = display;
 
-
+    function initialize()
+    {
+      // do stuff here to set up initial view
+      slide.forEach(function(x,idx){$('#'+(idx)).slideUp()})
+    }
 
     // TODO: refactor
-    var slide = [true,true,true];
     vm.toggle = function(idx){
-      (slide[idx]) ? $('#list'+(idx+1)).slideUp() : $('#list'+(idx+1)).slideDown();
+      (slide[idx]) ? $('#'+(idx)).slideUp() : $('#'+(idx)).slideDown();
       slide[idx] = !slide[idx];
     }
 
@@ -88,7 +94,10 @@
             ui.item.sortable.droptarget &&
             e.target != ui.item.sortable.droptarget[0]) {
           // clone the original model to restore the removed item
+        console.log(ui.item.sortable.droptarget);
+          var item = ui.item.sortable;
           vm.activities = sourceScreens.slice();
+        $http.put(baseUrl + 'lists/' + item.droptarget.attr('id'),item.droptargetModel);
         }
       },
       update: function(event, ui) {
