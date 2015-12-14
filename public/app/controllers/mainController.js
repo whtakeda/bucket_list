@@ -5,10 +5,11 @@
     .module('app')
     .controller('MainController',MainController);
 
-  MainController.$inject = ['$log','activityDataService','listDataService'];
+  MainController.$inject = ['$log','$http','activityDataService','listDataService'];
 
-  function MainController($log,activityDataService,listDataService) {
+  function MainController($log,$http,activityDataService,listDataService) {
     var vm = this;
+    var baseUrl = "http://localhost:3000/"
     var sourceScreens;
 
 //    vm.user = userDataService;
@@ -21,6 +22,11 @@
                 [{title:'Visit Disneyland'},{title:'Climb Mt Everest'}],
                 [{title:'Write a book'},{title:'Swim the English Channel'},{title:'Sky Dive'},{title:'Visit the North Pole'}]];
 
+    vm.test = test;
+
+    function test(){
+      $log.log('testing...');
+    }
 
     getActivities();
     getLists();
@@ -30,8 +36,9 @@
       vm.list.getLists()
         .then(function(res){
 //          $log.log("res is " + angular.toJson(res.data));
-          vm.lists.lists = res.data;
-          console.log(vm.lists.lists);
+          vm.lists = res.data;
+          vm.lists[0].activity[0].i = 1;
+          vm.lists[0].activity[1].i = 2;
         },
         function(err){
           $log.log(err);
@@ -66,9 +73,9 @@
     // TODO: throwaway
     function display()
     {
-      $log.log(vm.names);
-      $log.log(vm.names2[0]);
-      $log.log(vm.names2[1]);
+//      $log.log(vm.activity);
+      $log.log(angular.toJson(vm.lists[0].activity[0]));
+      $log.log(angular.toJson(vm.lists[0].activity[1]));
     }
 
 
@@ -96,6 +103,7 @@
           // check that its an actual moving
           // between the two lists
           if (originNgModel == vm.activities && ui.item.sortable.droptargetModel == dropTarget) {
+            console.log(itemModel)
             var exists = !!dropTarget.filter(function(x) {return x === itemModel }).length;
             if (exists) {
              ui.item.sortable.cancel();
@@ -104,6 +112,42 @@
         }
       }
     };
+
+    vm.sortableOptions2 = {
+      connectWith: ".connected-apps-container",
+      stop: function (e, ui) {
+        // if the element is removed from the first container
+
+// TODO: do i even need to do this since i am updating all records in bulk?  probably not.
+// but test before removing
+        var target = ui.item.sortable.droptargetModel
+        for (var index in target)
+        {
+          target[index].i = parseInt(index)+1;
+        }
+        // save the data cause it changed
+        // not sure if this is considered bad style b/c i'm manually handling
+        // the save, but not sure how to do it through angular with a custom directive
+        $http.put(baseUrl + 'lists',ui.item.sortable.droptargetModel);
+      },
+      update: function(event, ui) {
+        // on cross list sortings received is not true
+        // during the first update
+        // which is fired on the source sortable
+        if (!ui.item.sortable.received) {
+          var originNgModel = ui.item.sortable.sourceModel;
+          var itemModel = originNgModel[ui.item.sortable.index];
+          var dropTarget = ui.item.sortable.droptargetModel;
+
+          // check that its an actual moving
+          // between the two lists
+          if (originNgModel != dropTarget) {
+             ui.item.sortable.cancel();
+          }
+        }
+      }
+    };
+
   }
 
 })();

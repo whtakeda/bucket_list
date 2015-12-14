@@ -10,15 +10,16 @@ var listSchema = new mongoose.Schema({
   name: String,
   visible: Boolean,
   rating: {type:Number, default:0},
-  activity: {
+  activity: [{
     activityId: String,
+    title: String,      // TODO: pull this out later after testing
     order: Number,
     completed: Boolean,
     accepted: Boolean,
     progress: {type:Number, default:0},
     location: [Number,Number],
     reminderDate: Date
-  }
+  }]
 });
 
 var userSchema = new mongoose.Schema({

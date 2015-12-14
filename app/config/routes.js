@@ -19,6 +19,7 @@ module.exports = function(app, passport) {
   app.get('/activities',activitiesController.index);
 
   app.get('/lists',usersController.index);
+  app.put('/lists',usersController.update); // non-standard route b/c entire list is updated at one time
 
 
 

@@ -5,10 +5,11 @@
     .module('app')
     .factory('listDataService',listDataService);
 
-  listDataService.$inject = ['$log','$http'];
+  listDataService.$inject = ['$log','$http','$window'];
 
-  function listDataService($log,$http) {
-    var baseUrl = "http://localhost:3000/"
+  function listDataService($log,$http,$window) {
+    var baseUrl = "http://localhost:3000/";
+
     var list = {
       name: "kwyjibo",
       rating: 0,
@@ -28,6 +29,19 @@
     };
 
     return list;
+
+    function saveList()
+    {
+      $log.log("Updating list...")
+      $http
+        .put(baseUrl + "lists",list)
+        .then(function(res){
+          $log.log("List has been updated...");
+        },
+        function(err){
+          $log.log(err);
+        });
+    }
 
     function newList()
     {

@@ -29,8 +29,8 @@
   <div class="col-xs-6">
     <div class="list-header" ng-repeat="list in vm.lists track by $index" style="border:1px solid black; width:250px">
       <span ng-click="vm.toggle($index)">Activity List {{$index+1}}</span>
-      <ul ui-sortable="" ng-model="list" class="connected-apps-container" id="list{{$index+1}}">
-        <li class="list2" ng-repeat="l in list">{{l.title}}</li>
+      <ul ui-sortable="vm.sortableOptions2" ng-model="list.activity" class="connected-apps-container" id="list{{$index+1}}">
+        <li class="list2" ng-repeat="l in list.activity" ng-model="l.title">{{l.title}}</li>
       </ul>
     </div>
   </div>
