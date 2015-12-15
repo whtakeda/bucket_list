@@ -15,13 +15,17 @@
         url: '/activities',
         templateUrl: 'templates/activities.html'
       })
-      .state('newactivity',{
+      .state('newActivity',{
         url: '/activities/new',
         templateUrl: 'templates/newactivity.html'
       })
-      .state('newlist',{
+      .state('newList',{
         url: '/lists/new',
         templateUrl: 'templates/newlist.html'
+      })
+      .state('showActivity',{
+        url: '/activity/:id',
+        templateUrl: 'templates/activity.html'
       });
   }
 

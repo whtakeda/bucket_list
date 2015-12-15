@@ -17,6 +17,7 @@
     vm.activity = activityDataService;
     vm.list = listDataService;
     vm.deleteFromList = deleteFromList;
+    vm.getActivity = getActivity;
 
     vm.lists = [[{title:'Bike'},{title:'Run'},{title:'Swim'}],
                 [{title:'Visit Disneyland'},{title:'Climb Mt Everest'}],
@@ -25,12 +26,22 @@
     vm.test = test;
 
     function test(){
-      debugger;
       $log.log('testing...');
     }
 
     getActivities();
     getLists();
+
+    function getActivity(id)
+    {
+//      debugger;
+      if (id===undefined) { return; }
+      vm.activity.showActivity(id)
+        .then(function(res){
+//          debugger;
+          vm.activity.setValues(res.data[0]);
+        })
+    }
 
     function deleteFromList(id)
     {

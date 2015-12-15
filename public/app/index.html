@@ -29,8 +29,8 @@
     <!-- Collect the nav links, forms, and other content for toggling -->
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
       <ul class="nav navbar-nav">
-        <li><a ui-sref="newactivity">New Activity</a></li>
-        <li><a ui-sref="newlist">New List</a></li>
+        <li><a ui-sref="newActivity">New Activity</a></li>
+        <li><a ui-sref="newList">New List</a></li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
         <li><a href="/auth/google">Login with Google</a></li>
@@ -40,7 +40,8 @@
 </nav>
 
 
-  <div ui-view></div>
+<div ui-view></div>
+
 <button ng-click="vm.display()">Check</button>
 
 <div>
@@ -48,15 +49,15 @@
     <div ng-click="vm.toggle('list')" class="list-header">Activities</div>
     <div style="border:1px solid" id="list" class="inline-block">
     <ul ui-sortable="vm.sortableActivityOptions" ng-model="vm.activities" class="connected-apps-container first">
-      <li class="list" ng-repeat="activity in vm.activities track by $index">{{activity.title}}</li>
+      <li class="activities bevel" ng-repeat="activity in vm.activities track by $index">{{activity.title}}</li>
     </ul>
     </div>
   </div>
-  <div class="col-xs-3">
+  <div class="col-xs-3 frame">
     <div class="list-header" ng-repeat="list in vm.lists track by $index" style="border:1px solid black; width:250px">
       <span ng-click="vm.toggle($index)">{{list.name}}</span>
       <ul ui-sortable="vm.sortableListOptions" ng-model="list.activity" class="connected-apps-container" id="{{$index}}">
-        <li class="list2" ng-repeat="l in list.activity" id="{{l._id}}">{{l.title}}</li>
+        <li class="lists" ng-class="{bevel: l._id !== '-1'}" ui-sref="showActivity" ng-repeat="l in list.activity" id="{{l._id}}" ng-dblclick="vm.getActivity(l.activityId)">{{l.title}}</li>
       </ul>
     </div>
   </div>

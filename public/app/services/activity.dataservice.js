@@ -18,10 +18,29 @@
       duration: "duration",
       tags: "",
       newActivity: newActivity,
-      getActivities: getActivities
+      getActivities: getActivities,
+      showActivity: showActivity,
+      setValues: setValues
     };
 
     return activity;
+
+    function setValues(rec)
+    {
+      activity.title = rec.title;
+      activity.description = rec.description;
+      activity.rating = rec.rating;
+      activity.location = rec.location;
+      activity.cost = rec.cost;
+      activity.duration = rec.duration;
+      activity.tags = rec.tags;
+    }
+
+    function showActivity(id)
+    {
+      $log.log("in showActivity...")
+      return $http.get(baseUrl + "activity/" + id);
+    }
 
     function getActivities()
     {

@@ -23,7 +23,7 @@
       //   location: "",
       //   reminderDate: ""
       // },
-      activity: {},
+      activity: [],
       newList: newList,
       getLists: getLists,
       deleteActivity: deleteActivity,

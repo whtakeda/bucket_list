@@ -20,7 +20,18 @@ function index(req,res,next)
   });
 }
 
+function show(req,res,next)
+{
+  console.log(req.params.id);
+  Activity.find({"_id":req.params.id},function(err,activity){
+    if (err) { console.log(err); }
+    res.json(activity);
+  });
+}
+
+
 module.exports = {
   create: create,
-  index: index
+  index: index,
+  show: show
 };
