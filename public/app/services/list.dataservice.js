@@ -26,24 +26,51 @@
       activity: {},
       newList: newList,
       getLists: getLists,
-      deleteActivity: deleteActivity
+      deleteActivity: deleteActivity,
+      addPlaceholder: addPlaceholder,
+      updateList: updateList
     };
 
     return list;
 
-    function deleteActivity(id)
+    // a placeholder needs to be added to an empty list so that it can be dragged into
+    // once there is a real activity in the list, remove the placeholder
+    function removePlaceholder(list)
     {
-      $log.log("Deleting activity...")
-      $http
-        .delete(baseUrl + "lists/"+id,list)
-        .then(function(res){
-          $log.log("List has been updated...");
-        },
-        function(err){
-          $log.log(err);
-        });
+      return list.filter(function(activity){
+        return activity.id !== "-1";
+      });
     }
 
+    function addPlaceholder(list)
+    {
+//      debugger;
+      if (list.activity.length === 0)
+      {
+         return list.activity.push({title:"There are no activities in this list yet", id:"-1"});
+      }
+    }
+
+    function updateList(id,data)
+    {
+      // remove placeholder if necessary before updating list
+//      debugger;
+      if (data.length>1)
+      {
+//        debugger;
+        data = removePlaceholder(data);
+      }
+      return $http.put(baseUrl + 'lists/' + id,data);
+    }
+
+    function deleteActivity(id)
+    {
+      $log.log("Deleting activity..." + id)
+      return $http
+        .delete(baseUrl + "lists/"+id);
+    }
+
+    // TODO - CAN I DELETE THIS SINCE THE LOGIC IS HANDLED IN THE CUSTOM DIRECTIVE?
     function saveList()
     {
       $log.log("Updating list...")
@@ -63,7 +90,7 @@
       $http
         .post(baseUrl + "lists",list)
         .then(function(res){
-          $log.log("got new activity..." + angular.fromJson(res.data));
+          $log.log("got new list..." + angular.fromJson(res.data));
 //          vm.user.lists.push(res.data)
         },
         function(err){

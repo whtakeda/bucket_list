@@ -11,10 +11,11 @@ function create(req,res,next)
   // TODO: have to actually find correct user once multiple users are added
   console.log("got here");
   User.find({},function(err,user){
-    console.log(user[0].lists);
+//    console.log(user[0].lists);
     user[0].lists.push(req.body)
+    user[0].lists.activity = [];
     user[0].save();
-  //   res.json(req.body);
+    res.json(req.body);
   });
 }
 

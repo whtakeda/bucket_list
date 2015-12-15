@@ -16,9 +16,8 @@
 //    vm.user = userDataService;
     vm.activity = activityDataService;
     vm.list = listDataService;
+    vm.deleteFromList = deleteFromList;
 
-    vm.names = ['Nicole', 'Layne', 'Winford', 'Mattie', 'Lawanda','Joe','Mac','Sally'];
-    vm.names2 = [['Jeff','Lindsey','Chris','Matthew'],['Jason','Ferdie','Joey','Gev']];
     vm.lists = [[{title:'Bike'},{title:'Run'},{title:'Swim'}],
                 [{title:'Visit Disneyland'},{title:'Climb Mt Everest'}],
                 [{title:'Write a book'},{title:'Swim the English Channel'},{title:'Sky Dive'},{title:'Visit the North Pole'}]];
@@ -26,11 +25,27 @@
     vm.test = test;
 
     function test(){
+      debugger;
       $log.log('testing...');
     }
 
     getActivities();
     getLists();
+
+    function deleteFromList(id)
+    {
+      vm.list.deleteActivity(id)
+        .then(function(res){
+          // remove activity from list
+          vm.lists.forEach(function(list){
+            list = vm.list.addPlaceholder(list);
+          })
+//          $log.log("List has been updated...");
+        },
+        function(err){
+          $log.log(err);
+        });
+    }
 
     function getLists()
     {
@@ -38,10 +53,13 @@
         .then(function(res){
 //          $log.log("res is " + angular.toJson(res.data));
           vm.lists = res.data;
+//          debugger;
+          vm.lists.forEach(function(list){
+            list = vm.list.addPlaceholder(list);
+          })
           // vm.lists[0].activity[0].i = 1;
           // vm.lists[0].activity[1].i = 2;
           vm.lists.forEach(function(x){slide.push(false);});
-
         },
         function(err){
           $log.log(err);
@@ -75,7 +93,6 @@
       slide[idx] = !slide[idx];
     }
 
-
     // TODO: throwaway
     function display()
     {
@@ -84,79 +101,119 @@
       $log.log(angular.toJson(vm.lists[0].activity[1]));
     }
 
-
-
-    vm.sortableOptions = {
+    vm.sortableActivityOptions = {
       connectWith: ".connected-apps-container",
       stop: function (e, ui) {
+$log.log("activity stop")
         // if the element is removed from the first container
+        var item = ui.item.sortable;
+        if (item.isCanceled()) { return; }
+        if (item.droptarget.attr('id') === 'trash') { return; }
+
+
         if ($(e.target).hasClass('first') &&
-            ui.item.sortable.droptarget &&
-            e.target != ui.item.sortable.droptarget[0]) {
+            item.droptarget &&
+            e.target != item.droptarget[0]) {
           // clone the original model to restore the removed item
-        console.log(ui.item.sortable.droptarget);
-          var item = ui.item.sortable;
+
           vm.activities = sourceScreens.slice();
-        $http.put(baseUrl + 'lists/' + item.droptarget.attr('id'),item.droptargetModel);
+$log.log("is cancelled? " + item.isCanceled())
+          $log.log("1. updating list...")
+          $log.log(item.droptargetModel);
+          vm.list.updateList(item.droptarget.attr('id'),item.droptargetModel)
+            .then(function(res){
+//              debugger;
+              $log.log("here are the results...");
+              res.data.lists[1].activity.forEach(function(a){console.log(a);});
+              // need to update the model with the database id of the new record
+              // for now this is a quick fix until i figure out how to extract just the id that i need
+              vm.lists = res.data.lists;
+              vm.lists.forEach(function(list) { list = vm.list.addPlaceholder(list); });
+            })
         }
       },
       update: function(event, ui) {
+$log.log("activity update")
         // on cross list sortings received is not true
         // during the first update
         // which is fired on the source sortable
-        if (!ui.item.sortable.received) {
-          var originNgModel = ui.item.sortable.sourceModel;
-          var itemModel = originNgModel[ui.item.sortable.index];
-          var dropTarget = ui.item.sortable.droptargetModel;
+        var item = ui.item.sortable;
+        if (!item.received) {
+          var originNgModel = item.sourceModel;
+          var itemModel = originNgModel[item.index];
+          var dropTarget = item.droptargetModel;
+
 
           // check that its an actual moving
           // between the two lists
-          if (originNgModel == vm.activities && ui.item.sortable.droptargetModel == dropTarget) {
+//          debugger;
+          if (originNgModel == vm.activities && item.droptargetModel == dropTarget) {
             console.log(itemModel)
-            var exists = !!dropTarget.filter(function(x) {return x === itemModel }).length;
+//            debugger;
+            var exists = !!dropTarget.filter(function(x) {return x.activityId === itemModel._id }).length;
             if (exists) {
-             ui.item.sortable.cancel();
+              $log.log("cancelling because it exists...");
+              item.cancel();
             }
           }
         }
       }
     };
 
-    vm.sortableOptions2 = {
+    vm.sortableListOptions = {
       connectWith: ".connected-apps-container",
       stop: function (e, ui) {
+$log.log("list stop")
         // if the element is removed from the first container
 
-// TODO: do i even need to do this since i am updating all records in bulk?  probably not.
-// but test before removing
-        var target = ui.item.sortable.droptargetModel
-        for (var index in target)
-        {
-          target[index].i = parseInt(index)+1;
-        }
+        var item = ui.item.sortable;
+        if (item.droptarget.attr('id') === 'trash') { return; }
+//          debugger;
+
         // save the data cause it changed
         // not sure if this is considered bad style b/c i'm manually handling
         // the save, but not sure how to do it through angular with a custom directive
-        $http.put(baseUrl + 'lists',ui.item.sortable.droptargetModel);
+//        $log.log("droptarget is " + ui.item.sortable.droptarget);
+          $log.log("2. updating list...")
+          vm.list.updateList(item.droptarget.attr('id'),item.droptargetModel)
+            .then(function(res){
+              // need to update the model with the database id of the new record
+              res.data.lists[1].activity.forEach(function(a){console.log(a);});
+              // need to update the model with the database id of the new record
+              // for now this is a quick fix until i figure out how to extract just the id that i need
+              vm.lists = res.data.lists;
+              vm.lists.forEach(function(list) { list = vm.list.addPlaceholder(list); });
+            })
       },
       update: function(event, ui) {
+$log.log("list update")
+//debugger;
         // on cross list sortings received is not true
         // during the first update
         // which is fired on the source sortable
-        if (!ui.item.sortable.received) {
-          var originNgModel = ui.item.sortable.sourceModel;
-          var itemModel = originNgModel[ui.item.sortable.index];
-          var dropTarget = ui.item.sortable.droptargetModel;
+        var item = ui.item.sortable;
+        if (!item.received) {
+          var originNgModel = item.sourceModel;
+          var itemModel = originNgModel[item.index];
+          var dropTarget = item.droptargetModel;
 
-          // check that its an actual moving
-          // between the two lists
-          if (originNgModel != dropTarget) {
-             ui.item.sortable.cancel();
+          if (item.droptarget.attr('id') === 'trash')
+          {
+            $log.log(item.model._id);
+            deleteFromList(item.model._id);
+//            debugger;
+            $('#' + item.model._id).remove();
+          }
+//debugger;
+
+          // check that it's actually moving between the two lists
+//          debugger;
+          if (originNgModel != dropTarget && item.droptarget.attr('id') !== 'trash') {
+            item.cancel();
           }
         }
       }
     };
-
   }
 
 })();
