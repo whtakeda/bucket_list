@@ -23,7 +23,8 @@ module.exports = function(app, passport) {
   app.get('/lists',usersController.index);
   app.get('/lists/:listid/activity/:activityid',listsController.getActivity);
   app.put('/lists/:id',usersController.update);
-  app.delete('/lists/:id',usersController.destroy);
+  app.delete('/lists/activity/:id',usersController.destroyActivity);
+  app.delete('/lists/:id',usersController.destroyList);
 
   app.use(function(req, res, next){
 //    console.log("set user to " + req.user);

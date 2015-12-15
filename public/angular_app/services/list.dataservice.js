@@ -26,6 +26,7 @@
       activity: [],
       newList: newList,
       getLists: getLists,
+      deleteList: deleteList,
       deleteActivity: deleteActivity,
       addPlaceholder: addPlaceholder,
       updateList: updateList,
@@ -34,6 +35,16 @@
     };
 
     return list;
+
+    function updateListActivity()
+    {
+    //   return $http.put(baseUrl + "lists/activity/" + id,)
+    }
+
+    function deleteList(id)
+    {
+      return $http.delete(baseUrl + "lists/" + id);
+    }
 
     function setListActivity(activity)
     {
@@ -44,7 +55,6 @@
       list.listActivity.location = activity.location;
       list.listActivity.reminderDate = activity.reminderDate;
       list.listActivity.order = activity.order;
-      debugger;
     }
 
     function getListActivity(listId,activityId)
@@ -88,7 +98,7 @@
     function deleteActivity(id)
     {
       $log.log("Deleting activity..." + id)
-      return $http.delete(baseUrl + "lists/"+id);
+      return $http.delete(baseUrl + "lists/activity/" + id);
     }
 
     // TODO - CAN I DELETE THIS SINCE THE LOGIC IS HANDLED IN THE CUSTOM DIRECTIVE?

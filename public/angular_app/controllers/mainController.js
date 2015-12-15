@@ -21,6 +21,8 @@
     vm.editActivity = editActivity;
     vm.newActivity = newActivity;
     vm.newList = newList;
+    vm.deleteList = deleteList;
+    vm.updateListActivity = updateListActivity;
 
     vm.lists = [[{title:'Bike'},{title:'Run'},{title:'Swim'}],
                 [{title:'Visit Disneyland'},{title:'Climb Mt Everest'}],
@@ -34,6 +36,31 @@
 
     getActivities();
     getLists();
+
+    function updateListActivity()
+    {
+      // $log.log("started updating activity list...")
+      // vm.list.updateListActivity()
+      //   .then(function(res){
+      //     $log.log("done updating...");
+      //   },
+      //   function(err){
+      //     $log.log(err);
+      //   });
+    }
+
+    function deleteList(id)
+    {
+      $log.log("deleting...." + id);
+      vm.list.deleteList(id)
+        .then(function(res){
+          $log.log("done deleting...");
+          getLists();
+        },
+        function(err){
+          $log.log(err);
+        });
+    }
 
     function newList()
     {
@@ -108,7 +135,7 @@
           })
           // vm.lists[0].activity[0].i = 1;
           // vm.lists[0].activity[1].i = 2;
-          vm.lists.forEach(function(x){slide.push(false);});
+          vm.lists.forEach(function(x){slide.push(true);});
         },
         function(err){
           $log.log(err);
@@ -150,6 +177,17 @@
       $log.log(angular.toJson(vm.lists[0].activity[1]));
     }
 
+    // not sure why but ui.sortable adds items onto the vm.list model when i cancel a drag and drop
+    // this remvoes that element that was added.
+    function refreshActivityList(id)
+    {
+      vm.lists.forEach(function(list){
+        list.activity = list.activity.filter(function(a){
+          return a._id != id;
+        })
+      })
+    }
+
     vm.sortableActivityOptions = {
       connectWith: ".connected-apps-container",
       stop: function (e, ui) {
@@ -179,11 +217,14 @@ $log.log(item.droptargetModel);
         }
       },
       update: function(event, ui) {
-$log.log("activity update")
         // on cross list sortings received is not true
         // during the first update
         // which is fired on the source sortable
         var item = ui.item.sortable;
+
+        if (item.source[0].children[0].getAttribute('name') === 'list') {item.cancel(); return; }
+$log.log("activity update")
+
         if (!item.received) {
           var originNgModel = item.sourceModel;
           var itemModel = originNgModel[item.index];
@@ -241,12 +282,13 @@ $log.log("2. updating list...")
             })
       },
       update: function(event, ui) {
-$log.log("list update")
         // on cross list sortings received is not true
         // during the first update
         // which is fired on the source sortable
         var item = ui.item.sortable;
+        if (item.source[0].children[0].getAttribute('name') === 'list') {item.cancel(); return; }
         if (item.model.id === "-1" || item.droptargetModel[0].id === "-1") { item.cancel(); return; }
+$log.log("list update")
         if (!item.received) {
           var originNgModel = item.sourceModel;
           var itemModel = originNgModel[item.index];
@@ -261,16 +303,73 @@ $log.log("cancelled from list update")
             // put this here instead of in the returned promise instead deleteFromList
             // so that it removes it from the dom asap instead of waiting for the promise to return
             // but technically should wait til it gets deleted from the db before removing it from the model
-            vm.lists.forEach(function(list){
-              list.activity = list.activity.filter(function(a){
-                return a._id != item.model._id;
-              })
-            })
-
+            refreshActivityList(item.model._id);
           }
         }
       }
     };
+
+    vm.sortableHeaderOptions = {
+      connectWith: ".connected-apps-container",
+//       stop: function (e, ui) {
+// $log.log("header stop")
+//         // if the element is removed from the first container
+//         var item = ui.item.sortable;
+//         if (item.isCanceled()) { return; }
+//         if (item.droptarget.attr('id') === 'trash') { return; }
+
+
+//         if ($(e.target).hasClass('first') &&
+//             item.droptarget &&
+//             e.target != item.droptarget[0]) {
+//           // clone the original model to restore the removed item
+
+// //          vm.activities = sourceScreens.slice();
+// $log.log("is cancelled? " + item.isCanceled());
+// $log.log("1. updating list...");
+// $log.log(item.droptargetModel);
+//         }
+//       },
+      update: function(event, ui) {
+$log.log("header update")
+        // on cross list sortings received is not true
+        // during the first update
+        // which is fired on the source sortable
+        var item = ui.item.sortable;
+        if (item.droptarget.attr('id') !== "trash") { item.cancel(); return; }
+
+        $log.log("OK got here so confirm the list delete before deleting...");
+        if (confirm("Delete this list?"))
+        {
+//          debugger;
+          vm.deleteList(item.source[0].children[0].getAttribute('data-id'));
+        }
+//$log.log("HERE!!!!" + item.model._id);
+
+        // this is a hack to prevent a dummy activity from somehow getting added to the activity list after
+        // a list is moved to the trash can.
+        item.cancel();
+        // if (!item.received) {
+        //   var originNgModel = item.sourceModel;
+        //   var itemModel = originNgModel[item.index];
+        //   var dropTarget = item.droptargetModel;
+
+
+        //   // check that its an actual moving
+        //   // between the two lists
+        //   if (originNgModel == vm.activities && item.droptargetModel == dropTarget) {
+        //     var exists = !!dropTarget.filter(function(x) {return x.activityId === itemModel._id }).length;
+        //     if (exists) {
+        //       item.cancel();
+        //     }
+        //   }
+        // }
+      }
+    };
+
+
+
+
   }
 
 })();

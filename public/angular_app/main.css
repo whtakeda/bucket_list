@@ -15,13 +15,12 @@ body {
 }
 
 .lists {
-  width:150px;
   text-align:center;
   border:1 px solid black;
   border-radius:10px;
   background-color:#ffcc33;
   color:#000000;
-  margin:5px;
+  margin:5px 10px;
   padding:10px;
   cursor: pointer;
 }
@@ -30,10 +29,11 @@ li {
   list-style-type: none;
 }
 
-.list-header {
+.list-container {
   cursor:pointer;
   padding:5px;
   border-radius:10px;
+  width:100%;
 }
 
 .inline-block {
@@ -91,4 +91,11 @@ select:focus,
 textarea:focus,
 button:focus {
     outline: none;
+}
+
+.list-header {
+  padding:5px;
+  text-align:center;
+  background-color: #0066cc;
+  border-radius:5px;
 }

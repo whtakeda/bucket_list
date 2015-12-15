@@ -5,7 +5,7 @@
     .module('app', ['ui.router','ui.sortable'])
     .config(router);
 
-  function router($stateProvider){
+  function router($stateProvider,$locationProvider){
     $stateProvider
       .state('home',{
         url: '/',
@@ -31,6 +31,8 @@
         url: '/list/activity/',
         templateUrl: 'templates/list_activity.html'
       });
+
+    $locationProvider.html5Mode(true);
   }
 
 })();
