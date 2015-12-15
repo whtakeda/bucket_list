@@ -7,15 +7,15 @@ var bodyParser = require('body-parser');
 var session = require('express-session');
 var passport = require('passport');
 
-var routes = require('./app/config/routes');
 
+require('dotenv').load();
+
+var routes = require('./app/config/routes');
 var mongoose = require('./app/config/database');
 var env = require('./app/config/environment');
 
 var app = express();
 
-require('dotenv').load();
-var test = process.env.BASE_URL;
 // view engine setup
 app.set('views', path.join(__dirname, 'public/app'));
 app.set('view engine', 'ejs');

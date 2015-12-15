@@ -7,15 +7,26 @@ var _ = require("underscore");
 
 function create(req,res,next)
 {
-  activity = new Activity(req.body);
-  activity.save();
+  console.log(JSON.stringify(req.body));
+  activity = new Activity();
+  activity.title = req.body.title;
+  activity.description = req.body.description;
+  activity.location = req.body.location;
+  activity.cost = req.body.cost;
+  activity.duration = req.body.duration;
+
+  activity.save(function(err){
+    if (err) { console.log(err); }
+  });
   res.json(req.body);
 }
 
 function index(req,res,next)
 {
+  console.log("activities.index");
   Activity.find({},'title _id',function(err,activities){
-    if (err) { console.log(err); }
+    console.log("I am in here now")
+    if (err) { console.log("the error is " + err); }
     res.json(activities);
   });
 }

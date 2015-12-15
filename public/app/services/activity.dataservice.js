@@ -22,6 +22,7 @@
       getActivities: getActivities,
       showActivity: showActivity,
       setValues: setValues,
+      clearActivity: clearActivity,
       updateActivity: updateActivity
     };
 
@@ -53,21 +54,14 @@
 
     function getActivities()
     {
+      $log.log("getting activities...");
       return $http.get(baseUrl + "activities");
     }
 
     function newActivity()
     {
       $log.log("creating new activity..." + activity.title);
-      $http
-        .post(baseUrl + "activities",activity)
-        .then(function(res){
-          $log.log("got new activity..." + angular.fromJson(res.data));
-          clearActivity();
-        },
-        function(err){
-          $log.log(err);
-        });
+      return $http.post(baseUrl + "activities",activity);
     }
 
     function clearActivity()

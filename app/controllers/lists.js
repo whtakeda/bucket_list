@@ -9,12 +9,15 @@ var _ = require("underscore");
 function create(req,res,next)
 {
   // TODO: have to actually find correct user once multiple users are added
-  console.log("got here");
   User.find({},function(err,user){
 //    console.log(user[0].lists);
+console.log(user);
     user[0].lists.push(req.body)
     user[0].lists.activity = [];
-    user[0].save();
+console.log(user);
+    user[0].save(function(err){
+      console.log(err);
+    });
     res.json(req.body);
   });
 }

@@ -15,7 +15,9 @@ function index(req,res,next)
 
 function update(req,res,next)
 {
+
   User.find({},function(err,user){
+    user[0].name="Wayne";
     if (err) { console.log(err); }
     req.body.forEach(function(activity){
       console.log("aid is " + activity.activityId)
@@ -36,8 +38,10 @@ function update(req,res,next)
 //    console.log("updating list...." + JSON.stringify(req.body));
     var idx = req.params.id;
     console.log("idx is " + idx);
-    user[0].lists[idx].activity = req.body;
+//    user[0].lists[idx].activity = req.body;
+    console.log(user);
     user[0].save(function(err,u){
+      console.log(err)
       res.json(u);
     });
   });

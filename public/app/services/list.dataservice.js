@@ -108,15 +108,7 @@
     function newList()
     {
       $log.log("creating new list...");
-      $http
-        .post(baseUrl + "lists",list)
-        .then(function(res){
-          $log.log("got new list..." + angular.fromJson(res.data));
-//          vm.user.lists.push(res.data)
-        },
-        function(err){
-          $log.log(err);
-        });
+      return $http.post(baseUrl + "lists",list);
     }
 
     function getLists()

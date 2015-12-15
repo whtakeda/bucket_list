@@ -8,8 +8,8 @@ var listsController = require('../controllers/lists');
 var usersController = require('../controllers/users');
 
 module.exports = function(app, passport) {
-  app.post('/activities',isLoggedIn,activitiesController.create);
-  app.post('/lists',isLoggedIn,listsController.create);
+  app.post('/activities',activitiesController.create);
+  app.post('/lists',listsController.create);
 
   //index.js
   router.get('/', function(req, res, next) {
@@ -24,8 +24,6 @@ module.exports = function(app, passport) {
   app.get('/lists/:listid/activity/:activityid',listsController.getActivity);
   app.put('/lists/:id',usersController.update);
   app.delete('/lists/:id',usersController.destroy);
-
-
 
   app.use(function(req, res, next){
 //    console.log("set user to " + req.user);

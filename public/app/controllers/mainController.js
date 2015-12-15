@@ -9,7 +9,7 @@
 
   function MainController($log,$http,activityDataService,listDataService) {
     var vm = this;
-    var baseUrl = "http://localhost:3000/"
+    var baseUrl = "http://localhost:3000/";
     var sourceScreens;
     var slide = [];
 
@@ -19,6 +19,8 @@
     vm.deleteFromList = deleteFromList;
     vm.getListActivity = getListActivity;
     vm.editActivity = editActivity;
+    vm.newActivity = newActivity;
+    vm.newList = newList;
 
     vm.lists = [[{title:'Bike'},{title:'Run'},{title:'Swim'}],
                 [{title:'Visit Disneyland'},{title:'Climb Mt Everest'}],
@@ -32,6 +34,30 @@
 
     getActivities();
     getLists();
+
+    function newList()
+    {
+      vm.list.newList()
+        .then(function(res){
+          getLists();
+        },
+        function(err){
+          $log.log(err);
+        });
+    }
+
+    function newActivity()
+    {
+      vm.activity.newActivity()
+        .then(function(res){
+          $log.log("got new activity..." + res.data);
+          vm.activities.push(res.data)
+          vm.activity.clearActivity();
+        },
+        function(err){
+          $log.log(err);
+        });
+    }
 
     // get an activity from the user's list (not an activity directly from the activity collection)
     function getListActivity(listId,activityId)
@@ -61,16 +87,6 @@
     {
       vm.list.deleteActivity(id)
         .then(function(res){
-          // need to do 3 things
-          // 1) remove from dom
-          // 2) remove from model
-          // 3) check if list is empty and add placeholder if necessary
-          $('#' + id).remove();
-          vm.lists.forEach(function(list){
-            list.activity = list.activity.filter(function(a){
-              return a._id != id;
-            })
-          })
           vm.lists.forEach(function(list){
             list = vm.list.addPlaceholder(list);
           })
@@ -103,7 +119,7 @@
     {
       vm.activity.getActivities()
         .then(function(res){
-//          $log.log("res is " + angular.toJson(res.data));
+          $log.log("res is " + angular.toJson(res.data));
           vm.activities = res.data;
           sourceScreens = vm.activities.slice();
         },
@@ -150,14 +166,11 @@ $log.log("activity stop")
           // clone the original model to restore the removed item
 
           vm.activities = sourceScreens.slice();
-$log.log("is cancelled? " + item.isCanceled())
-          $log.log("1. updating list...")
-          $log.log(item.droptargetModel);
+$log.log("is cancelled? " + item.isCanceled());
+$log.log("1. updating list...");
+$log.log(item.droptargetModel);
           vm.list.updateList(item.droptarget.attr('id'),item.droptargetModel)
             .then(function(res){
-//              debugger;
-//              $log.log("here are the results...");
-//              res.data.lists[1].activity.forEach(function(a){console.log(a);});
               // need to update the model with the database id of the new record
               // for now this is a quick fix until i figure out how to extract just the id that i need
               vm.lists = res.data.lists;
@@ -185,7 +198,7 @@ $log.log("activity update")
 //            debugger;
             var exists = !!dropTarget.filter(function(x) {return x.activityId === itemModel._id }).length;
             if (exists) {
-              $log.log("cancelling because it exists...");
+$log.log("cancelling because it exists...");
               item.cancel();
             }
           }
@@ -216,7 +229,7 @@ $log.log("list stop")
         // the save, but not sure how to do it through angular with a custom directive
 //        $log.log("droptarget is " + ui.item.sortable.droptarget);
 $log.log("is cancelled? " + item.isCanceled())
-          $log.log("2. updating list...")
+$log.log("2. updating list...")
           vm.list.updateList(item.droptarget.attr('id'),item.droptargetModel)
             .then(function(res){
               // need to update the model with the database id of the new record
@@ -239,18 +252,21 @@ $log.log("list update")
           var itemModel = originNgModel[item.index];
           var dropTarget = item.droptargetModel;
 
-          // TODO - verify but can probably delete this code
-          // if (item.droptarget.attr('id') === 'trash')
-          // {
-          //   $log.log(item.model._id);
-          //   deleteFromList(item.model._id);
-          //   $('#' + item.model._id).remove();
-          // }
 
           // check that it's actually moving between the two lists
           if (originNgModel != dropTarget) {
-            $log.log("cancelled from list update")
+$log.log("cancelled from list update")
             item.cancel();
+
+            // put this here instead of in the returned promise instead deleteFromList
+            // so that it removes it from the dom asap instead of waiting for the promise to return
+            // but technically should wait til it gets deleted from the db before removing it from the model
+            vm.lists.forEach(function(list){
+              list.activity = list.activity.filter(function(a){
+                return a._id != item.model._id;
+              })
+            })
+
           }
         }
       }
