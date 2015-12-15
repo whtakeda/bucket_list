@@ -11,27 +11,48 @@
     var baseUrl = "http://localhost:3000/";
 
     var list = {
-      name: "kwyjibo",
+      name: "",
       rating: 0,
       visible: true,
-      // activity: {
-      //   activityId: "",
-      //   order: 0,
-      //   completed: false,
-      //   accepted: false,
-      //   progress: 0,
-      //   location: "",
-      //   reminderDate: ""
-      // },
+      listActivity: {
+        activityId: "",
+        order: 0,
+        completed: false,
+        accepted: false,
+        progress: 0,
+        location: "",
+        reminderDate: ""
+      },
       activity: [],
       newList: newList,
       getLists: getLists,
       deleteActivity: deleteActivity,
       addPlaceholder: addPlaceholder,
-      updateList: updateList
+      updateList: updateList,
+      getListActivity: getListActivity,
+      setListActivity: setListActivity
     };
 
     return list;
+
+    function setListActivity(activity)
+    {
+      list.listActivity.activityId = activity._id;
+      list.listActivity.completed = activity.completed;
+      list.listActivity.accepted = activity.accepted;
+      list.listActivity.progress = activity.progress;
+      list.listActivity.location = activity.location;
+      list.listActivity.reminderDate = activity.reminderDate;
+      list.listActivity.order = activity.order;
+      debugger;
+    }
+
+    function getListActivity(listId,activityId)
+    {
+      $log.log("getting activity from list..." + listId);
+      $log.log("getting activity from list..." + activityId);
+      return $http.get(baseUrl + "lists/" + listId + "/activity/" + activityId);
+    }
 
     // a placeholder needs to be added to an empty list so that it can be dragged into
     // once there is a real activity in the list, remove the placeholder
@@ -42,6 +63,7 @@
       });
     }
 
+    // adds the placeholder.  see previous function for additional info
     function addPlaceholder(list)
     {
 //      debugger;
@@ -66,8 +88,7 @@
     function deleteActivity(id)
     {
       $log.log("Deleting activity..." + id)
-      return $http
-        .delete(baseUrl + "lists/"+id);
+      return $http.delete(baseUrl + "lists/"+id);
     }
 
     // TODO - CAN I DELETE THIS SINCE THE LOGIC IS HANDLED IN THE CUSTOM DIRECTIVE?

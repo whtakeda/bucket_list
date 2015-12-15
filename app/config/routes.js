@@ -17,9 +17,11 @@ module.exports = function(app, passport) {
   });
 
   app.get('/activities',activitiesController.index);
-  app.get('/activity/:id', activitiesController.show)
+  app.get('/activities/:id', activitiesController.show);
+  app.put('/activities/:id', activitiesController.update);
 
   app.get('/lists',usersController.index);
+  app.get('/lists/:listid/activity/:activityid',listsController.getActivity);
   app.put('/lists/:id',usersController.update);
   app.delete('/lists/:id',usersController.destroy);
 

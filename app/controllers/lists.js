@@ -27,7 +27,25 @@ function index(req,res,next)
   });
 }
 
+function getActivity(req,res,next)
+{
+  activityId = req.params.activityid;
+  listId = req.params.listid;
+  User.find({"lists.activity._id":activityId},function(err,activity){
+    if (err) { console.log(err); }
+    var list = activity[0].lists.filter(function(l){
+      return l._id == listId
+    })
+    var activity = list[0].activity.filter(function(a){
+      return a._id == activityId;
+    })
+    console.log(activity);
+    res.json(activity);
+  });
+}
+
 module.exports = {
   create: create,
-  index: index
+  index: index,
+  getActivity: getActivity
 };

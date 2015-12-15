@@ -35,6 +35,7 @@ function update(req,res,next)
     })
 //    console.log("updating list...." + JSON.stringify(req.body));
     var idx = req.params.id;
+    console.log("idx is " + idx);
     user[0].lists[idx].activity = req.body;
     user[0].save(function(err,u){
       res.json(u);
@@ -44,18 +45,18 @@ function update(req,res,next)
 
 function destroy(req,res,next)
 {
-  activityId = req.params.id;
-  console.log("activityId is " + activityId);
-  User.find({"lists.activity._id":activityId}, function(err, user){
+  id = req.params.id;
+//  console.log("id is " + id);
+  User.find({"lists.activity._id":id}, function(err, user){
     // HAVE TO LOOP OVER EVERY LIST TO FIND THE ONE WITH THE RIGHT ID
 //    console.log("user is " + user);
     user[0].lists.forEach(function(list){
-    if (list.activity.id(activityId) !== null)
+    if (list.activity.id(id) !== null)
     {
   //    console.log(list.activity);
-      list.activity.id(activityId).remove();
+      list.activity.id(id).remove();
       user[0].save();
-      res.json(JSON.stringify(activityId));
+      res.json(JSON.stringify(id));
     }
   })
     // user[0].activity._id(activityId).remove();

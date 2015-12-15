@@ -17,15 +17,19 @@
       })
       .state('newActivity',{
         url: '/activities/new',
-        templateUrl: 'templates/newactivity.html'
+        templateUrl: 'templates/new_activity.html'
       })
       .state('newList',{
         url: '/lists/new',
-        templateUrl: 'templates/newlist.html'
+        templateUrl: 'templates/new_list.html'
       })
       .state('showActivity',{
         url: '/activity/:id',
         templateUrl: 'templates/activity.html'
+      })
+      .state('showListActivity',{
+        url: '/list/activity/',
+        templateUrl: 'templates/list_activity.html'
       });
   }
 

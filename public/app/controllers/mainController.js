@@ -17,7 +17,8 @@
     vm.activity = activityDataService;
     vm.list = listDataService;
     vm.deleteFromList = deleteFromList;
-    vm.getActivity = getActivity;
+    vm.getListActivity = getListActivity;
+    vm.editActivity = editActivity;
 
     vm.lists = [[{title:'Bike'},{title:'Run'},{title:'Swim'}],
                 [{title:'Visit Disneyland'},{title:'Climb Mt Everest'}],
@@ -32,7 +33,20 @@
     getActivities();
     getLists();
 
-    function getActivity(id)
+    // get an activity from the user's list (not an activity directly from the activity collection)
+    function getListActivity(listId,activityId)
+    {
+//      debugger;
+      if (activityId===undefined) { return; }
+      vm.list.getListActivity(listId,activityId)
+        .then(function(res){
+          vm.list.setListActivity(res.data[0]);
+        })
+    }
+
+    // use this to update a single activity that has been created by the user
+    // (not necessarily one that is part of their list)
+    function editActivity(id)
     {
 //      debugger;
       if (id===undefined) { return; }
@@ -47,11 +61,19 @@
     {
       vm.list.deleteActivity(id)
         .then(function(res){
-          // remove activity from list
+          // need to do 3 things
+          // 1) remove from dom
+          // 2) remove from model
+          // 3) check if list is empty and add placeholder if necessary
+          $('#' + id).remove();
+          vm.lists.forEach(function(list){
+            list.activity = list.activity.filter(function(a){
+              return a._id != id;
+            })
+          })
           vm.lists.forEach(function(list){
             list = vm.list.addPlaceholder(list);
           })
-//          $log.log("List has been updated...");
         },
         function(err){
           $log.log(err);
@@ -107,7 +129,7 @@
     // TODO: throwaway
     function display()
     {
-//      $log.log(vm.activity);
+      $log.log(vm.activity);
       $log.log(angular.toJson(vm.lists[0].activity[0]));
       $log.log(angular.toJson(vm.lists[0].activity[1]));
     }
@@ -134,8 +156,8 @@ $log.log("is cancelled? " + item.isCanceled())
           vm.list.updateList(item.droptarget.attr('id'),item.droptargetModel)
             .then(function(res){
 //              debugger;
-              $log.log("here are the results...");
-              res.data.lists[1].activity.forEach(function(a){console.log(a);});
+//              $log.log("here are the results...");
+//              res.data.lists[1].activity.forEach(function(a){console.log(a);});
               // need to update the model with the database id of the new record
               // for now this is a quick fix until i figure out how to extract just the id that i need
               vm.lists = res.data.lists;
@@ -178,13 +200,22 @@ $log.log("list stop")
         // if the element is removed from the first container
 
         var item = ui.item.sortable;
+        if (item.model.id === "-1" || item.droptargetModel === undefined || item.droptargetModel[0].id === "-1") { item.cancel(); return; }
+            if (item.droptarget.attr('id') === 'trash')
+            {
+              $log.log(item.model._id);
+              deleteFromList(item.model._id);
+
+//              $('#' + item.model._id).remove();
+            }
+        if (item.isCanceled()) { return; }
         if (item.droptarget.attr('id') === 'trash') { return; }
-//          debugger;
 
         // save the data cause it changed
         // not sure if this is considered bad style b/c i'm manually handling
         // the save, but not sure how to do it through angular with a custom directive
 //        $log.log("droptarget is " + ui.item.sortable.droptarget);
+$log.log("is cancelled? " + item.isCanceled())
           $log.log("2. updating list...")
           vm.list.updateList(item.droptarget.attr('id'),item.droptargetModel)
             .then(function(res){
@@ -198,28 +229,27 @@ $log.log("list stop")
       },
       update: function(event, ui) {
 $log.log("list update")
-//debugger;
         // on cross list sortings received is not true
         // during the first update
         // which is fired on the source sortable
         var item = ui.item.sortable;
+        if (item.model.id === "-1" || item.droptargetModel[0].id === "-1") { item.cancel(); return; }
         if (!item.received) {
           var originNgModel = item.sourceModel;
           var itemModel = originNgModel[item.index];
           var dropTarget = item.droptargetModel;
 
-          if (item.droptarget.attr('id') === 'trash')
-          {
-            $log.log(item.model._id);
-            deleteFromList(item.model._id);
-//            debugger;
-            $('#' + item.model._id).remove();
-          }
-//debugger;
+          // TODO - verify but can probably delete this code
+          // if (item.droptarget.attr('id') === 'trash')
+          // {
+          //   $log.log(item.model._id);
+          //   deleteFromList(item.model._id);
+          //   $('#' + item.model._id).remove();
+          // }
 
           // check that it's actually moving between the two lists
-//          debugger;
-          if (originNgModel != dropTarget && item.droptarget.attr('id') !== 'trash') {
+          if (originNgModel != dropTarget) {
+            $log.log("cancelled from list update")
             item.cancel();
           }
         }

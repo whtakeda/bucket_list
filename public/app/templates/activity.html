@@ -1,9 +1,8 @@
-<div ng-model="vm.activity">
-{{vm.activity.title}}<br />
-{{vm.activity.location}}<br />
-{{vm.activity.progress}}<br />
-{{vm.activity.description}}<br />
-{{vm.activity.cost}}<br />
-{{vm.activity.duration}}<br />
-
-</div>
+<form ng-submit="vm.activity.updateActivity()">
+<div class="new-activity">Title:</div><input type="text" ng-model="vm.activity.title"><br />
+<div class="new-activity">Description:</div><input type="text" ng-model="vm.activity.description"><br />
+<div class="new-activity">Location:</div><input type="text" ng-model="vm.activity.location"><br />
+<div class="new-activity">Cost:</div><input type="text" ng-model="vm.activity.cost"><br />
+<div class="new-activity">Duration:</div><input type="text" ng-model="vm.activity.duration"><br />
+<input type="submit">
+</form>

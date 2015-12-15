@@ -10,6 +10,7 @@
   function activityDataService($log,$http) {
     var baseUrl = "http://localhost:3000/";
     var activity = {
+      _id: "",
       title: "title",
       description: "",
       rating: 0,
@@ -20,13 +21,21 @@
       newActivity: newActivity,
       getActivities: getActivities,
       showActivity: showActivity,
-      setValues: setValues
+      setValues: setValues,
+      updateActivity: updateActivity
     };
 
     return activity;
 
+    function updateActivity()
+    {
+      $log.log("updating activity...");
+      return $http.put(baseUrl + "activities/" + activity._id ,activity);
+    }
+
     function setValues(rec)
     {
+      activity._id = rec._id;
       activity.title = rec.title;
       activity.description = rec.description;
       activity.rating = rec.rating;
@@ -39,7 +48,7 @@
     function showActivity(id)
     {
       $log.log("in showActivity...")
-      return $http.get(baseUrl + "activity/" + id);
+      return $http.get(baseUrl + "activities/" + id);
     }
 
     function getActivities()

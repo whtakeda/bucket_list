@@ -42,7 +42,7 @@
 
 <div ui-view></div>
 
-<button ng-click="vm.display()">Check</button>
+<input type="button" ng-click="vm.display()" value="Check">
 
 <div>
   <div class="col-xs-3">
@@ -57,28 +57,12 @@
     <div class="list-header" ng-repeat="list in vm.lists track by $index" style="border:1px solid black; width:250px">
       <span ng-click="vm.toggle($index)">{{list.name}}</span>
       <ul ui-sortable="vm.sortableListOptions" ng-model="list.activity" class="connected-apps-container" id="{{$index}}">
-        <li class="lists" ng-class="{bevel: l._id !== '-1'}" ui-sref="showActivity" ng-repeat="l in list.activity" id="{{l._id}}" ng-dblclick="vm.getActivity(l.activityId)">{{l.title}}</li>
+        <li ng-class="{'bevel lists': l.id !== '-1'}" ui-sref="showListActivity" ng-repeat="l in list.activity" id="{{l._id}}" ng-dblclick="vm.getListActivity(list._id,l._id)">{{l.title}}</li>
       </ul>
     </div>
   </div>
   <div ui-sortable="" class="col-xs-3 trash connected-apps-container" id="trash" ng-model="vm.activities"></div>
-<!--   <div class="col-xs-3">
-    <div ng-click="vm.toggle('list2')" class="list-header">Activity List</div>
-    <div style="border:1px solid" id="list2" class="inline-block">
-    <ul ui-sortable="" ng-model="vm.names2[0]" class="connected-apps-container">
-      <li class="list2" ng-repeat="name in vm.names2[0] track by $index">{{name}}</li>
-    </ul>
-    </div>
-
-    <div></div>
-    <div ng-click="vm.toggle('list3')" class="list-header">Activity List 2</div>
-    <div style="border:1px solid" id="list3" class="inline-block">
-    <ul ui-sortable="" ng-model="vm.names2[1]" class="connected-apps-container">
-      <li class="list2" ng-repeat="name in vm.names2[1] track by $index">{{name}}</li>
-    </ul>
-    </div>
-  </div>
- --></div>
+</div>
 
   <script src="app.module.js"></script>
   <script src="controllers/MainController.js"></script>
