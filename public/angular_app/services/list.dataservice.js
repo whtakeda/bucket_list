@@ -11,6 +11,7 @@
     var baseUrl = "http://localhost:3000/";
 
     var list = {
+      _id: "",
       name: "",
       rating: 0,
       visible: true,
@@ -31,14 +32,16 @@
       addPlaceholder: addPlaceholder,
       updateList: updateList,
       getListActivity: getListActivity,
-      setListActivity: setListActivity
+      setListActivity: setListActivity,
+      updateListActivity: updateListActivity
     };
 
     return list;
 
     function updateListActivity()
     {
-    //   return $http.put(baseUrl + "lists/activity/" + id,)
+//      debugger;
+      return $http.put(baseUrl + "lists/activity/" + list.listActivity.activityId, list.listActivity)
     }
 
     function deleteList(id)
@@ -48,6 +51,7 @@
 
     function setListActivity(activity)
     {
+//      debugger;
       list.listActivity.activityId = activity._id;
       list.listActivity.completed = activity.completed;
       list.listActivity.accepted = activity.accepted;
@@ -79,7 +83,7 @@
 //      debugger;
       if (list.activity.length === 0)
       {
-         return list.activity.push({title:"There are no activities in this list yet", id:"-1"});
+         return list.activity.push({title:"There are no activities in this list.  Drag an activity from the activities list", id:"-1"});
       }
     }
 

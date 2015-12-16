@@ -39,14 +39,14 @@
 
     function updateListActivity()
     {
-      // $log.log("started updating activity list...")
-      // vm.list.updateListActivity()
-      //   .then(function(res){
-      //     $log.log("done updating...");
-      //   },
-      //   function(err){
-      //     $log.log(err);
-      //   });
+      $log.log("started updating activity list...")
+      vm.list.updateListActivity()
+        .then(function(res){
+          $log.log("done updating...");
+        },
+        function(err){
+          $log.log(err);
+        });
     }
 
     function deleteList(id)
@@ -89,8 +89,10 @@
     // get an activity from the user's list (not an activity directly from the activity collection)
     function getListActivity(listId,activityId)
     {
+
+      var l = listId;
 //      debugger;
-      if (activityId===undefined) { return; }
+      if (activityId === undefined) { return; }
       vm.list.getListActivity(listId,activityId)
         .then(function(res){
           vm.list.setListActivity(res.data[0]);

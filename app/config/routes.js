@@ -23,6 +23,7 @@ module.exports = function(app, passport) {
   app.get('/lists',usersController.index);
   app.get('/lists/:listid/activity/:activityid',listsController.getActivity);
   app.put('/lists/:id',usersController.update);
+  app.put('/lists/activity/:id',listsController.updateActivity);
   app.delete('/lists/activity/:id',usersController.destroyActivity);
   app.delete('/lists/:id',usersController.destroyList);
 

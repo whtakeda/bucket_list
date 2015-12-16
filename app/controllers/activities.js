@@ -7,7 +7,6 @@ var _ = require("underscore");
 
 function create(req,res,next)
 {
-  console.log(JSON.stringify(req.body));
   activity = new Activity();
   activity.title = req.body.title;
   activity.description = req.body.description;
@@ -23,17 +22,14 @@ function create(req,res,next)
 
 function index(req,res,next)
 {
-  console.log("activities.index");
   Activity.find({},'title _id',function(err,activities){
-    console.log("I am in here now")
-    if (err) { console.log("the error is " + err); }
+    if (err) { console.log(err); }
     res.json(activities);
   });
 }
 
 function show(req,res,next)
 {
-//  console.log(req.params.id);
   Activity.find({"_id":req.params.id},function(err,activity){
     if (err) { console.log(err); }
     res.json(activity);
@@ -42,10 +38,8 @@ function show(req,res,next)
 
 function update(req,res,next)
 {
-//  console.log(req.params.id);
   Activity.find({"_id":req.params.id},function(err,activity){
     if (err) { console.log(err); }
-//    activity._id = req.body._id;
     activity[0].title = req.body.title;
     activity[0].description = req.body.description;
     activity[0].rating = req.body.rating;

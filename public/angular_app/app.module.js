@@ -32,7 +32,7 @@
         templateUrl: 'templates/list_activity.html'
       });
 
-    $locationProvider.html5Mode(true);
+//    $locationProvider.html5Mode(true);
   }
 
 })();
