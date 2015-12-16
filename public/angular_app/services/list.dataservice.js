@@ -29,6 +29,7 @@
       deleteActivity: deleteActivity,
       addPlaceholder: addPlaceholder,
       updateList: updateList,
+      clearList: clearList,
       getListActivity: getListActivity,
       setListActivity: setListActivity,
       clearListActivity: clearListActivity,
@@ -83,7 +84,8 @@
 //      debugger;
       if (list.activity.length === 0)
       {
-         return list.activity.push({title:"There are no activities in this list.  Drag an activity from the activities list", id:"-1"});
+         list.activity.push({title:"There are no activities in this list.  Drag an activity from the activities list", id:"-1"});
+         return list;
       }
     }
 
@@ -129,6 +131,12 @@
     {
       $log.log("getting lists...");
       return $http.get("lists");
+    }
+
+    function clearList()
+    {
+      list.name = "";
+      list.visible = true;
     }
 
     function clearListActivity()

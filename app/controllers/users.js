@@ -8,8 +8,10 @@ var _ = require("underscore");
 function index(req,res,next)
 {
 //  User.find({},'lists.activity.id lists.activity.title',function(err,l){
-  User.find({},'lists',function(err,l){
-    res.json(l[0].lists);
+  User.find({},'lists',function(err,user){
+    if (err) { console.log(err); }
+    console.log(user[0].lists);
+    res.json(user[0].lists);
   });
 }
 
@@ -60,8 +62,8 @@ function destroyActivity(req,res,next)
 
 function destroyList(req,res,next)
 {
-  console.log("in destroy list...");
   id = req.params.id;
+  console.log("in destroy list..." + id);
   User.find({"lists._id":id}, function(err, user){
     // HAVE TO LOOP OVER EVERY LIST TO FIND THE ONE WITH THE RIGHT ID
     user[0].lists.id(id).remove();

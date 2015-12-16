@@ -10,22 +10,29 @@
   function activityDataService($log,$http) {
     var activity = {
       _id: "",
-      title: "title",
+      title: "",
       description: "",
       rating: 0,
       location: "",
       cost: "",
-      duration: "duration",
+      duration: "",
       tags: "",
       newActivity: newActivity,
       getActivities: getActivities,
       showActivity: showActivity,
       setValues: setValues,
       clearActivity: clearActivity,
-      updateActivity: updateActivity
+      updateActivity: updateActivity,
+      vote: vote
     };
 
     return activity;
+
+    function vote(val)
+    {
+      activity.rating += val;
+      updateActivity();
+    }
 
     function updateActivity()
     {

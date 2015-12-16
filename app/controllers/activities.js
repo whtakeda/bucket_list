@@ -14,10 +14,10 @@ function create(req,res,next)
   activity.cost = req.body.cost;
   activity.duration = req.body.duration;
 
-  activity.save(function(err){
+  activity.save(function(err,data){
     if (err) { console.log(err); }
+    res.json(data);
   });
-  res.json(req.body);
 }
 
 function index(req,res,next)
@@ -30,8 +30,10 @@ function index(req,res,next)
 
 function show(req,res,next)
 {
+  console.log("looking for activity with id..." + req.params.id)
   Activity.find({"_id":req.params.id},function(err,activity){
     if (err) { console.log(err); }
+    console.log("found record..." + activity)
     res.json(activity);
   });
 }

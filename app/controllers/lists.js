@@ -1,4 +1,5 @@
 // Require resource's model(s).
+var mongoose = require('mongoose');
 // var User = require("../models/user");
 var User = require("../models/user");
 var Activity = require("../models/activity");
@@ -19,12 +20,14 @@ function create(req,res,next)
       rating: req.body.rating,
       activity: []
     };
+    list._id = mongoose.Types.ObjectId();
     user[0].lists.push(list);
 //    user[0].lists.activity = [];
-    user[0].save(function(err){
+    user[0].save(function(err,data){
       console.log(err);
+//      list._id = data._id;
+      res.json(list);
     });
-    res.json(req.body);
   });
 }
 

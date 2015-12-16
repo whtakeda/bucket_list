@@ -7,6 +7,7 @@ $(document).ready(function() {
 
   $('#confirm').on('click', function(e) {
     var id = $('#domId').attr('data-id');
+    console.log("deleting list with id " + id)
     $.ajax({
       url:"/lists/" + id,
       method:'DELETE',

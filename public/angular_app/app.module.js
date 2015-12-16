@@ -25,7 +25,7 @@
       })
       .state('showActivity',{
         url: '/activity/:id',
-        templateUrl: 'templates/activity.html'
+        templateUrl: 'templates/show_activity.html'
       })
       .state('showListActivity',{
         url: '/list/activity/',

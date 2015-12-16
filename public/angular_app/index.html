@@ -50,28 +50,34 @@
 <input type="button" ng-click="vm.test()">
 <input type="button" ng-click="vm.display()">
 <div>
+
   <div class="col-xs-3 frame">
       <div ng-click="vm.toggle('list')" class="activity-header bevel">Activities</div>
       <div class="activity-container">
         <div ui-sortable="vm.sortableActivityOptions" ng-model="vm.activities" class="connected-apps-container first">
-          <div class="activities bevel" ng-repeat="activity in vm.activities track by $index">{{activity.title}}</div>
+          <div class="activities bevel" ng-dblclick="vm.showActivity(activity._id)"
+            ng-repeat="activity in vm.activities track by $index" ui-sref="showActivity">{{activity.title}}
+          </div>
        </div>
       </div>
   </div>
+
   <div class="col-xs-1"></div>
 
-      <div class="col-xs-3 frame">
-  <div ui-sortable="vm.sortableHeaderOptions" class="connected-apps-container" ng-repeat="list in vm.lists track by $index" ng-model="list">
-    <div class="list-container" data-id="{{list._id}}">
-        <div ng-click="vm.toggle($index)" ng-dblclick="vm.test()" ng-model="list.model" class="bevel list-header"
-          name="list" data-id="{{list._id}}">{{list.name}}</div>
-      <div ui-sortable="vm.sortableListOptions" ng-model="list.activity" class="connected-apps-container" id="{{$index}}">
-        <div class="centered" ng-class="{'bevel lists': activity.id !== '-1'}" ui-sref="showListActivity" ng-repeat="activity in list.activity"
-          id="{{activity._id}}" ng-dblclick="vm.getListActivity(list._id,activity._id)">{{activity.title}}</div>
+  <div class="col-xs-3 frame">
+    <div ui-sortable="vm.sortableHeaderOptions" class="connected-apps-container" ng-repeat="list in vm.lists track by $index" ng-model="list">
+      <div class="list-container" data-id="{{list._id}}">
+          <div ng-click="vm.toggle($index)" ng-dblclick="vm.test()" ng-model="list.model" class="bevel list-header"
+            name="list" data-id="{{list._id}}">{{list.name}}
+          </div>
+          <div ui-sortable="vm.sortableListOptions" ng-model="list.activity" class="connected-apps-container" id="{{$index}}">
+          <div class="centered" ng-class="{'bevel lists': activity.id !== '-1'}" ui-sref="showListActivity" ng-repeat="activity in list.activity"
+            id="{{activity._id}}" ng-dblclick="vm.getListActivity(list._id,activity._id)">{{activity.title}}
+          </div>
+        </div>
       </div>
     </div>
   </div>
-      </div>
 
 
 <!--    <div class="col-xs-3 frame">

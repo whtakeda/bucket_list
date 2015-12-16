@@ -21,6 +21,7 @@
     vm.newList = newList;
     vm.deleteList = deleteList;
     vm.updateListActivity = updateListActivity;
+    vm.showActivity = showActivity;
 
     vm.lists = [];
     vm.test = test;
@@ -31,6 +32,20 @@
 
     getActivities();
     getLists();
+
+    function showActivity(id)
+    {
+      $log.log("getting activity with id..." + id)
+      if (id===undefined) { return; }
+      vm.activity.showActivity(id)
+        .then(function(res){
+//          debugger;
+          vm.activity.setValues(res.data[0]);
+        },
+        function(err){
+          $log.log(err);
+        })
+    }
 
     function updateListActivity()
     {
@@ -63,7 +78,20 @@
     {
       vm.list.newList()
         .then(function(res){
-          getLists();
+          console.log("created new list " + angular.toJson(res.data));
+//          getLists();
+          res.data.activity = [];
+          res.data = vm.list.addPlaceholder(res.data);
+//          debugger;
+//          debugger;
+          slide.push(true);
+          // vm.lists.forEach(function(list){
+          //   list = vm.list.addPlaceholder(list);
+          // })
+          // vm.lists.forEach(function(x){slide.push(true);});
+
+          vm.lists.push(res.data);
+          vm.list.clearList();
         },
         function(err){
           $log.log(err);
@@ -75,6 +103,7 @@
       vm.activity.newActivity()
         .then(function(res){
           $log.log("got new activity..." + res.data);
+//          debugger;
           vm.activities.push(res.data)
           vm.activity.clearActivity();
         },
@@ -116,6 +145,7 @@
 
     function deleteFromList(id)
     {
+      $log.log("deleting list with id..." + id);
       vm.list.deleteActivity(id)
         .then(function(res){
           vm.lists.forEach(function(list){
@@ -131,15 +161,16 @@
     {
       vm.list.getLists()
         .then(function(res){
-//          $log.log("res is " + angular.toJson(res.data));
+          $log.log("res is " + angular.toJson(res.data));
           vm.lists = res.data;
 //          debugger;
+//vm.lists.push({name:Date.now(),_id:"123456"});
           vm.lists.forEach(function(list){
             list = vm.list.addPlaceholder(list);
-          })
-          // vm.lists[0].activity[0].i = 1;
-          // vm.lists[0].activity[1].i = 2;
+          });
+          slide = [];
           vm.lists.forEach(function(x){slide.push(true);});
+          // $log.log(vm.lists);
         },
         function(err){
           $log.log(err);
