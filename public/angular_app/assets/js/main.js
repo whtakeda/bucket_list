@@ -6,7 +6,7 @@ $(document).ready(function() {
   });
 
   $('#confirm').on('click', function(e) {
-    var id = $('#hack').attr('data-id');
+    var id = $('#domId').attr('data-id');
     $.ajax({
       url:"/lists/" + id,
       method:'DELETE',

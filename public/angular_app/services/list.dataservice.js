@@ -31,6 +31,7 @@
       updateList: updateList,
       getListActivity: getListActivity,
       setListActivity: setListActivity,
+      clearListActivity: clearListActivity,
       updateListActivity: updateListActivity
     };
 
@@ -130,15 +131,18 @@
       return $http.get("lists");
     }
 
-    function clearList()
+    function clearListActivity()
     {
-      activityId= "";
-      order = 0;
-      completed = false;
-      reminderDate = "";
-      accepted = false;
-      visible = true;
-      rating = 0;
+      list.listActivity.activityId= "";
+      list.listActivity.name = "";
+      list.listActivity.completed = false;
+      list.listActivity.accepted = false;
+      list.listActivity.progress = "";
+      list.listActivity.location = "";
+      list.listActivity.visible = true;
+      list.listActivity.rating = 0;
+      list.listActivity.reminderDate = "";
+      list.listActivity.order = 0;
     }
 
   }

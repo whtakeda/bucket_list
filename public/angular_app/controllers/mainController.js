@@ -9,7 +9,7 @@
 
   function MainController($log,$http,activityDataService,listDataService) {
     var vm = this;
-    var sourceScreens;
+    var activitiesCopy;
     var slide = [];
 //    vm.user = userDataService;
     vm.activity = activityDataService;
@@ -34,11 +34,12 @@
 
     function updateListActivity()
     {
-      $log.log("started updating activity list...")
+//      $log.log("started updating activity list...")
       vm.list.listActivity.progress = angular.element("#progress").val();
       vm.list.updateListActivity()
         .then(function(res){
-          $log.log("done updating...");
+//          $log.log("done updating...");
+          vm.list.clearListActivity();
         },
         function(err){
           $log.log(err);
@@ -85,14 +86,15 @@
     // get an activity from the user's list (not an activity directly from the activity collection)
     function getListActivity(listId,activityId)
     {
-
-      var l = listId;
 //      debugger;
       if (activityId === undefined) { return; }
       vm.list.getListActivity(listId,activityId)
         .then(function(res){
           $( "#slider" ).slider( "option", "value", res.data[0].progress )
           vm.list.setListActivity(res.data[0]);
+        },
+        function(err){
+          $log.log(err);
         })
     }
 
@@ -106,6 +108,9 @@
         .then(function(res){
 //          debugger;
           vm.activity.setValues(res.data[0]);
+        },
+        function(err){
+          $log.log(err);
         })
     }
 
@@ -147,7 +152,7 @@
         .then(function(res){
 //          $log.log("res is " + angular.toJson(res.data));
           vm.activities = res.data;
-          sourceScreens = vm.activities.slice();
+          activitiesCopy = vm.activities.slice();
         },
         function(err){
           $log.log(err);
@@ -162,7 +167,6 @@
       slide.forEach(function(x,idx){$('#'+(idx)).slideUp()})
     }
 
-    // TODO: refactor
     vm.toggle = function(idx){
       (slide[idx]) ? $('#'+(idx)).slideUp() : $('#'+(idx)).slideDown();
       slide[idx] = !slide[idx];
@@ -202,7 +206,7 @@ $log.log("activity stop")
             e.target != item.droptarget[0]) {
           // clone the original model to restore the removed item
 
-          vm.activities = sourceScreens.slice();
+          vm.activities = activitiesCopy.slice();
 $log.log("is cancelled? " + item.isCanceled());
 $log.log("1. updating list...");
 $log.log(item.droptargetModel);
@@ -229,13 +233,8 @@ $log.log("activity update")
           var itemModel = originNgModel[item.index];
           var dropTarget = item.droptargetModel;
 
-
-          // check that its an actual moving
-          // between the two lists
-//          debugger;
+          // check that it's actually moving between the two lists
           if (originNgModel == vm.activities && item.droptargetModel == dropTarget) {
-            console.log(itemModel)
-//            debugger;
             var exists = !!dropTarget.filter(function(x) {return x.activityId === itemModel._id }).length;
             if (exists) {
 $log.log("cancelling because it exists...");
@@ -250,8 +249,6 @@ $log.log("cancelling because it exists...");
       connectWith: ".connected-apps-container",
       stop: function (e, ui) {
 $log.log("list stop")
-        // if the element is removed from the first container
-
         var item = ui.item.sortable;
         if (item.model.id === "-1" || item.droptargetModel === undefined || item.droptargetModel[0].id === "-1") { item.cancel(); return; }
             if (item.droptarget.attr('id') === 'trash')
@@ -279,13 +276,14 @@ $log.log("2. updating list...")
             })
       },
       update: function(event, ui) {
-        // on cross list sortings received is not true
-        // during the first update
-        // which is fired on the source sortable
         var item = ui.item.sortable;
         if (item.source[0].children[0].getAttribute('name') === 'list') { item.cancel(); return; }
         if (item.model.id === "-1" || item.droptargetModel[0].id === "-1") { item.cancel(); return; }
 $log.log("list update")
+
+        // on cross list sortings received is not true
+        // during the first update
+        // which is fired on the source sortable
         if (!item.received) {
           var originNgModel = item.sourceModel;
           var itemModel = originNgModel[item.index];
@@ -309,24 +307,19 @@ $log.log("cancelled from list update")
     vm.sortableHeaderOptions = {
       connectWith: ".connected-apps-container",
       update: function(event, ui) {
-$log.log("header update")
-        // on cross list sortings received is not true
-        // during the first update
-        // which is fired on the source sortable
+$log.log("header update");
         var item = ui.item.sortable;
         if (item.droptarget.attr('id') !== "trash") { item.cancel(); return; }
 //debugger;
-        $('#hack').attr('data-id',item.source[0].children[0].getAttribute('data-id'))
-//        $('#modal-delete').modal('show');
-//        $log.log("OK got here so confirm the list delete before deleting...");
-        // if (confirm("Delete this list?"))
-        // {
-           vm.deleteList(item.source[0].children[0].getAttribute('data-id'));
-        // }
+        // this is a major hack to store the id of the DOM element that needs to be deleted
+        // this is done so that the modal callback (in jquery) can remvoe the element from the DOM
+        $('#domId').attr('data-id',item.source[0].children[0].getAttribute('data-id'));
+        $('#modal-delete').modal('show');
+//           vm.deleteList(item.source[0].children[0].getAttribute('data-id'));
 
         // this is a hack to prevent a dummy activity from somehow getting added to the activity list after
         // a list is moved to the trash can.
-//        item.cancel();
+        item.cancel();
       }
     };
 

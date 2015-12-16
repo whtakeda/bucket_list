@@ -57,7 +57,22 @@
       </div>
   </div>
   <div class="col-xs-1"></div>
-  <div class="col-xs-3 frame">
+
+      <div class="col-xs-3 frame">
+  <div ui-sortable="vm.sortableHeaderOptions" class="connected-apps-container" ng-repeat="list in vm.lists track by $index" ng-model="list">
+    <div class="list-container" data-id="{{list._id}}">
+        <div ng-click="vm.toggle($index)" ng-dblclick="vm.test()" ng-model="list.model" class="bevel list-header"
+          name="list" data-id="{{list._id}}">{{list.name}}</div>
+      <div ui-sortable="vm.sortableListOptions" ng-model="list.activity" class="connected-apps-container" id="{{$index}}">
+        <div class="centered" ng-class="{'bevel lists': activity.id !== '-1'}" ui-sref="showListActivity" ng-repeat="activity in list.activity"
+          id="{{activity._id}}" ng-dblclick="vm.getListActivity(list._id,activity._id)">{{activity.title}}</div>
+      </div>
+    </div>
+  </div>
+      </div>
+
+
+<!--    <div class="col-xs-3 frame">
     <div class="list-container" ng-repeat="list in vm.lists track by $index">
       <div ui-sortable="vm.sortableHeaderOptions" ng-model="list" class="connected-apps-container">
         <div ng-click="vm.toggle($index)" ng-dblclick="vm.test()" ng-model="list.model" class="bevel list-header"
@@ -68,31 +83,31 @@
           id="{{activity._id}}" ng-dblclick="vm.getListActivity(list._id,activity._id)">{{activity.title}}</div>
       </div>
     </div>
-  </div>
+ -->  </div>
+
   <div class="col-xs-1"></div>
   <div ui-sortable="" class="col-xs-3 trash connected-apps-container" id="trash" ng-model="vm.activities"></div>
 </div>
 
-  <div class="modal fade" tabindex="-1" role="dialog" id="modal-delete">
-    <div class="modal-dialog modal-sm">
-      <div class="modal-content">
-        <div class="modal-header">
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-          <h4 class="modal-title">Confirm Delete</h4>
-        </div>
-        <div class="modal-body">
-          <p>Delete record?</p>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-primary" data-dismiss="modal" id="confirm">Delete</button>
-          <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-        </div>
-      </div><!-- /.modal-content -->
-    </div><!-- /.modal-dialog -->
-  </div><!-- /.modal -->
+<div class="modal fade" tabindex="-1" role="dialog" id="modal-delete">
+  <div class="modal-dialog modal-sm">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title">Confirm Delete</h4>
+      </div>
+      <div class="modal-body">
+        <p>Delete record?</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" data-dismiss="modal" id="confirm">Delete</button>
+        <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
 
-<span id="hack"></span>
-
+<span id="domId"></span>
 
   <script src="app.module.js"></script>
   <script src="controllers/MainController.js"></script>
