@@ -29,11 +29,7 @@
       })
       .state('showListActivity',{
         url: '/list/activity/',
-        templateUrl: 'templates/list_activity.html',
-        onExit: function(){
-          console.log("leaving las vegas...");
-          $('#main').slideUp(1000);
-        }
+        templateUrl: 'templates/list_activity.html'
       });
 
 //    $locationProvider.html5Mode(true);

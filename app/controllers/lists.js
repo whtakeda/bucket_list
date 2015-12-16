@@ -19,13 +19,13 @@ function create(req,res,next)
       rating: req.body.rating,
       activity: []
     };
-    list._id = mongoose.Types.ObjectId();
+    // list._id = mongoose.Types.ObjectId();
     user[0].lists.push(list);
 //    user[0].lists.activity = [];
     user[0].save(function(err,data){
       console.log(err);
-//      list._id = data._id;
-      res.json(list);
+      res.json(user[0].lists.pop());
+      // res.json(list);
     });
   });
 }

@@ -1,0 +1,30 @@
+<form ng-submit="vm.updateListActivity()">
+<div class="new-activity">Title:</div>{{vm.list.listActivity.name}}<br />
+<div class="new-activity">Completed:</div><input type="checkbox" ng-model="vm.list.listActivity.completed"><br />
+<div class="new-activity">Accepted:</div><input type="checkbox" ng-model="vm.list.listActivity.accepted"><br />
+<div class="new-activity">Progress:</div><input type="text" ng-model="vm.list.listActivity.progress" id="progress" size="3">
+  &nbsp;&nbsp;<div id="slider" class="slider" style="display:inline-block"></div><br />
+<div class="new-activity">Location:</div><input type="text" ng-model="vm.list.listActivity.location"><br />
+<div class="new-activity">Reminder Date:</div><input type="text" ng-model="vm.list.listActivity.reminderDate"><br />
+
+<input type="submit">
+</form>
+
+<script>
+  $(function() {
+    $( "#slider" ).slider({
+      min:-1,
+      max:101
+    });
+  });
+
+  $( "#slider" ).on( "slide", function( event, ui ) {
+    $('#progress').val($("#slider").slider("option","value"));
+  } );
+
+  $( ".slider" ).on( "slidestop", function( event, ui ) {
+    // do stuff in here to update the
+    console.log("here")
+  } );
+
+</script>

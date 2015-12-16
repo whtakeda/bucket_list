@@ -16,5 +16,4 @@ $(document).ready(function() {
       $("div[data-id='" + data + "']").remove();
     });
   });
-
 });
