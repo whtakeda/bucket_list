@@ -51,7 +51,7 @@ body {
   width:100px;
   height:100px;
   text-align:center;
-  background-color:#ffffff;
+  background-color:#d0d0d0;
   background-size: contain;
   background-image:url('../images/trashcan.png');
 }
@@ -111,8 +111,4 @@ button:focus {
 
 .centered {
   text-align:center;
-}
-
-.slider {
-  width:300px;
 }

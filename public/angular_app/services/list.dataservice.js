@@ -8,6 +8,8 @@
   listDataService.$inject = ['$log','$http','$window'];
 
   function listDataService($log,$http,$window) {
+    var baseUrl = "http://localhost:3000/";
+
     var list = {
       _id: "",
       name: "",
@@ -41,19 +43,18 @@
     function updateListActivity()
     {
 //      debugger;
-      return $http.put("lists/activity/" + list.listActivity.activityId, list.listActivity)
+      return $http.put(baseUrl + "lists/activity/" + list.listActivity.activityId, list.listActivity)
     }
 
     function deleteList(id)
     {
-      return $http.delete("lists/" + id);
+      return $http.delete(baseUrl + "lists/" + id);
     }
 
     function setListActivity(activity)
     {
 //      debugger;
       list.listActivity.activityId = activity._id;
-      list.listActivity.name = activity.title;
       list.listActivity.completed = activity.completed;
       list.listActivity.accepted = activity.accepted;
       list.listActivity.progress = activity.progress;
@@ -66,7 +67,7 @@
     {
       $log.log("getting activity from list..." + listId);
       $log.log("getting activity from list..." + activityId);
-      return $http.get("lists/" + listId + "/activity/" + activityId);
+      return $http.get(baseUrl + "lists/" + listId + "/activity/" + activityId);
     }
 
     // a placeholder needs to be added to an empty list so that it can be dragged into
@@ -98,13 +99,13 @@
 //        debugger;
         data = removePlaceholder(data);
       }
-      return $http.put('lists/' + id,data);
+      return $http.put(baseUrl + 'lists/' + id,data);
     }
 
     function deleteActivity(id)
     {
       $log.log("Deleting activity..." + id)
-      return $http.delete("lists/activity/" + id);
+      return $http.delete(baseUrl + "lists/activity/" + id);
     }
 
     // TODO - CAN I DELETE THIS SINCE THE LOGIC IS HANDLED IN THE CUSTOM DIRECTIVE?
@@ -112,7 +113,7 @@
     {
       $log.log("Updating list...")
       $http
-        .put("lists",list)
+        .put(baseUrl + "lists",list)
         .then(function(res){
           $log.log("List has been updated...");
         },
@@ -124,13 +125,13 @@
     function newList()
     {
       $log.log("creating new list...");
-      return $http.post("lists",list);
+      return $http.post(baseUrl + "lists",list);
     }
 
     function getLists()
     {
       $log.log("getting lists...");
-      return $http.get("lists");
+      return $http.get(baseUrl + "lists");
     }
 
     function clearList()
@@ -153,5 +154,5 @@
       list.listActivity.order = 0;
     }
 
-  }
+    }
 })();
