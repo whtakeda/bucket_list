@@ -4,19 +4,13 @@
   <meta charset="UTF-8">
   <title>Document</title>
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
-  <link rel="stylesheet" href="http://code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+  <link rel="stylesheet" type="text/css" href="assets/css/main.css">
   <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
   <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/jquery-ui.min.js"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js" integrity="sha512-K1qjQ+NcF2TYO/eI3M6v8EiNYZfA95pQumfvcVrTHtwQVDG+aHRqLi/ETn2uB+1JqwYqVG3LIvdm9lj6imS/pQ==" crossorigin="anonymous"></script>
-
   <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.4/angular.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-router/0.2.15/angular-ui-router.js"></script>
   <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.4/angular-animate.js"></script>
   <script src="https://rawgithub.com/angular-ui/ui-sortable/master/src/sortable.js"></script>
-
-  <script src="assets/js/angular-modal-service.min.js"></script>
-  <link rel="stylesheet" type="text/css" href="assets/css/main.css">
-  <script src="assets/js/main.js"></script>
 </head>
 <body ng-controller="MainController as vm">
 <nav class="navbar navbar-default">
@@ -46,7 +40,9 @@
 </nav>
 
 <div ui-view></div>
-<br />
+
+<input type="button" ng-click="vm.display()" value="Check">
+
 <div>
   <div class="col-xs-3 frame">
       <div ng-click="vm.toggle('list')" class="activity-header bevel">Activities</div>
@@ -73,31 +69,9 @@
   <div ui-sortable="" class="col-xs-3 trash connected-apps-container" id="trash" ng-model="vm.activities"></div>
 </div>
 
-  <div class="modal fade" tabindex="-1" role="dialog" id="modal-delete">
-    <div class="modal-dialog modal-sm">
-      <div class="modal-content">
-        <div class="modal-header">
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-          <h4 class="modal-title">Confirm Delete</h4>
-        </div>
-        <div class="modal-body">
-          <p>Delete record?</p>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-primary" data-dismiss="modal" id="confirm">Delete</button>
-          <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-        </div>
-      </div><!-- /.modal-content -->
-    </div><!-- /.modal-dialog -->
-  </div><!-- /.modal -->
-
-<span id="hack"></span>
-
-
   <script src="app.module.js"></script>
   <script src="controllers/MainController.js"></script>
   <script src="services/activity.dataservice.js"></script>
   <script src="services/list.dataservice.js"></script>
 </body>
 </html>
-

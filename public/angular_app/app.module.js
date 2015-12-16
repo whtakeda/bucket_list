@@ -2,7 +2,7 @@
   'use strict';
 
   angular
-    .module('app', ['ui.router','ui.sortable','ngAnimate'])
+    .module('app', ['ui.router','ui.sortable'])
     .config(router);
 
   function router($stateProvider,$locationProvider){
