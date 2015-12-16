@@ -1,23 +1,16 @@
-<form ng-submit="vm.updateListActivity()">
-<div class="new-activity">Completed:</div><input type="checkbox" ng-model="vm.list.listActivity.completed"><br />
-<div class="new-activity">Accepted:</div><input type="checkbox" ng-model="vm.list.listActivity.accepted"><br />
-<div class="new-activity">Progress:</div><input type="text" ng-model="vm.list.listActivity.progress"><br />
-<div class="new-activity">Location:</div><input type="text" ng-model="vm.list.listActivity.location"><br />
-<div class="new-activity">Reminder Date:</div><input type="text" ng-model="vm.list.listActivity.reminderDat"><br />
-<input type="submit">
-</form>
+<div id="main" style="display:none">
+  <form ng-submit="vm.updateListActivity()">
+  <div class="new-activity">Completed:</div><input type="checkbox" ng-model="vm.list.listActivity.completed"><br />
+  <div class="new-activity">Accepted:</div><input type="checkbox" ng-model="vm.list.listActivity.accepted"><br />
+  <div class="new-activity">Progress:</div><input type="text" ng-model="vm.list.listActivity.progress"><br />
+  <div class="new-activity">Location:</div><input type="text" ng-model="vm.list.listActivity.location"><br />
+  <div class="new-activity">Reminder Date:</div><input type="text" ng-model="vm.list.listActivity.reminderDat"><br />
+  <input type="submit">
+  </form>
+</div>
 
-<!--  name: String,
-  visible: Boolean,
-  rating: {type:Number, default:0},
-  activity: [{
-    activityId: String,
-    title: String,      // TODO: pull this out later after testing
-    order: Number,
-    completed: Boolean,
-    accepted: Boolean,
-    progress: {type:Number, default:0},
-    location: [Number,Number],
-    reminderDate: Date
-  }]
- -->
+<script>
+$(document).ready(function() {
+  $('#main').slideDown(1000);
+})
+</script>

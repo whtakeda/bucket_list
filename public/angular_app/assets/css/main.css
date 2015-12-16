@@ -32,7 +32,6 @@ body {
   background-color: #EFEECB;
 }
 
-
 .activity-container {
   cursor:pointer;
   padding:5px;
@@ -46,6 +45,32 @@ body {
   margin: 5px 0px;
   border-radius:10px;
 }
+
+.title-column {
+  display:inline-block;
+  width:100px;
+  margin: 5px 0px;
+  border-radius:5px;
+  border:1px solid black;
+  padding:5px;
+  margin-right:5px;
+  background-color:#e0e0e0;
+}
+
+.data-column {
+  display:inline-block;
+  width:300px;
+  margin: 5px 0px;
+  border:1px solid black;
+  border-radius:5px;
+  padding:5px;
+  background-color:#e0e0e0;
+}
+
+div .data-column:empty:before {
+  content: "\00a0"; // this is a &nbsp; character
+}
+
 
 .trash {
   width:100px;
