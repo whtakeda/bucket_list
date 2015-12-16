@@ -8,7 +8,6 @@
   activityDataService.$inject = ['$log','$http'];
 
   function activityDataService($log,$http) {
-    var baseUrl = "http://localhost:3000/";
     var activity = {
       _id: "",
       title: "title",
@@ -31,7 +30,7 @@
     function updateActivity()
     {
       $log.log("updating activity...");
-      return $http.put(baseUrl + "activities/" + activity._id ,activity);
+      return $http.put("activities/" + activity._id ,activity);
     }
 
     function setValues(rec)
@@ -49,19 +48,19 @@
     function showActivity(id)
     {
       $log.log("in showActivity...")
-      return $http.get(baseUrl + "activities/" + id);
+      return $http.get("activities/" + id);
     }
 
     function getActivities()
     {
       $log.log("getting activities...");
-      return $http.get(baseUrl + "activities");
+      return $http.get("activities");
     }
 
     function newActivity()
     {
       $log.log("creating new activity..." + activity.title);
-      return $http.post(baseUrl + "activities",activity);
+      return $http.post("activities",activity);
     }
 
     function clearActivity()
