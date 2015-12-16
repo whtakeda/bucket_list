@@ -7,12 +7,12 @@ var bodyParser = require('body-parser');
 var session = require('express-session');
 var passport = require('passport');
 
-
 require('dotenv').load();
 
 var routes = require('./app/config/routes');
 var mongoose = require('./app/config/database');
 var env = require('./app/config/environment');
+
 
 var app = express();
 
