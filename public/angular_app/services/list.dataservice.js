@@ -43,12 +43,12 @@
     function updateListActivity()
     {
 //      debugger;
-      return $http.put(baseUrl + "lists/activity/" + list.listActivity.activityId, list.listActivity)
+      return $http.put("/lists/activity/" + list.listActivity.activityId, list.listActivity)
     }
 
     function deleteList(id)
     {
-      return $http.delete(baseUrl + "lists/" + id);
+      return $http.delete("/lists/" + id);
     }
 
     function setListActivity(activity)
@@ -67,7 +67,7 @@
     {
       $log.log("getting activity from list..." + listId);
       $log.log("getting activity from list..." + activityId);
-      return $http.get(baseUrl + "lists/" + listId + "/activity/" + activityId);
+      return $http.get("/lists/" + listId + "/activity/" + activityId);
     }
 
     // a placeholder needs to be added to an empty list so that it can be dragged into
@@ -99,13 +99,13 @@
 //        debugger;
         data = removePlaceholder(data);
       }
-      return $http.put(baseUrl + 'lists/' + id,data);
+      return $http.put('/lists/' + id,data);
     }
 
     function deleteActivity(id)
     {
       $log.log("Deleting activity..." + id)
-      return $http.delete(baseUrl + "lists/activity/" + id);
+      return $http.delete("/lists/activity/" + id);
     }
 
     // TODO - CAN I DELETE THIS SINCE THE LOGIC IS HANDLED IN THE CUSTOM DIRECTIVE?
@@ -113,7 +113,7 @@
     {
       $log.log("Updating list...")
       $http
-        .put(baseUrl + "lists",list)
+        .put("/lists",list)
         .then(function(res){
           $log.log("List has been updated...");
         },
@@ -125,13 +125,13 @@
     function newList()
     {
       $log.log("creating new list...");
-      return $http.post(baseUrl + "lists",list);
+      return $http.post("/lists",list);
     }
 
     function getLists()
     {
       $log.log("getting lists...");
-      return $http.get(baseUrl + "lists");
+      return $http.get("/lists");
     }
 
     function clearList()
