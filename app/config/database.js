@@ -6,7 +6,7 @@ var env = require('./environment');
 var dbUri = process.env.MONGOLAB_URI || 'mongodb://localhost/' + env.localEnvVars.SAFE_TITLE;
 //dbUri = 'mongodb://localhost/' + env.SAFE_TITLE;
 
-if (!env.MONGOLAB_URI) {
+if (!process.env.MONGOLAB_URI) {
   // check that MongoD is running...
   require('net').connect(27017, 'localhost').on('error', function() {
     console.log("YOU MUST BOW BEFORE THE MONGOD FIRST, MORTAL!");
