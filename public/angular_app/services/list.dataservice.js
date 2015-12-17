@@ -41,6 +41,7 @@
     function updateListActivity()
     {
 //      debugger;
+      // TODO - verify list has data before sending request.
       return $http.put("lists/activity/" + list.listActivity.activityId, list.listActivity)
     }
 

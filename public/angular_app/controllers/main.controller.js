@@ -5,14 +5,14 @@
     .module('app')
     .controller('MainController',MainController);
 
-  MainController.$inject = ['$log','$http','activityDataService','listDataService','authService','userDataService','$state'];
+  MainController.$inject = ['$scope','$log','$http','activityDataService','listDataService','authService','userDataService','$state'];
 
-  function MainController($log,$http,activityDataService,listDataService,authService,userDataService,$state)
+  function MainController($scope,$log,$http,activityDataService,listDataService,authService,userDataService,$state)
   {
     var vm = this;
     var activitiesCopy;
     var slide = [];
-
+$scope.isLoggedIn = true;
     vm.isVisible = false;
 
 //    vm.user = userDataService;
@@ -26,6 +26,8 @@
     vm.deleteList = deleteList;
     vm.updateListActivity = updateListActivity;
     vm.showActivity = showActivity;
+    vm.showListActivityView = showListActivityView;
+    vm.showActivityView = showActivityView;
 
     vm.lists = [];
     vm.test = test;
@@ -47,6 +49,17 @@
 
     getActivities();
     getLists();
+
+    function showActivityView()
+    {
+      $state.go('showActivity');
+    }
+
+
+    function showListActivityView()
+    {
+      $state.go('showListActivity');
+    }
 
     function showActivity(id)
     {
@@ -131,6 +144,7 @@
     function getListActivity(listId,activityId)
     {
 //      debugger;
+$log.log("Why is this firing on single click?");
       if (activityId === undefined) { return; }
       vm.list.getListActivity(listId,activityId)
         .then(function(res){
@@ -176,7 +190,7 @@
     {
       vm.list.getLists()
         .then(function(res){
-          $log.log("res is " + angular.toJson(res.data));
+          // $log.log("res is " + angular.toJson(res.data));
           vm.lists = res.data;
 //          debugger;
 //vm.lists.push({name:Date.now(),_id:"123456"});

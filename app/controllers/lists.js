@@ -57,7 +57,7 @@ function getActivity(req,res,next)
 
 function updateActivity(req,res,next)
 {
-  console.log("body is " + JSON.stringify(req.body));
+//  console.log("body is " + JSON.stringify(req.body));
   activityId = req.body.activityId;
   User.find({"lists.activity._id":activityId},function(err,activities){
 //   console.log("activity is " + activities[0].lists);
@@ -66,43 +66,36 @@ function updateActivity(req,res,next)
       activity = l.activity.filter(function(a){
         return a._id == activityId
       });
-      console.log("activity is" + activity + "!");
+//      console.log("activity is" + activity + "!");
       if (activity != "")
       {
-        console.log("a is " + Array.isArray(activity));
         activity[0].completed = req.body.completed;
         activity[0].accepted = req.body.accepted;
         activity[0].progress = req.body.progress;
         activity[0].location = req.body.location;
-        console.log("a is " + activity[0]);
-        console.log("a is " + activity[0].progress);
-        console.log("b is " + req.body.progress);
         activities[0].save(function(err,u){console.log(err);});
       }
     });
-                  //     var list = activities[0].lists.filter(function(l){
-                  //       console.log(l._id);
-                  // //      return l._id == "5670a54a3fa05c2a6bb0e463";
-                  //       return l._id == "56708fbc4def68285f971611";
-
-                  //     });
-                  //     console.log("list is " + list);
-                  //     var activity = list[0].activity.filter(function(a){
-                  //       return a._id == activityId;
-                  //     });
-                  //     console.log("a is " + activity[0].progress);
-                  //     activity.progress = 40;
-                  //     activity.title = "Ice Cream!!!";
-                  //     console.log("a is " + activity.progress);
-                  //     console.log("a is " + activity.title);
-                  //     console.log("a is " + activity);
-                  //     res.json("Done");
   });
 }
+
+function destroy(req,res,next)
+{
+  id = req.params.id;
+//  console.log("in destroy list..." + id);
+  User.find({"lists._id":id}, function(err, user){
+    // HAVE TO LOOP OVER EVERY LIST TO FIND THE ONE WITH THE RIGHT ID
+    user[0].lists.id(id).remove();
+    user[0].save();
+    res.json(id);
+  });
+}
+
 
 module.exports = {
   create: create,
   index: index,
   getActivity: getActivity,
-  updateActivity: updateActivity
+  updateActivity: updateActivity,
+  destroy: destroy
 };

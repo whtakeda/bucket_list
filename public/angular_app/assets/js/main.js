@@ -10,6 +10,9 @@ $(document).ready(function() {
     console.log("deleting list with id " + id)
     $.ajax({
       url:"/lists/" + id,
+      headers: {
+        'x-access-token' : localStorage.getItem('token')
+      },
       method:'DELETE',
     }).done(function(data){
 //      debugger;

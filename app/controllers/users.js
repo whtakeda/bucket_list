@@ -70,7 +70,9 @@ var tokenVerify = function(req, res, next) {
 
   // check header or url parameters or post parameters for token
   var token = req.body.token || req.query.token || req.headers['x-access-token'];
-
+console.log("1-"+req.body.token);
+console.log("2-"+req.query.token);
+console.log("3-"+req.headers['x-access-token']);
   // decode token
   if (token) {
 
@@ -84,6 +86,7 @@ var tokenVerify = function(req, res, next) {
       });
       } else {
         // if everything is good, save to request for use in other routes
+        console.log("successfully verified token");
         req.decoded = decoded;
 
         next(); // make sure we go to the next routes and don't stop here
@@ -160,40 +163,10 @@ function update(req,res,next)
   });
 }
 
-function destroyActivity(req,res,next)
-{
-  id = req.params.id;
-  User.find({"lists.activity._id":id}, function(err, user){
-    // HAVE TO LOOP OVER EVERY LIST TO FIND THE ONE WITH THE RIGHT ID
-    user[0].lists.forEach(function(list){
-      if (list.activity.id(id) !== null)
-      {
-        list.activity.id(id).remove();
-        user[0].save();
-        res.json(JSON.stringify(id));
-      }
-    })
-  });
-}
-
-function destroyList(req,res,next)
-{
-  id = req.params.id;
-  console.log("in destroy list..." + id);
-  User.find({"lists._id":id}, function(err, user){
-    // HAVE TO LOOP OVER EVERY LIST TO FIND THE ONE WITH THE RIGHT ID
-    user[0].lists.id(id).remove();
-    user[0].save();
-    res.json(id);
-  });
-}
-
 module.exports = {
   index: index,
   show: show,
   update: update,
-  destroyActivity: destroyActivity,
-  destroyList: destroyList,
   userAuth:     userAuth,
   tokenVerify:  tokenVerify
 };

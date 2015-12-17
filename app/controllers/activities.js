@@ -1,5 +1,5 @@
 // Require resource's model(s).
-// var User = require("../models/user");
+var User = require("../models/user");
 var Activity = require("../models/activity");
 // var rp = require("request-promise");
 // var env = require('../config/environment');
@@ -44,6 +44,7 @@ function update(req,res,next)
     if (err) { console.log(err); }
     activity[0].title = req.body.title;
     activity[0].description = req.body.description;
+//    activity[0].rating = activity[0].rating + req.body.rating;
     activity[0].rating = req.body.rating;
     activity[0].location = req.body.location;
     activity[0].cost = req.body.cost;
@@ -54,9 +55,30 @@ function update(req,res,next)
   });
 }
 
+function destroy(req,res,next)
+{
+  id = req.params.id;
+  console.log("the id is " + id);
+  User.find({"lists.activity._id":id}, function(err, user){
+    if (err) { console.log(err); }
+    // HAVE TO LOOP OVER EVERY LIST TO FIND THE ONE WITH THE RIGHT ID
+    console.log("user is " +  user[0]);
+    user[0].lists.forEach(function(list){
+      if (list.activity.id(id) !== null)
+      {
+        list.activity.id(id).remove();
+        user[0].save();
+        res.json(JSON.stringify(id));
+      }
+    })
+  });
+}
+
+
 module.exports = {
   create: create,
   index: index,
   show: show,
-  update: update
+  update: update,
+  destroy: destroy
 };

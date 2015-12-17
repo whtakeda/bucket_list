@@ -39,8 +39,8 @@
     <!-- Collect the nav links, forms, and other content for toggling -->
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
       <ul class="nav navbar-nav">
-        <li><a ui-sref="newActivity">New Activity</a></li>
-        <li><a ui-sref="newList">New List</a></li>
+        <li><a ui-sref="newActivity({isLoggedIn:vm.isLoggedIn()})" ng-show="vm.isLoggedIn()">New Activity</a></li>
+        <li><a ui-sref="newList({isLoggedIn:vm.isLoggedIn()})" ng-show="vm.isLoggedIn()">New List</a></li>
         <li><a ui-sref="login" ng-hide="vm.isLoggedIn()">Login</a></li>
         <li><a ng-click="vm.logout()" ng-show="vm.isLoggedIn()">Logout</a></li>
       </ul>
@@ -54,7 +54,7 @@
 <div id="main">
 <div ui-view class="anim-in-out anim-fade" data-anim-speed="1000"></div>
 </div>
-{{vm.currentUser()}}
+
 <br />
 <input type="button" ng-click="vm.test()">
 <input type="button" ng-click="vm.display()">
@@ -64,8 +64,8 @@
       <div ng-click="vm.toggle('list')" class="activity-header bevel">Activities</div>
       <div class="activity-container">
         <div ui-sortable="vm.sortableActivityOptions" ng-model="vm.activities" class="connected-apps-container first">
-          <div class="activities bevel" ng-dblclick="vm.showActivity(activity._id)"
-            ng-repeat="activity in vm.activities track by $index" ui-sref="showActivity">{{activity.title}}
+          <div class="activities bevel" ng-dblclick="vm.showActivityView(); vm.showActivity(activity._id)"
+            ng-repeat="activity in vm.activities track by $index">{{activity.title}}
           </div>
        </div>
       </div>
@@ -80,8 +80,8 @@
             name="list" data-id="{{list._id}}">{{list.name}}
           </div>
           <div ui-sortable="vm.sortableListOptions" ng-model="list.activity" class="connected-apps-container" id="{{$index}}">
-          <div class="centered" ng-class="{'bevel lists': activity.id !== '-1'}" ui-sref="showListActivity" ng-repeat="activity in list.activity"
-            id="{{activity._id}}" ng-dblclick="vm.getListActivity(list._id,activity._id)">{{activity.title}}
+          <div class="centered" ng-class="{'bevel lists': activity.id !== '-1'}" ng-repeat="activity in list.activity"
+            id="{{activity._id}}" ng-dblclick="vm.showListActivityView(); vm.getListActivity(list._id,activity._id)">{{activity.title}}
           </div>
         </div>
       </div>
@@ -112,12 +112,12 @@
 <span id="domId"></span>
 
   <script src="app.module.js"></script>
-  <script src="controllers/main.controller.js"></script>
-  <script src="controllers/login.controller.js"></script>
-  <script src="services/activity.dataservice.js"></script>
-  <script src="services/list.dataservice.js"></script>
   <script src="services/auth.service.js"></script>
   <script src="services/user.dataservice.js"></script>
+  <script src="services/activity.dataservice.js"></script>
+  <script src="services/list.dataservice.js"></script>
+  <script src="controllers/main.controller.js"></script>
+  <script src="controllers/login.controller.js"></script>
   </body>
 </html>
 

@@ -4,59 +4,58 @@
 
   angular
     .module('app', ['ui.router','ui.sortable','dndLists'])
+    .config(router)
     .config(function($httpProvider) {
 
       // attach our auth interceptor to the http requests
       $httpProvider.interceptors.push('authInterceptor');
-    })
-    .config(router);
+    });
 
   function router($stateProvider,$locationProvider){
     $stateProvider
       .state('home',{
         url: '/',
-        templateUrl: 'templates/home.html'
+        templateUrl: 'templates/home.html',
+        controller: "MainController",
+        controllerAs: "vm"
       })
       .state('activities',{
         url: '/activities',
-        templateUrl: 'templates/activities.html'
+        templateUrl: 'templates/activities.html',
+        controller: "MainController",
+        controllerAs: "vm"
       })
       .state('newActivity',{
         url: '/activities/new',
         templateUrl: 'templates/new_activity.html',
         controller: "MainController",
-        controllerAs: "vm"
+        controllerAs: "vm",
+        params: {isLoggedIn: false},
+        onEnter: ['$state','$stateParams',function($state,$stateParams){
+          if (!$stateParams.isLoggedIn) { $state.go('login') };
+        }]
       })
       .state('newList',{
         url: '/lists/new',
         templateUrl: 'templates/new_list.html',
         controller: "MainController",
-        controllerAs: "vm"
+        controllerAs: "vm",
+        params: {isLoggedIn: false},
+        onEnter: ['$state','$stateParams',function($state,$stateParams){
+          if (!$stateParams.isLoggedIn) { $state.go('login') };
+        }]
       })
       .state('showActivity',{
         url: '/activity/:id',
         templateUrl: 'templates/show_activity.html',
-        onExit: function(){
-          // $('#main').slideUp(1000);
-        },
-        onEnter: function(){
-          console.log("entering denver");
-          // $('#main').slideDown(1000);
-          console.log("hi denver");
-        }
+        controller: "MainController",
+        controllerAs: "vm"
       })
       .state('showListActivity',{
         url: '/list/activity/',
         templateUrl: 'templates/list_activity.html',
-        onExit: function(){
-          console.log("leaving las vegas");
-          // $('#main').slideUp(1000);
-          return true;
-          console.log("bye las vegas");
-        },
-        onEnter: function(){
-          // $('#main').slideDown(1000);
-        }
+        controller: "MainController",
+        controllerAs: "vm"
       })
       .state('test',{
         url: '/test',
