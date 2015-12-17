@@ -70,9 +70,9 @@ var tokenVerify = function(req, res, next) {
 
   // check header or url parameters or post parameters for token
   var token = req.body.token || req.query.token || req.headers['x-access-token'];
-console.log("1-"+req.body.token);
-console.log("2-"+req.query.token);
-console.log("3-"+req.headers['x-access-token']);
+// console.log("1-"+req.body.token);
+// console.log("2-"+req.query.token);
+// console.log("3-"+req.headers['x-access-token']);
   // decode token
   if (token) {
 
@@ -120,7 +120,7 @@ function index(req,res,next)
 //  User.find({},'lists.activity.id lists.activity.title',function(err,l){
   User.find({},'lists',function(err,user){
     if (err) { console.log(err); }
-    console.log(user[0].lists);
+//    console.log(user[0].lists);
     res.json(user[0].lists);
   });
 }
@@ -130,6 +130,7 @@ function show(req,res,next)
 //  User.find({},'lists.activity.id lists.activity.title',function(err,l){
   User.findById(req.params.id,function(err,user){
     if (err) { console.log(err); }
+console.log(user);
     res.json(user);
   });
 }

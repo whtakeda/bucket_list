@@ -5,17 +5,17 @@
     .module('app')
     .controller('MainController',MainController);
 
-  MainController.$inject = ['$scope','$log','$http','activityDataService','listDataService','authService','userDataService','$state'];
+  MainController.$inject = ['$log','$http','activityDataService','listDataService','authService','userDataService','$state'];
 
-  function MainController($scope,$log,$http,activityDataService,listDataService,authService,userDataService,$state)
+  function MainController($log,$http,activityDataService,listDataService,authService,userDataService,$state)
   {
     var vm = this;
     var activitiesCopy;
     var slide = [];
-$scope.isLoggedIn = true;
+
     vm.isVisible = false;
 
-//    vm.user = userDataService;
+    vm.user = userDataService;
     vm.activity = activityDataService;
     vm.list = listDataService;
     vm.deleteFromList = deleteFromList;
@@ -33,14 +33,11 @@ $scope.isLoggedIn = true;
     vm.test = test;
 
 
-  var vm = this;
-
     vm.currentUser = authService.currentUser;
     vm.logout = authService.logout;
     vm.isLoggedIn = authService.isLoggedIn;
 
     vm.$state = $state;
-
 
     function test(){
       $log.log('testing...' + vm.currentUser());
@@ -110,8 +107,6 @@ $scope.isLoggedIn = true;
 //          getLists();
           res.data.activity = [];
           res.data = vm.list.addPlaceholder(res.data);
-//          debugger;
-//          debugger;
           slide.push(true);
           // vm.lists.forEach(function(list){
           //   list = vm.list.addPlaceholder(list);

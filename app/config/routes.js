@@ -10,7 +10,7 @@ var usersController = require('../controllers/users');
 module.exports = function(app, passport) {
 
   app.post('/login', usersController.userAuth);
-  app.get('/users/:id',  usersController.show);
+  app.get('/users/:id',  usersController.tokenVerify, usersController.show);
 
   app.post('/activities', usersController.tokenVerify, activitiesController.create);                           //ok
   app.post('/lists', usersController.tokenVerify, listsController.create);                                      //ok??

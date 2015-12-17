@@ -30,10 +30,10 @@ function index(req,res,next)
 
 function show(req,res,next)
 {
-  console.log("looking for activity with id..." + req.params.id)
+//  console.log("looking for activity with id..." + req.params.id)
   Activity.find({"_id":req.params.id},function(err,activity){
     if (err) { console.log(err); }
-    console.log("found record..." + activity)
+//    console.log("found record..." + activity)
     res.json(activity);
   });
 }
@@ -58,11 +58,9 @@ function update(req,res,next)
 function destroy(req,res,next)
 {
   id = req.params.id;
-  console.log("the id is " + id);
   User.find({"lists.activity._id":id}, function(err, user){
     if (err) { console.log(err); }
     // HAVE TO LOOP OVER EVERY LIST TO FIND THE ONE WITH THE RIGHT ID
-    console.log("user is " +  user[0]);
     user[0].lists.forEach(function(list){
       if (list.activity.id(id) !== null)
       {
