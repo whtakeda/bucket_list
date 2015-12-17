@@ -27,45 +27,65 @@
       })
       .state('newActivity',{
         url: '/activities/new',
-        templateUrl: 'templates/new_activity.html',
-        controller: "MainController",
-        controllerAs: "vm",
-        params: {isLoggedIn: false},
-        onEnter: ['$state','$stateParams',function($state,$stateParams){
-          if (!$stateParams.isLoggedIn) { $state.go('login') };
-        }]
+        views:{
+          'templates': {
+            templateUrl: 'templates/new_activity.html',
+            controller: "MainController",
+            controllerAs: "vm",
+            params: {isLoggedIn: false},
+            onEnter: ['$state','$stateParams',function($state,$stateParams){
+              if (!$stateParams.isLoggedIn) { $state.go('login') };
+            }]
+          }
+        }
       })
       .state('newList',{
         url: '/lists/new',
-        templateUrl: 'templates/new_list.html',
-        controller: "MainController",
-        controllerAs: "vm",
-        params: {isLoggedIn: false},
-        onEnter: ['$state','$stateParams',function($state,$stateParams){
-          if (!$stateParams.isLoggedIn) { $state.go('login') };
-        }]
+        views:{
+          'templates': {
+            templateUrl: 'templates/new_list.html',
+            controller: "MainController",
+            controllerAs: "vm",
+            params: {isLoggedIn: false},
+            onEnter: ['$state','$stateParams',function($state,$stateParams){
+              if (!$stateParams.isLoggedIn) { $state.go('login') };
+            }]
+          }
+        }
       })
       .state('showActivity',{
         url: '/activity/:id',
-        templateUrl: 'templates/show_activity.html',
-        controller: "MainController",
-        controllerAs: "vm"
+        views:{
+          'templates': {
+            templateUrl: 'templates/show_activity.html',
+            controller: "MainController",
+            controllerAs: "vm"
+          }
+        }
       })
       .state('showListActivity',{
         url: '/list/activity/',
-        templateUrl: 'templates/list_activity.html',
-        controller: "MainController",
-        controllerAs: "vm"
+        views:{
+          'templates': {
+            templateUrl: 'templates/list_activity.html',
+            controller: "MainController",
+            controllerAs: "vm"
+          }
+        }
       })
       .state('test',{
         url: '/test',
         templateUrl: 'templates/test.html'
       })
       .state('login',{
-        url: '/login',
-        templateUrl: 'templates/login.html',
-        controller: "LoginController",
-        controllerAs: "vm"
+        views:{
+          'templates': {
+            url: '/login',
+            templateUrl: 'templates/login.html',
+            controller: "LoginController",
+            controllerAs: "vm"
+          }
+        }
       });
 
 

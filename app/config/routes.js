@@ -27,7 +27,7 @@ module.exports = function(app, passport) {
 
   app.get('/lists',usersController.index);
   app.get('/lists/:listid/activity/:activityid', usersController.tokenVerify, listsController.getActivity);
-  app.put('/lists/:id', usersController.tokenVerify, usersController.update);                                 //ok
+  app.put('/lists/:id', usersController.tokenVerify, listsController.update);                                 //ok
   app.put('/lists/activity/:id', usersController.tokenVerify, listsController.updateActivity);                //ok
   app.delete('/lists/:id', usersController.tokenVerify, listsController.destroy);                              //fail
 

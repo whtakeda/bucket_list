@@ -39,47 +39,47 @@
     <!-- Collect the nav links, forms, and other content for toggling -->
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
       <ul class="nav navbar-nav">
-        <li><a ui-sref="newActivity({isLoggedIn:vm.isLoggedIn()})" ng-show="vm.isLoggedIn()">New Activity</a></li>
+        <li><a ui-sref="newActivity({isLoggedIn:vm.isLoggedIn()})" ng-show="vm.isLoggedIn()" ng-click="vm.activity.clearActivity()">New Activity</a></li>
         <li><a ui-sref="newList({isLoggedIn:vm.isLoggedIn()})" ng-show="vm.isLoggedIn()">New List</a></li>
         <li><a ui-sref="login" ng-hide="vm.isLoggedIn()">Login</a></li>
         <li><a ng-click="vm.logout()" ng-show="vm.isLoggedIn()">Logout</a></li>
       </ul>
-      <ul class="nav navbar-nav navbar-right">
+<!--       <ul class="nav navbar-nav navbar-right">
         <li><a href="/auth/google">Login with Google</a></li>
       </ul>
-    </div><!-- /.navbar-collapse -->
+ -->
+     </div><!-- /.navbar-collapse -->
   </div><!-- /.container-fluid -->
 </nav>
 
-<div id="main">
-<div ui-view class="anim-in-out anim-fade" data-anim-speed="1000"></div>
-</div>
-{{vm.currentUser().email}}
-<br />
+
+<!-- <br />
 <input type="button" ng-click="vm.test()">
 <input type="button" ng-click="vm.display()">
-<div>
-
+ -->
+ <div>
+  <!-- activities -->
   <div class="col-xs-3 frame">
-      <div ng-click="vm.toggle('list')" class="activity-header bevel">Activities</div>
-      <div class="activity-container">
-        <div ui-sortable="vm.sortableActivityOptions" ng-model="vm.activities" class="connected-apps-container first">
-          <div class="activities bevel" ng-dblclick="vm.showActivityView(); vm.showActivity(activity._id)"
-            ng-repeat="activity in vm.activities track by $index">{{activity.title}}
-          </div>
-       </div>
-      </div>
+    <div ng-click="vm.toggle('list')" class="activity-header bevel">Activities</div>
+    <div class="activity-container">
+      <div ui-sortable="vm.sortableActivityOptions" ng-model="vm.activities" class="connected-apps-container first">
+        <div class="activities bevel" ng-dblclick="vm.showActivityView(); vm.showActivity(activity._id)"
+          ng-repeat="activity in vm.activities track by $index">{{activity.title}}
+        </div>
+     </div>
+    </div>
   </div>
 
   <div class="col-xs-1"></div>
 
+  <!-- lists -->
   <div class="col-xs-3 frame" ng-show="vm.isLoggedIn()">
     <div ui-sortable="vm.sortableHeaderOptions" class="connected-apps-container" ng-repeat="list in vm.lists track by $index" ng-model="list">
       <div class="list-container" data-id="{{list._id}}">
-          <div ng-click="vm.toggle($index)" ng-dblclick="vm.test()" ng-model="list.model" class="bevel list-header"
-            name="list" data-id="{{list._id}}">{{list.name}}
-          </div>
-          <div ui-sortable="vm.sortableListOptions" ng-model="list.activity" class="connected-apps-container" id="{{$index}}">
+        <div ng-click="vm.toggle($index)" ng-dblclick="vm.test()" ng-model="list.model" class="bevel list-header"
+          name="list" data-id="{{list._id}}">{{list.name}}
+        </div>
+        <div ui-sortable="vm.sortableListOptions" ng-model="list.activity" class="connected-apps-container" id="{{$index}}">
           <div class="centered" ng-class="{'bevel lists': activity.id !== '-1'}" ng-repeat="activity in list.activity"
             id="{{activity._id}}" ng-dblclick="vm.showListActivityView(); vm.getListActivity(list._id,activity._id)">{{activity.title}}
           </div>
@@ -87,7 +87,15 @@
       </div>
     </div>
   </div>
-  <div class="col-xs-1"></div>
+  <!-- end lists -->
+
+  <!-- templates -->
+  <div class="col-xs-4">
+    <div ng-hide="vm.$state.current.name === 'home'" id="main">
+      <div class="template-frame" ui-view="templates" class="anim-in-out anim-fade" data-anim-speed="1000"></div>
+    </div>
+  </div>
+  <!-- trash can -->
   <div ui-sortable="" class="col-xs-3 trash connected-apps-container" id="trash" ng-model="vm.activities" ng-show="vm.isLoggedIn()"></div>
 </div>
 

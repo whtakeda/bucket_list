@@ -1,16 +1,18 @@
-<div id="main">
-  <div class="title-column">Title:</div><div class="data-column">{{vm.activity.title}}</div>
-  <div></div>
-  <div class="title-column">Description:</div><div class="data-column">{{vm.activity.decription}}</div>
-  <div></div>
-  <div class="title-column">Location:</div><div class="data-column">{{vm.activity.}}</div>
-  <div></div>
-  <div class="title-column">Cost:</div><div class="data-column">{{vm.activity.cost}}</div>
-  <div></div>
-  <div class="title-column">Duration:</div><div class="data-column">{{vm.activity.duration}}</div>
-  <div></div>
-
-  <span class="glyphicon glyphicon-thumbs-up" aria-hidden="true" data-value="1" ng-click="vm.activity.vote(1)" id="upvote"></span>
-  &nbsp;&nbsp;<span class="like" id="rating" ng-model="vm.activity.rating">{{vm.activity.rating}}</span>&nbsp;&nbsp;
-  <span class="glyphicon glyphicon-thumbs-down" aria-hidden="true" data-value="-1" ng-click="vm.activity.vote(-1)" id="downvote"></span>
+<div class="title-column">Title:</div><div class="data-column">{{vm.activity.title}}</div>
+<div></div>
+<div class="title-column">Description:</div><div class="data-column">{{vm.activity.decription}}</div>
+<div></div>
+<div class="title-column">Location:</div><div class="data-column">{{vm.activity.}}</div>
+<div></div>
+<div class="title-column">Cost:</div><div class="data-column">{{vm.activity.cost}}</div>
+<div></div>
+<div class="title-column">Duration:</div><div class="data-column">{{vm.activity.duration}}</div>
+<div></div>
+<br />
+<div style="text-align:center">
+<span class="glyphicon glyphicon-thumbs-up" aria-hidden="true" data-value="1" ng-click="vm.activity.vote(1)" id="upvote"></span>
+&nbsp;&nbsp;<span class="like" id="rating" ng-model="vm.activity.rating">{{vm.activity.rating}}</span>&nbsp;&nbsp;
+<span class="glyphicon glyphicon-thumbs-down" aria-hidden="true" data-value="-1" ng-click="vm.activity.vote(-1)" id="downvote"></span>
+&nbsp;
+<input type="button" value="Close" ui-sref="home">
 </div>

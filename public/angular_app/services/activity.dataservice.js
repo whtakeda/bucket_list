@@ -72,6 +72,7 @@
 
     function clearActivity()
     {
+      $log.log("clearing activity...");
       activity.title = "";
       activity.description = "";
       activity.rating = 0;

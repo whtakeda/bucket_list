@@ -130,44 +130,13 @@ function show(req,res,next)
 //  User.find({},'lists.activity.id lists.activity.title',function(err,l){
   User.findById(req.params.id,function(err,user){
     if (err) { console.log(err); }
-console.log(user);
     res.json(user);
-  });
-}
-
-function update(req,res,next)
-{
-  User.find({},function(err,user){
-    if (err) { console.log(err); }
-    req.body.forEach(function(activity){
-//      console.log("aid is " + activity.activityId)
-      // record can come in with or without an activityId.
-      // if it doesn't have an acivityId, conver the _id to activityId
-      // if a record already has an activityId then do nothing
-      if (activity.activityId === undefined)
-      {
-//        console.log("changing id for " + activity.title)
-        activity.activityId = activity._id;
-        delete activity._id;
-      }
-      else
-      {
-//        console.log("not changing id for " + activity.title)
-      }
-    })
-    var idx = req.params.id;
-    user[0].lists[idx].activity = req.body;
-    user[0].save(function(err,u){
-      console.log(err)
-      res.json(u);
-    });
   });
 }
 
 module.exports = {
   index: index,
   show: show,
-  update: update,
   userAuth:     userAuth,
   tokenVerify:  tokenVerify
 };

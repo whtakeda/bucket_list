@@ -2,11 +2,6 @@ var mongoose = require('mongoose'),
     debug    = require('debug')('app:models');
 var bcrypt      = require('bcrypt-nodejs');
 
-var tagSchema = new mongoose.Schema({
-  tag_name: String,
-  created: { type: Date, default: Date.now }
-});
-
 var listSchema = new mongoose.Schema({
   name: String,
   visible: Boolean,

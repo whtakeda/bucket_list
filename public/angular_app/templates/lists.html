@@ -1,0 +1,14 @@
+  <div class="col-xs-3 frame" ng-show="vm.isLoggedIn()">
+    <div ui-sortable="vm.sortableHeaderOptions" class="connected-apps-container" ng-repeat="list in vm.lists track by $index" ng-model="list">
+      <div class="list-container" data-id="{{list._id}}">
+        <div ng-click="vm.toggle($index)" ng-dblclick="vm.test()" ng-model="list.model" class="bevel list-header"
+          name="list" data-id="{{list._id}}">{{list.name}}
+        </div>
+        <div ui-sortable="vm.sortableListOptions" ng-model="list.activity" class="connected-apps-container" id="{{$index}}">
+          <div class="centered" ng-class="{'bevel lists': activity.id !== '-1'}" ng-repeat="activity in list.activity"
+            id="{{activity._id}}" ng-dblclick="vm.showListActivityView(); vm.getListActivity(list._id,activity._id)">{{activity.title}}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>

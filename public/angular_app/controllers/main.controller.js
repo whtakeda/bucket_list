@@ -52,7 +52,6 @@
       $state.go('showActivity');
     }
 
-
     function showListActivityView()
     {
       $state.go('showListActivity');

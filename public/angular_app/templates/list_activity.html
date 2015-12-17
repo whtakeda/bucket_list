@@ -1,13 +1,13 @@
 <form ng-submit="vm.updateListActivity()" id="main">
-<div class="new-activity">Title:</div>{{vm.list.listActivity.name}}<br />
-<div class="new-activity">Completed:</div><input type="checkbox" ng-model="vm.list.listActivity.completed"><br />
-<div class="new-activity">Accepted:</div><input type="checkbox" ng-model="vm.list.listActivity.accepted"><br />
-<div class="new-activity">Progress:</div><input type="text" ng-model="vm.list.listActivity.progress" id="progress" size="3">
+<div class="title-column">Title:</div>{{vm.list.listActivity.name}}<br />
+<div class="title-column">Completed:</div>&nbsp;<input type="checkbox" ng-model="vm.list.listActivity.completed"><br />
+<div class="title-column">Accepted:</div>&nbsp;<input type="checkbox" ng-model="vm.list.listActivity.accepted"><br />
+<div class="title-column">Progress:</div><input type="text" ng-model="vm.list.listActivity.progress" id="progress" size="4" class="data-column" style="width:35px">
   &nbsp;&nbsp;<div id="slider" class="slider" style="display:inline-block"></div><br />
-<div class="new-activity">Location:</div><input type="text" ng-model="vm.list.listActivity.location"><br />
-<div class="new-activity">Reminder Date:</div><input type="text" ng-model="vm.list.listActivity.reminderDate"><br />
+<div class="title-column">Location:</div><input type="text" ng-model="vm.list.listActivity.location" class="data-column"><br />
+<div class="title-column">Reminder Date:</div><input type="text" ng-model="vm.list.listActivity.reminderDate" class="data-column"><br />
 
-<input type="submit">
+<input type="submit" value="Save">&nbsp;<input type="button" value="Cancel" ui-sref="home">
 </form>
 
 <script>

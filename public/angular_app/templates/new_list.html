@@ -1,7 +1,5 @@
-<div id="main">
-  <form ng-submit="vm.newList()">
-  <div class="new-activity">Title:</div><input type="text" ng-model="vm.list.name"><br />
-  <div class="new-activity">Visible:</div><input type="checkbox" ng-model="vm.list.visible"><br />
-  <input type="submit">
-  </form>
-</div>
+<form ng-submit="vm.newList()">
+<div class="title-column">Title:</div><input type="text" ng-model="vm.list.name" class="data-column"><br />
+<div class="title-column">Visible:</div><input type="checkbox" ng-model="vm.list.visible"><br /><br />
+<input type="submit" value="Save">&nbsp;<input type="button" value="Cancel" ui-sref="home">
+</form>

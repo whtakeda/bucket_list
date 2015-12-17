@@ -1,1 +1,10 @@
-activities.html
+  <div class="col-xs-3 frame">
+    <div ng-click="vm.toggle('list')" class="activity-header bevel">Activities</div>
+    <div class="activity-container">
+      <div ui-sortable="vm.sortableActivityOptions" ng-model="vm.activities" class="connected-apps-container first">
+        <div class="activities bevel" ng-dblclick="vm.showActivityView(); vm.showActivity(activity._id)"
+          ng-repeat="activity in vm.activities track by $index">{{activity.title}}
+        </div>
+     </div>
+    </div>
+  </div>
