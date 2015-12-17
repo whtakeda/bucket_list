@@ -3,20 +3,24 @@
 <head>
   <meta charset="UTF-8">
   <title>Document</title>
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
-  <link rel="stylesheet" href="http://code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
-  <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
-  <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/jquery-ui.min.js"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js" integrity="sha512-K1qjQ+NcF2TYO/eI3M6v8EiNYZfA95pQumfvcVrTHtwQVDG+aHRqLi/ETn2uB+1JqwYqVG3LIvdm9lj6imS/pQ==" crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+  <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/jquery-ui.min.js"></script>
+  <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js" integrity="sha512-K1qjQ+NcF2TYO/eI3M6v8EiNYZfA95pQumfvcVrTHtwQVDG+aHRqLi/ETn2uB+1JqwYqVG3LIvdm9lj6imS/pQ==" crossorigin="anonymous"></script>
 
-  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.4/angular.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-router/0.2.15/angular-ui-router.js"></script>
-  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.4/angular-animate.js"></script>
-  <script src="https://rawgithub.com/angular-ui/ui-sortable/master/src/sortable.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.4/angular.min.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.4/angular-animate.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/angular-ui-router/0.2.15/angular-ui-router.js"></script>
+  <script src="//rawgithub.com/angular-ui/ui-sortable/master/src/sortable.js"></script>
 
-  <script src="assets/js/angular-modal-service.min.js"></script>
+  <script src="assets/js/angular-drag-and-drop-lists.min.js"></script>
   <link rel="stylesheet" type="text/css" href="assets/css/main.css">
   <script src="assets/js/main.js"></script>
+
+<!-- <link rel="stylesheet" type="text/css" href="/scripts/css/anim-in-out.css">
+<script type="text/javascript" src="/scripts/anim-in-out.js"></script>
+ -->
 </head>
 <body ng-controller="MainController as vm">
 <nav class="navbar navbar-default">
@@ -37,6 +41,8 @@
       <ul class="nav navbar-nav">
         <li><a ui-sref="newActivity">New Activity</a></li>
         <li><a ui-sref="newList">New List</a></li>
+        <li><a ui-sref="login" ng-hide="vm.isLoggedIn()">Login</a></li>
+        <li><a ng-click="vm.logout()" ng-show="vm.isLoggedIn()">Logout</a></li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
         <li><a href="/auth/google">Login with Google</a></li>
@@ -45,7 +51,10 @@
   </div><!-- /.container-fluid -->
 </nav>
 
-<div ui-view></div>
+<div id="main">
+<div ui-view class="anim-in-out anim-fade" data-anim-speed="1000"></div>
+</div>
+{{vm.currentUser()}}
 <br />
 <input type="button" ng-click="vm.test()">
 <input type="button" ng-click="vm.display()">
@@ -78,21 +87,6 @@
       </div>
     </div>
   </div>
-
-
-<!--    <div class="col-xs-3 frame">
-    <div class="list-container" ng-repeat="list in vm.lists track by $index">
-      <div ui-sortable="vm.sortableHeaderOptions" ng-model="list" class="connected-apps-container">
-        <div ng-click="vm.toggle($index)" ng-dblclick="vm.test()" ng-model="list.model" class="bevel list-header"
-          name="list" data-id="{{list._id}}">{{list.name}}</div>
-      </div>
-      <div ui-sortable="vm.sortableListOptions" ng-model="list.activity" class="connected-apps-container" id="{{$index}}">
-        <div class="centered" ng-class="{'bevel lists': activity.id !== '-1'}" ui-sref="showListActivity" ng-repeat="activity in list.activity"
-          id="{{activity._id}}" ng-dblclick="vm.getListActivity(list._id,activity._id)">{{activity.title}}</div>
-      </div>
-    </div>
- -->  </div>
-
   <div class="col-xs-1"></div>
   <div ui-sortable="" class="col-xs-3 trash connected-apps-container" id="trash" ng-model="vm.activities"></div>
 </div>
@@ -118,9 +112,12 @@
 <span id="domId"></span>
 
   <script src="app.module.js"></script>
-  <script src="controllers/MainController.js"></script>
+  <script src="controllers/main.controller.js"></script>
+  <script src="controllers/login.controller.js"></script>
   <script src="services/activity.dataservice.js"></script>
   <script src="services/list.dataservice.js"></script>
-</body>
+  <script src="services/auth.service.js"></script>
+  <script src="services/user.dataservice.js"></script>
+  </body>
 </html>
 

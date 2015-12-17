@@ -1,4 +1,4 @@
-<div id="main" style="display:none">
+<div id="main">
   <form ng-submit="vm.newActivity()">
   <div class="new-activity">Title:</div><input type="text" ng-model="vm.activity.title"><br />
   <div class="new-activity">Description:</div><input type="text" ng-model="vm.activity.description"><br />
@@ -9,8 +9,3 @@
   </form>
 </div>
 
-<script>
-$(document).ready(function() {
-  $('#main').slideDown(1000);
-})
-</script>

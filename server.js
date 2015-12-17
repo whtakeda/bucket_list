@@ -27,6 +27,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public/angular_app')));
+app.use('/scripts', express.static(__dirname + '/node_modules/angular-ui-router-anim-in-out/'));
 
 app.use(session({
   secret: 'WDIRocks!',

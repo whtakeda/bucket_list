@@ -8,6 +8,10 @@ var listsController = require('../controllers/lists');
 var usersController = require('../controllers/users');
 
 module.exports = function(app, passport) {
+
+  app.post('/login', usersController.userAuth);
+  app.get('/users/:id', usersController.tokenVerify, usersController.show);
+
   app.post('/activities',activitiesController.create);
   app.post('/lists',listsController.create);
 
