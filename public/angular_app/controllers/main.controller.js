@@ -37,6 +37,7 @@
 
     vm.$state = $state;
 
+
     userDataService.currentUser().then(function(res){
         vm.currentUser = res.data;
       },

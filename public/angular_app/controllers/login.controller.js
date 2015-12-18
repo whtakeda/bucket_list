@@ -16,6 +16,12 @@
 
     // Form data for login
     vm.loginData;
+    vm.cancel = cancel
+
+    function cancel()
+    {
+      $('#main').fadeOut(500,function(){$state.go('home')});
+    }
 
     function login() {
       authService.login(vm.loginData.email, vm.loginData.password)
