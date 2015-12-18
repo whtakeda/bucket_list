@@ -17,35 +17,35 @@ trying all 31 flavors at Baskin Robbins, you can easily manage your goals and
 track your progress in your quest to complete your bucket list.
 
 # Installation
--Mongolab setup
--npm package dependencies
+- Mongolab setup
+- npm package dependencies
 
 # Technologies
--HTML
--CSS
--BootStrap
--jQuery
--Node
--Express
--Angular
--MongoDB
+- HTML
+- CSS
+- BootStrap
+- jQuery
+- Node
+- Express
+- Angular
+- MongoDB
 
 # API
 
--GET /activities
--GET /activities/:id
--PUT /activities/:id
--POST/activities
+- GET /activities
+- GET /activities/:id
+- PUT /activities/:id
+- POST/activities
 
--GET /lists
--GET /lists/:listid/activity/:activityid
--PUT /lists/:id
--PUT /lists/activity/:id
--DELETE /lists/:id
--POST /lists
+- GET /lists
+- GET /lists/:listid/activity/:activityid
+- PUT /lists/:id
+- PUT /lists/activity/:id
+- DELETE /lists/:id
+- POST /lists
 
--POST /login
--GET /users/:id
+- POST /login
+- GET /users/:id
 
 
 # Data Models

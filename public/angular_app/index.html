@@ -23,6 +23,7 @@
  -->
 </head>
 <body ng-controller="MainController as vm">
+<div class="background-img"></div>
 <nav class="navbar navbar-default">
   <div class="container-fluid">
     <!-- Brand and toggle get grouped for better mobile display -->
@@ -45,7 +46,7 @@
         <li><a ng-click="vm.logout()" ng-show="vm.isLoggedIn()" class="pointer-cursor">Logout</a></li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
-        <li><a ng-show="vm.isLoggedIn()" class="pointer-cursor" ng-cloak>{{vm.currentUser.name}}</a></li>
+        <li><a ng-show="vm.isLoggedIn()" class="pointer-cursor" ng-cloak>Hi {{vm.currentUser.name}}.  What's on your list today?</a></li>
       </ul>
 
 <!--       <ul class="nav navbar-nav navbar-right">

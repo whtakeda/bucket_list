@@ -2,6 +2,17 @@ body {
   padding:15px;
 }
 
+.background-img {
+    position: absolute;
+    overflow: hidden;
+    background-image: url('../images/bucket.png');
+    background-size: cover;
+    width:100%;
+    height:100%;
+    opacity:0.5;
+}
+/* You could use :after - it doesn't really matter */
+
 .activities {
   text-align:center;
   border:1 px solid black;
