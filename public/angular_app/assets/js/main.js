@@ -17,8 +17,6 @@ $(document).ready(function() {
     });
   });
 
-  $(document).ready(function() {
-    $('#main').slideDown(1000);
-  });
+  $('#main').slideDown(1000);
 
 });

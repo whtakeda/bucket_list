@@ -1,3 +1,5 @@
+<div id="main" style="display:none">
+<h3 class="template-title">Create a New Activity</h3>
 <form ng-submit="vm.newActivity()">
 <div class="title-column">Title:</div><input type="text" ng-model="vm.activity.title" class="data-column"><br />
 <div class="title-column">Description:</div><input type="text" ng-model="vm.activity.description" class="data-column"><br />
@@ -5,6 +7,20 @@
 <div class="title-column">Cost:</div><input type="text" ng-model="vm.activity.cost" class="data-column"><br />
 <div class="title-column">Duration:</div><input type="text" ng-model="vm.activity.duration" class="data-column"><br />
 <br />
-<input type="submit" value="Save">&nbsp;<input type="button" value="Cancel" ui-sref="home">
+<div class="btn-wrapper">
+<input type="submit" value="Save" class="template-btn">&nbsp;<input type="button" value="Cancel" ui-sref="home" class="template-btn">
+</div>
+<br />
 </form>
+</div>
 
+<script>
+$(document).ready(function() {
+    $('#main').slideDown(1000);
+});
+
+$(window).unload(function() {
+  console.log("unloading...")
+  $('#main').slideUp(1000);
+});
+</script>

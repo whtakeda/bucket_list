@@ -90,7 +90,6 @@
       $log.log("deleting...." + id);
       vm.list.deleteList(id)
         .then(function(res){
-          $log.log("done deleting...");
           getLists();
         },
         function(err){
@@ -103,17 +102,14 @@
       vm.list.newList()
         .then(function(res){
           console.log("created new list " + angular.toJson(res.data));
-//          getLists();
+          getLists();
           res.data.activity = [];
           res.data = vm.list.addPlaceholder(res.data);
           slide.push(true);
-          // vm.lists.forEach(function(list){
-          //   list = vm.list.addPlaceholder(list);
-          // })
-          // vm.lists.forEach(function(x){slide.push(true);});
 
           vm.lists.push(res.data);
           vm.list.clearList();
+          $state.go('home');
         },
         function(err){
           $log.log(err);
@@ -125,9 +121,9 @@
       vm.activity.newActivity()
         .then(function(res){
           $log.log("got new activity..." + res.data);
-//          debugger;
           vm.activities.push(res.data)
           vm.activity.clearActivity();
+          $state.go('home');
         },
         function(err){
           $log.log(err);
@@ -137,8 +133,6 @@
     // get an activity from the user's list (not an activity directly from the activity collection)
     function getListActivity(listId,activityId)
     {
-//      debugger;
-$log.log("Why is this firing on single click?");
       if (activityId === undefined) { return; }
       vm.list.getListActivity(listId,activityId)
         .then(function(res){
@@ -154,11 +148,9 @@ $log.log("Why is this firing on single click?");
     // (not necessarily one that is part of their list)
     function editActivity(id)
     {
-//      debugger;
       if (id===undefined) { return; }
       vm.activity.showActivity(id)
         .then(function(res){
-//          debugger;
           vm.activity.setValues(res.data[0]);
         },
         function(err){
@@ -180,20 +172,19 @@ $log.log("Why is this firing on single click?");
         });
     }
 
+    // update lists this way because we need to check the length and
+    // add placeholder value if the list is now empty
     function getLists()
     {
       vm.list.getLists()
         .then(function(res){
           // $log.log("res is " + angular.toJson(res.data));
           vm.lists = res.data;
-//          debugger;
-//vm.lists.push({name:Date.now(),_id:"123456"});
           vm.lists.forEach(function(list){
             list = vm.list.addPlaceholder(list);
           });
           slide = [];
           vm.lists.forEach(function(x){slide.push(true);});
-          // $log.log(vm.lists);
         },
         function(err){
           $log.log(err);

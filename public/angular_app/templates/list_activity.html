@@ -1,13 +1,16 @@
 <form ng-submit="vm.updateListActivity()" id="main">
-<div class="title-column">Title:</div>{{vm.list.listActivity.name}}<br />
+<h3>{{vm.list.listActivity.name}}</h3>
 <div class="title-column">Completed:</div>&nbsp;<input type="checkbox" ng-model="vm.list.listActivity.completed"><br />
 <div class="title-column">Accepted:</div>&nbsp;<input type="checkbox" ng-model="vm.list.listActivity.accepted"><br />
 <div class="title-column">Progress:</div><input type="text" ng-model="vm.list.listActivity.progress" id="progress" size="4" class="data-column" style="width:35px">
   &nbsp;&nbsp;<div id="slider" class="slider" style="display:inline-block"></div><br />
 <div class="title-column">Location:</div><input type="text" ng-model="vm.list.listActivity.location" class="data-column"><br />
 <div class="title-column">Reminder Date:</div><input type="text" ng-model="vm.list.listActivity.reminderDate" class="data-column"><br />
-
-<input type="submit" value="Save">&nbsp;<input type="button" value="Cancel" ui-sref="home">
+<br />
+<div class="btn-wrapper">
+<input type="submit" value="Save" class="template-btn">&nbsp;<input type="button" value="Cancel" ui-sref="home" class="template-btn">
+</div>
+<br />
 </form>
 
 <script>
