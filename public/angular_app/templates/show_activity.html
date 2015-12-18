@@ -1,3 +1,4 @@
+<div id="main" style="display:none">
 <div class="title-column">Title:</div><div class="data-column">{{vm.activity.title}}</div>
 <div></div>
 <div class="title-column">Description:</div><div class="data-column">{{vm.activity.decription}}</div>
@@ -17,3 +18,10 @@
 <input type="button" value="Close" ui-sref="home" class="template-btn">
 </div>
 <br />
+</div>
+
+<script>
+$(document).ready(function() {
+    $('#main').fadeIn(800);
+});
+</script>

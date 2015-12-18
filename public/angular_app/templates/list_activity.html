@@ -1,3 +1,4 @@
+<div id="main" style="display:none">
 <form ng-submit="vm.updateListActivity()" id="main">
 <h3>{{vm.list.listActivity.name}}</h3>
 <div class="title-column">Completed:</div>&nbsp;<input type="checkbox" ng-model="vm.list.listActivity.completed"><br />
@@ -26,4 +27,8 @@
   $( ".slider" ).on( "slidestop", function( event, ui ) {
     // do stuff in here to update the
   } );
+
+  $(document).ready(function() {
+      $('#main').fadeIn(800);
+  });
 </script>
