@@ -15,77 +15,61 @@
     $stateProvider
       .state('home',{
         url: '/',
-        templateUrl: 'templates/home.html',
-        controller: "MainController",
-        controllerAs: "vm"
+        templateUrl: 'templates/home.html'
       })
       .state('activities',{
         url: '/activities',
         templateUrl: 'templates/activities.html',
-        controller: "MainController",
-        controllerAs: "vm"
       })
       .state('newActivity',{
         url: '/activities/new',
-        views:{
-          'templates': {
-            templateUrl: 'templates/new_activity.html',
-            controller: "MainController",
-            controllerAs: "vm",
-            params: {isLoggedIn: false},
-            onEnter: ['$state','$stateParams',function($state,$stateParams){
-              if (!$stateParams.isLoggedIn) { $state.go('login') };
-            }]
-          }
-        }
+        templateUrl: 'templates/new_activity.html',
+        params: {isLoggedIn: false},
+        onEnter: ['$state','$stateParams',function($state,$stateParams){
+          if (!$stateParams.isLoggedIn) { $state.go('login') };
+        }]
       })
+      // .state('newActivity',{
+      //   views:{
+      //     'templates': {
+      //       url: '/activities/new',
+      //       templateUrl: 'templates/new_activity.html',
+      //       // controller: "MainController",
+      //       // controllerAs: "vm",
+      //       params: {isLoggedIn: false}
+      //     },
+      //     onEnter: ['$state','$stateParams',function($state,$stateParams){
+      //       if (!$stateParams.isLoggedIn) { $state.go('login') };
+      //     }]
+      //   }
+      // })
       .state('newList',{
         url: '/lists/new',
-        views:{
-          'templates': {
-            templateUrl: 'templates/new_list.html',
-            controller: "MainController",
-            controllerAs: "vm",
-            params: {isLoggedIn: false},
-            onEnter: ['$state','$stateParams',function($state,$stateParams){
-              if (!$stateParams.isLoggedIn) { $state.go('login') };
-            }]
-          }
-        }
+        templateUrl: 'templates/new_list.html',
+        // controller: "MainController",
+        // controllerAs: "vm",
+        params: {isLoggedIn: false},
+        onEnter: ['$state','$stateParams',function($state,$stateParams){
+          if (!$stateParams.isLoggedIn) { $state.go('login') };
+        }]
       })
       .state('showActivity',{
-        url: '/activity/:id',
-        views:{
-          'templates': {
-            templateUrl: 'templates/show_activity.html',
-            controller: "MainController",
-            controllerAs: "vm"
-          }
-        }
+        url: '/activity/id',
+        templateUrl: 'templates/show_activity.html',
       })
       .state('showListActivity',{
         url: '/list/activity/',
-        views:{
-          'templates': {
-            templateUrl: 'templates/list_activity.html',
-            controller: "MainController",
-            controllerAs: "vm"
-          }
-        }
+        templateUrl: 'templates/list_activity.html'
       })
       .state('test',{
         url: '/test',
         templateUrl: 'templates/test.html'
       })
       .state('login',{
-        views:{
-          'templates': {
-            url: '/login',
-            templateUrl: 'templates/login.html',
-            controller: "LoginController",
-            controllerAs: "vm"
-          }
-        }
+        url: '/login',
+        templateUrl: 'templates/login.html',
+        controller: "LoginController",
+        controllerAs: "vm"
       });
 
 

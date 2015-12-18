@@ -4,7 +4,7 @@
 <div class="title-column">Title:</div><input type="text" ng-model="vm.list.name" class="data-column"><br />
 <div class="title-column">Visible:</div>&nbsp;<input type="checkbox" ng-model="vm.list.visible"><br /><br />
 <div class="btn-wrapper">
-<input type="submit" value="Save" class="template-btn">&nbsp;<input type="button" value="Cancel" ui-sref="home" class="template-btn">
+<input type="submit" value="Save" class="template-btn" ng-click="vm.cancel()">&nbsp;<input type="button" value="Cancel" ng-click="vm.cancel()" class="template-btn">
 </div>
 <br />
 </form>

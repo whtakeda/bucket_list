@@ -9,22 +9,23 @@ var _ = require("underscore");
 
 function create(req,res,next)
 {
+  console.log("looking for" + req.body.id)
   // TODO: have to actually find correct user once multiple users are added
-  User.find({},function(err,user){
+  User.findById(req.body.id,function(err,user){
 //    console.log("User is " + user[0]);
 //    console.log("req.body is " + JSON.stringify(req.body));
     var list = {
-      name: req.body.name,
-      visible: req.body.visible,
-      rating: req.body.rating,
+      name: req.body.list.name,
+      visible: req.body.list.visible,
+      rating: req.body.list.rating,
       activity: []
     };
     // list._id = mongoose.Types.ObjectId();
-    user[0].lists.push(list);
+    user.lists.push(list);
 //    user[0].lists.activity = [];
-    user[0].save(function(err,data){
+    user.save(function(err,data){
       console.log(err);
-      res.json(user[0].lists.pop());
+      res.json(user.lists.pop());
       // res.json(list);
     });
   });
@@ -73,7 +74,10 @@ function updateActivity(req,res,next)
         activity[0].accepted = req.body.accepted;
         activity[0].progress = req.body.progress;
         activity[0].location = req.body.location;
-        activities[0].save(function(err,u){console.log(err);});
+        activities[0].save(function(err,u){
+          console.log(err);
+          res.json(activity[0]);
+        });
       }
     });
   });
@@ -82,7 +86,6 @@ function updateActivity(req,res,next)
 function destroy(req,res,next)
 {
   id = req.params.id;
-//  console.log("in destroy list..." + id);
   User.find({"lists._id":id}, function(err, user){
     // HAVE TO LOOP OVER EVERY LIST TO FIND THE ONE WITH THE RIGHT ID
     user[0].lists.id(id).remove();
@@ -91,10 +94,66 @@ function destroy(req,res,next)
   });
 }
 
+function destroyActivity(req,res,next)
+{
+  console.log("deleting list activity " + req.params.id)
+  id = req.params.id;
+  User.find({"lists.activity._id":id}, function(err, user){
+    console.log("found user " + user);
+    if (err) { console.log(err); }
+    // HAVE TO LOOP OVER EVERY LIST TO FIND THE ONE WITH THE RIGHT ID
+    user[0].lists.forEach(function(list){
+      if (list.activity.id(id) !== null)
+      {
+        list.activity.id(id).remove();
+        user[0].save(function(err,data){
+          res.json(id);
+        });
+      }
+    })
+  });
+}
+
+
+// stil in development - has serious bugs
+// need to change the id parameter that gets passed in from a list index to an id in maincontroller
+// function update(req,res,next)
+// {
+//   console.log("Looking for " + req.params.id)
+//   User.find({"lists._id":req.params.id},function(err,user){
+//     if (err) { console.log(err); }
+//     console.log("found user " + user);
+//     req.body.forEach(function(activity){
+//       // record can come in with or without an activityId.
+//       // if it doesn't have an activityId, convert the _id to activityId
+//       // if a record already has an activityId then do nothing
+//       if (activity.activityId === undefined)
+//       {
+//         activity.activityId = activity._id;
+//         delete activity._id;
+//       }
+//     })
+//     var idx = req.params.id;
+// //    user[0].lists[idx].activity = req.body;
+//     user[0].lists.forEach(function(list){
+//       if (list._id = req.params.id)
+//       {
+//         list.activity = req.body;
+//       }
+//     });
+//     user[0].save(function(err,u){
+//       console.log(err)
+//       res.json(u);
+//     });
+//   });
+// }
+
 function update(req,res,next)
 {
+  console.log("index is " + req.params.id)
   User.find({},function(err,user){
     if (err) { console.log(err); }
+    console.log(user);
     req.body.forEach(function(activity){
 //      console.log("aid is " + activity.activityId)
       // record can come in with or without an activityId.
@@ -127,5 +186,6 @@ module.exports = {
   getActivity: getActivity,
   updateActivity: updateActivity,
   destroy: destroy,
+  destroyActivity: destroyActivity,
   update: update
 };

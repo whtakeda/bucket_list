@@ -21,6 +21,7 @@
       authService.login(vm.loginData.email, vm.loginData.password)
         .then(function(res) {
           $log.log(res.data);
+//          debugger;
           userDataService.user = res.data.user;
           $state.go('home');
         });

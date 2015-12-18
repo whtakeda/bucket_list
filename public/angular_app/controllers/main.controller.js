@@ -13,8 +13,6 @@
     var activitiesCopy;
     var slide = [];
 
-    vm.isVisible = false;
-
     vm.user = userDataService;
     vm.activity = activityDataService;
     vm.list = listDataService;
@@ -28,24 +26,37 @@
     vm.showActivity = showActivity;
     vm.showListActivityView = showListActivityView;
     vm.showActivityView = showActivityView;
+    vm.cancel = cancel;
 
     vm.lists = [];
     vm.test = test;
 
-
-    vm.currentUser = authService.currentUser;
+//    vm.currentUser = userDataService.currentUser;
     vm.logout = authService.logout;
     vm.isLoggedIn = authService.isLoggedIn;
 
     vm.$state = $state;
 
-    function test(){
-      $log.log('testing...' + vm.currentUser());
-      vm.isVisible = !vm.isVisible;
+    userDataService.currentUser().then(function(res){
+        vm.currentUser = res.data;
+      },
+      function(err){
+        $log.log(err);
+      });
+
+    function test()
+    {
+      vm.activity.title = "new title";
+      $log.log('testing...' + vm.currentUser._id);
     }
 
     getActivities();
     getLists();
+
+    function cancel()
+    {
+      $('#main').fadeOut(500,function(){$state.go('home')});
+    }
 
     function showActivityView()
     {
@@ -68,7 +79,7 @@
         },
         function(err){
           $log.log(err);
-        })
+        });
     }
 
     function updateListActivity()
@@ -99,7 +110,7 @@
 
     function newList()
     {
-      vm.list.newList()
+      vm.list.newList("5672042a0864feb516b55c89")
         .then(function(res){
           console.log("created new list " + angular.toJson(res.data));
           getLists();
@@ -109,7 +120,6 @@
 
           vm.lists.push(res.data);
           vm.list.clearList();
-          $state.go('home');
         },
         function(err){
           $log.log(err);
@@ -315,17 +325,22 @@ $log.log("cancelling because it exists...");
       stop: function (e, ui) {
 $log.log("list stop")
         var item = ui.item.sortable;
+
+        var originNgModel = item.sourceModel;
+        var itemModel = originNgModel[item.index];
+        var dropTarget = item.droptargetModel;
+//debugger;
         if (item.model.id === "-1" || item.droptargetModel === undefined || item.droptargetModel[0].id === "-1") { item.cancel(); return; }
             if (item.droptarget.attr('id') === 'trash')
             {
               $log.log(item.model._id);
+
               deleteFromList(item.model._id);
 
 //              $('#' + item.model._id).remove();
             }
         if (item.isCanceled()) { return; }
         if (item.droptarget.attr('id') === 'trash') { return; }
-
         // save the data cause it changed
         // not sure if this is considered bad style b/c i'm manually handling
         // the save, but not sure how to do it through angular with a custom directive

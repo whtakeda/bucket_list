@@ -41,9 +41,13 @@
       <ul class="nav navbar-nav">
         <li><a ui-sref="newActivity({isLoggedIn:vm.isLoggedIn()})" ng-show="vm.isLoggedIn()" ng-click="vm.activity.clearActivity()">New Activity</a></li>
         <li><a ui-sref="newList({isLoggedIn:vm.isLoggedIn()})" ng-show="vm.isLoggedIn()">New List</a></li>
-        <li><a ui-sref="login" ng-hide="vm.isLoggedIn()">Login</a></li>
+        <li><a ui-sref="login" ng-hide="vm.isLoggedIn()" class="pointer-cursor">Login</a></li>
         <li><a ng-click="vm.logout()" ng-show="vm.isLoggedIn()" class="pointer-cursor">Logout</a></li>
       </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li><a ng-show="vm.isLoggedIn()" class="pointer-cursor" ng-cloak>{{vm.currentUser.name}}</a></li>
+      </ul>
+
 <!--       <ul class="nav navbar-nav navbar-right">
         <li><a href="/auth/google">Login with Google</a></li>
       </ul>
@@ -58,12 +62,13 @@
 <input type="button" ng-click="vm.display()">
  -->
  <div>
+<div ul-view='templates'></div>
   <!-- activities -->
-  <div class="col-xs-3 frame container-fluid">
+  <div class="col-xs-3 frame">
     <div ng-click="vm.toggle('list')" class="activity-header bevel">Activities</div>
     <div class="activity-container">
       <div ui-sortable="vm.sortableActivityOptions" ng-model="vm.activities" class="connected-apps-container first">
-        <div class="activities bevel" ng-dblclick="vm.showActivityView(); vm.showActivity(activity._id)"
+        <div class="activities bevel" ng-dblclick="vm.showActivityView(); vm.showActivity(activity._id)" ui-sref="showActivity"
           ng-repeat="activity in vm.activities track by $index" ng-cloak>{{activity.title}}
         </div>
      </div>
@@ -75,9 +80,9 @@
   </div>
 
   <!-- lists -->
-  <div class="col-xs-3 " ng-show="vm.isLoggedIn()">
+  <div class="col-xs-3 frame" ng-show="vm.isLoggedIn()">
     <div ui-sortable="vm.sortableHeaderOptions" class="connected-apps-container" ng-repeat="list in vm.lists track by $index" ng-model="vm.lists">
-      <div class="frame list-container" data-id="{{list._id}}">
+      <div class="list-container" data-id="{{list._id}}">
         <div ng-click="vm.toggle($index)" ng-dblclick="vm.test()" ng-model="list.model" class="bevel list-header"
           name="list" data-id="{{list._id}}" ng-cloak>{{list.name}}
         </div>
@@ -94,7 +99,7 @@
   <!-- templates -->
   <div class="col-xs-4">
     <div ng-hide="vm.$state.current.name === 'home'">
-      <div class="template-frame" ui-view="templates" class="anim-in-out anim-fade" data-anim-speed="1000"></div>
+      <div class="template-frame" ui-view class="anim-in-out anim-fade" data-anim-speed="1000"></div>
     </div>
   </div>
   <!-- trash can -->

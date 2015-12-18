@@ -10,7 +10,7 @@
   function activityDataService($log,$http) {
     var activity = {
       _id: "",
-      title: "",
+      title: "Default",
       description: "",
       rating: 0,
       location: "",

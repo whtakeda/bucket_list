@@ -1,6 +1,6 @@
 # Bucket List
 ### Been there, done that
-
+https://sheltered-caverns-1514.herokuapp.com/
 
 #About
 Are you constantly making lists to keep track of your to-dos?  Do you need
@@ -17,39 +17,39 @@ trying all 31 flavors at Baskin Robbins, you can easily manage your goals and
 track your progress in your quest to complete your bucket list.
 
 # Installation
-Mongolab setup
-npm package dependencies
+-Mongolab setup
+-npm package dependencies
 
 # Technologies
-HTML
-CSS
-BootStrap
-jQuery
-Node
-Express
-Angular
-MongoDB
+-HTML
+-CSS
+-BootStrap
+-jQuery
+-Node
+-Express
+-Angular
+-MongoDB
 
 # API
 
-GET /activities
-GET /activities/:id
-PUT /activities/:id
-POST/activities
+-GET /activities
+-GET /activities/:id
+-PUT /activities/:id
+-POST/activities
 
-GET /lists
-GET /lists/:listid/activity/:activityid
-PUT /lists/:id
-PUT /lists/activity/:id
-DELETE /lists/:id
-POST /lists
+-GET /lists
+-GET /lists/:listid/activity/:activityid
+-PUT /lists/:id
+-PUT /lists/activity/:id
+-DELETE /lists/:id
+-POST /lists
 
-POST /login
-GET /users/:id
+-POST /login
+-GET /users/:id
 
 
 # Data Models
- new mongoose.Schema({
+List Schema
   name: String,
   visible: Boolean,
   rating: {type:Number, default:0},
@@ -63,9 +63,7 @@ GET /users/:id
     location: [Number,Number],
     reminderDate: Date
   }]
-});
-
-var userSchema = new mongoose.Schema({
+User Schema
   name: String,
   password: String,
   googleId: String,
@@ -73,9 +71,8 @@ var userSchema = new mongoose.Schema({
   lists: [
     listSchema
   ]
-});
 
-var activitySchema = new mongoose.Schema({
+Activity Schema
   user_id: String,
   title: String,
   description: String,
@@ -84,4 +81,3 @@ var activitySchema = new mongoose.Schema({
   cost: String,
   duration: String,
   tags: [tagSchema]
-});

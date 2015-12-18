@@ -8,9 +8,16 @@
   userDataService.$inject = ['$log','$http'];
 
   function userDataService($log,$http) {
-    var userObj = {}
-    userObj.user = {};
+    var userObj = {
+      user: {},
+      currentUser: currentUser
+    };
 
     return userObj;
+
+    function currentUser()
+    {
+      return $http.get('/me');
+    }
   }
 })();

@@ -122,10 +122,10 @@
         });
     }
 
-    function newList()
+    function newList(id)
     {
       $log.log("creating new list...");
-      return $http.post("lists",list);
+      return $http.post("lists",{list:list,id:id});
     }
 
     function getLists()

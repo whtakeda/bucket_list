@@ -55,22 +55,6 @@ function update(req,res,next)
   });
 }
 
-function destroy(req,res,next)
-{
-  id = req.params.id;
-  User.find({"lists.activity._id":id}, function(err, user){
-    if (err) { console.log(err); }
-    // HAVE TO LOOP OVER EVERY LIST TO FIND THE ONE WITH THE RIGHT ID
-    user[0].lists.forEach(function(list){
-      if (list.activity.id(id) !== null)
-      {
-        list.activity.id(id).remove();
-        user[0].save();
-        res.json(JSON.stringify(id));
-      }
-    })
-  });
-}
 
 
 module.exports = {
@@ -78,5 +62,4 @@ module.exports = {
   index: index,
   show: show,
   update: update,
-  destroy: destroy
 };

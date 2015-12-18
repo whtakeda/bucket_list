@@ -9,7 +9,7 @@
 <div class="title-column">Reminder Date:</div><input type="text" ng-model="vm.list.listActivity.reminderDate" class="data-column"><br />
 <br />
 <div class="btn-wrapper">
-<input type="submit" value="Save" class="template-btn">&nbsp;<input type="button" value="Cancel" ui-sref="home" class="template-btn">
+<input type="submit" value="Save" class="template-btn" ng-click="vm.cancel()">&nbsp;<input type="button" value="Cancel" ng-click="vm.cancel()" class="template-btn">
 </div>
 <br />
 </form>
