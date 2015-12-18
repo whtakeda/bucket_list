@@ -357,6 +357,17 @@ $log.log("2. updating list...")
       },
       update: function(event, ui) {
         var item = ui.item.sortable;
+        var originNgModel = item.sourceModel;
+        var itemModel = originNgModel[item.index];
+        var dropTarget = item.droptargetModel;
+
+        // cancel if
+        // 1) source is not the activities list and dest is not trash1
+        // 2) source != dest and source != activities and dest != trash
+        // 3) dest is list
+        // 4) source is list and dest is anywhere but trash
+
+        if (originNgModel != dropTarget && item.droptarget.attr('id') != 'trash' && item.model.activityId !== undefined ) { item.cancel(); return; }
         if (item.source[0].children[0].getAttribute('name') === 'list') { item.cancel(); return; }
         if (item.model.id === "-1" || item.droptargetModel[0].id === "-1") { item.cancel(); return; }
 $log.log("list update")
@@ -365,16 +376,12 @@ $log.log("list update")
         // during the first update
         // which is fired on the source sortable
         if (!item.received) {
-          var originNgModel = item.sourceModel;
-          var itemModel = originNgModel[item.index];
-          var dropTarget = item.droptargetModel;
 
 
           // check that it's actually moving between the two lists
           if (originNgModel != dropTarget) {
 $log.log("cancelled from list update")
             item.cancel();
-
             // put this here instead of in the returned promise instead deleteFromList
             // so that it removes it from the dom asap instead of waiting for the promise to return
             // but technically should wait til it gets deleted from the db before removing it from the model
