@@ -42,11 +42,11 @@
       <ul class="nav navbar-nav">
         <li><a ui-sref="newActivity({isLoggedIn:vm.isLoggedIn()})" ng-show="vm.isLoggedIn()" ng-click="vm.activity.clearActivity()">New Activity</a></li>
         <li><a ui-sref="newList({isLoggedIn:vm.isLoggedIn()})" ng-show="vm.isLoggedIn()">New List</a></li>
-        <li><a ui-sref="login" ng-hide="vm.isLoggedIn()" class="pointer-cursor">Login</a></li>
-        <li><a ng-click="vm.logout()" ng-show="vm.isLoggedIn()" class="pointer-cursor">Logout</a></li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
         <li><a ng-show="vm.isLoggedIn()" class="pointer-cursor" ng-cloak>Hi {{vm.currentUser.name}}.  What's on your list today?</a></li>
+        <li><a ui-sref="login" ng-hide="vm.isLoggedIn()" class="pointer-cursor">Login</a></li>
+        <li><a ng-click="vm.logout()" ng-show="vm.isLoggedIn()" class="pointer-cursor">Logout</a></li>
       </ul>
 
 <!--       <ul class="nav navbar-nav navbar-right">
