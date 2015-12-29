@@ -5,9 +5,9 @@
     .module('app')
     .controller('MainController',MainController);
 
-  MainController.$inject = ['$log','$http','activityDataService','listDataService','authService','userDataService','$state'];
+  MainController.$inject = ['$log','$http','activityDataService','listDataService','authService','userDataService','$state','$uibModal'];
 
-  function MainController($log,$http,activityDataService,listDataService,authService,userDataService,$state)
+  function MainController($log,$http,activityDataService,listDataService,authService,userDataService,$state,$uibModal)
   {
     var vm = this;
     var activitiesCopy;
@@ -106,9 +106,9 @@
     {
       // don't add duplicates
       if (vm.list.activityExists(vm.user.data.lists[0].activity,activity._id)) { return; }
-      activity = {title:activity.title,activityId:activity._id, accepted:true};
+      activity = {title:activity.title,activityId:activity._id, accepted:true, progress:0};
       vm.user.data.lists[0].activity.push(activity);
-      vm.list.updateList(vm.user.lists[0]._id,vm.user.data.lists[0].activity)
+      vm.list.updateList(vm.user.data.lists[0]._id,vm.user.data.lists[0].activity)
         .then(function(res){
           vm.user.data.lists[0].activity[vm.user.data.lists[0].activity.length-1]._id = res.data._id;
         },

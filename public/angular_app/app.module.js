@@ -3,7 +3,7 @@
 
 
   angular
-    .module('app', ['ui.router','ui.sortable','dndLists'])
+    .module('app', ['ui.router','ui.sortable','dndLists','ui.bootstrap'])
     .config(router)
     .config(function($httpProvider) {
 
