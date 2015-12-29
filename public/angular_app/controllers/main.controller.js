@@ -27,38 +27,141 @@
     vm.showListActivityView = showListActivityView;
     vm.showActivityView = showActivityView;
     vm.cancel = cancel;
+    vm.signup = signup;
+    vm.addToList = addToList;
 
     vm.lists = [];
     vm.test = test;
 
+
 //    vm.currentUser = userDataService.currentUser;
-    vm.logout = authService.logout;
+    vm.logout = logout;
     vm.isLoggedIn = authService.isLoggedIn;
 
     vm.$state = $state;
 
 
     userDataService.currentUser().then(function(res){
-        vm.currentUser = res.data;
-      },
-      function(err){
-        $log.log(err);
-      });
+      vm.currentUser = res.data;
+      userDataService.currentUserData(vm.currentUser._id)
+        .then(function(res){
+          userDataService.data = res.data;
+          userDataService.data.lists.forEach(function(list){
+          })
+        },
+        function(err){
+          $log.log(err);
+        });
+    },
+    function(err){
+      $log.log(err);
+    });
+
+//     userDataService.currentUser().then(function(res){
+//       vm.currentUser = res.data;
+//       userDataService.currentUserData(vm.currentUser._id)
+//         .then(function(res){
+//           vm.user = res.data;
+//           vm.user.lists.forEach(function(list){
+// //            list = vm.list.addPlaceholder(list);
+//           })
+//         },
+//         function(err){
+//           $log.log(err);
+//         });
+//     },
+//     function(err){
+//       $log.log(err);
+//     });
 
     function test()
     {
-      vm.activity.title = "new title";
-      $log.log('testing...' + vm.currentUser._id);
+      $log.log('testing...' + angular.toJson(vm.user.data));
     }
 
     getActivities();
-    getLists();
+//    getLists();
+
+
+    function signup()
+    {
+      vm.user.signup()
+        .then(function(res){
+          $state.go('login');
+        },
+        function(err){
+          $log.log(err);
+        });
+      vm.user.signupName = "";
+      vm.user.signupEmail = "";
+      vm.user.signupPassword = "";
+    }
 
     function cancel()
     {
       $('#main').fadeOut(500,function(){$state.go('home')});
     }
 
+    function addToList(activity)
+    {
+      // don't add duplicates
+      if (vm.list.activityExists(vm.user.data.lists[0].activity,activity._id)) { return; }
+      activity = {title:activity.title,activityId:activity._id, accepted:true};
+      vm.user.data.lists[0].activity.push(activity);
+      vm.list.updateList(vm.user.lists[0]._id,vm.user.data.lists[0].activity)
+        .then(function(res){
+          vm.user.data.lists[0].activity[vm.user.data.lists[0].activity.length-1]._id = res.data._id;
+        },
+        function(err){
+          $log.log(err);
+        });
+    }
+
+    function deleteFromList(id)
+    {
+      $log.log("deleting list with id..." + id);
+      vm.list.deleteActivity(id)
+        .then(function(res){
+          vm.user.data.lists[0].activity = vm.user.data.lists[0].activity.filter(function(activity){
+            return activity._id !== id;
+          });
+          cancel();
+        },
+        function(err){
+          $log.log(err);
+        });
+    }
+
+    function logout()
+    {
+      vm.currentUser = "";
+      vm.user.data.lists = {};
+      vm.list.clearList();
+      vm.list.clearListActivity();
+      vm.list.activity = [];
+      authService.logout();
+    }
+
+    function updateListActivity()
+    {
+//      $log.log("started updating activity list...")
+      vm.list.listActivity.progress = parseInt(angular.element("#progress").val());
+      var activity = vm.user.data.lists[0].activity.filter(function(activity){
+        return activity._id === vm.list.listActivity.activityId;
+      })
+      activity[0].progress = parseInt(angular.element("#progress").val());
+      vm.list.updateListActivity()
+        .then(function(res){
+//          $log.log("done updating...");
+          vm.list.clearListActivity();
+        },
+        function(err){
+          $log.log(err);
+        });
+    }
+
+
+///////////////////////////////////////////////////////////////////////
     function showActivityView()
     {
       $state.go('showActivity');
@@ -83,26 +186,14 @@
         });
     }
 
-    function updateListActivity()
-    {
-//      $log.log("started updating activity list...")
-      vm.list.listActivity.progress = angular.element("#progress").val();
-      vm.list.updateListActivity()
-        .then(function(res){
-//          $log.log("done updating...");
-          vm.list.clearListActivity();
-        },
-        function(err){
-          $log.log(err);
-        });
-    }
 
     function deleteList(id)
     {
       $log.log("deleting...." + id);
       vm.list.deleteList(id)
         .then(function(res){
-          getLists();
+          // just remove list from currentUser
+//          getLists();
         },
         function(err){
           $log.log(err);
@@ -111,15 +202,18 @@
 
     function newList()
     {
-      vm.list.newList("5672042a0864feb516b55c89")
+      vm.list.newList(vm.currentUser._id)
         .then(function(res){
           console.log("created new list " + angular.toJson(res.data));
-          getLists();
+          // TODO
+          // just insert list into currentUser
+//          getLists();
           res.data.activity = [];
-          res.data = vm.list.addPlaceholder(res.data);
+//          res.data = vm.list.addPlaceholder(res.data);
           slide.push(true);
 
-          vm.lists.push(res.data);
+//          vm.lists.push(res.data);
+          vm.user.data.lists.push(res.data);
           vm.list.clearList();
         },
         function(err){
@@ -169,30 +263,17 @@
         })
     }
 
-    function deleteFromList(id)
-    {
-      $log.log("deleting list with id..." + id);
-      vm.list.deleteActivity(id)
-        .then(function(res){
-          vm.lists.forEach(function(list){
-            list = vm.list.addPlaceholder(list);
-          })
-        },
-        function(err){
-          $log.log(err);
-        });
-    }
-
     // update lists this way because we need to check the length and
     // add placeholder value if the list is now empty
-    function getLists()
+    // this only needs to be called when the user logs in
+    function getLists(id)
     {
-      vm.list.getLists()
+      vm.list.getLists(id)
         .then(function(res){
           // $log.log("res is " + angular.toJson(res.data));
           vm.lists = res.data;
           vm.lists.forEach(function(list){
-            list = vm.list.addPlaceholder(list);
+//            list = vm.list.addPlaceholder(list);
           });
           slide = [];
           vm.lists.forEach(function(x){slide.push(true);});
@@ -247,209 +328,6 @@
       })
     }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    vm.sortableActivityOptions = {
-      connectWith: ".connected-apps-container",
-      stop: function (e, ui) {
-$log.log("activity stop")
-        // if the element is removed from the first container
-        var item = ui.item.sortable;
-        if (item.isCanceled()) { return; }
-        if (item.droptarget.attr('id') === 'trash') { return; }
-
-
-        if ($(e.target).hasClass('first') &&
-            item.droptarget &&
-            e.target != item.droptarget[0]) {
-          // clone the original model to restore the removed item
-
-          vm.activities = activitiesCopy.slice();
-$log.log("is cancelled? " + item.isCanceled());
-$log.log("1. updating list...");
-$log.log(item.droptargetModel);
-          vm.list.updateList(item.droptarget.attr('id'),item.droptargetModel)
-            .then(function(res){
-              // need to update the model with the database id of the new record
-              // for now this is a quick fix until i figure out how to extract just the id that i need
-              vm.lists = res.data.lists;
-              vm.lists.forEach(function(list) { list = vm.list.addPlaceholder(list); });
-            })
-        }
-      },
-      update: function(event, ui) {
-        // on cross list sortings received is not true
-        // during the first update
-        // which is fired on the source sortable
-        var item = ui.item.sortable;
-
-        if (item.source[0].children[0].getAttribute('name') === 'list') {item.cancel(); return; }
-$log.log("activity update")
-
-        if (!item.received) {
-          var originNgModel = item.sourceModel;
-          var itemModel = originNgModel[item.index];
-          var dropTarget = item.droptargetModel;
-
-          // check that it's actually moving between the two lists
-          if (originNgModel == vm.activities && item.droptargetModel == dropTarget) {
-            var exists = !!dropTarget.filter(function(x) {return x.activityId === itemModel._id }).length;
-            if (exists) {
-$log.log("cancelling because it exists...");
-              item.cancel();
-            }
-          }
-        }
-      }
-    };
-
-    vm.sortableListOptions = {
-      connectWith: ".connected-apps-container",
-      stop: function (e, ui) {
-$log.log("list stop")
-        var item = ui.item.sortable;
-
-        var originNgModel = item.sourceModel;
-        var itemModel = originNgModel[item.index];
-        var dropTarget = item.droptargetModel;
-//debugger;
-        if (item.model.id === "-1" || item.droptargetModel === undefined || item.droptargetModel[0].id === "-1") { item.cancel(); return; }
-            if (item.droptarget.attr('id') === 'trash')
-            {
-              $log.log(item.model._id);
-
-              deleteFromList(item.model._id);
-
-//              $('#' + item.model._id).remove();
-            }
-        if (item.isCanceled()) { return; }
-        if (item.droptarget.attr('id') === 'trash') { return; }
-        // save the data cause it changed
-        // not sure if this is considered bad style b/c i'm manually handling
-        // the save, but not sure how to do it through angular with a custom directive
-//        $log.log("droptarget is " + ui.item.sortable.droptarget);
-$log.log("is cancelled? " + item.isCanceled())
-$log.log("2. updating list...")
-          vm.list.updateList(item.droptarget.attr('id'),item.droptargetModel)
-            .then(function(res){
-              // need to update the model with the database id of the new record
-              // for now this is a quick fix until i figure out how to extract just the id that i need
-              vm.lists = res.data.lists;
-              vm.lists.forEach(function(list) { list = vm.list.addPlaceholder(list); });
-            })
-      },
-      update: function(event, ui) {
-        var item = ui.item.sortable;
-        var originNgModel = item.sourceModel;
-        var itemModel = originNgModel[item.index];
-        var dropTarget = item.droptargetModel;
-
-        // cancel if
-        // 1) source is not the activities list and dest is not trash1
-        // 2) source != dest and source != activities and dest != trash
-        // 3) dest is list
-        // 4) source is list and dest is anywhere but trash
-
-        if (originNgModel != dropTarget && item.droptarget.attr('id') != 'trash' && item.model.activityId !== undefined ) { item.cancel(); return; }
-        if (item.source[0].children[0].getAttribute('name') === 'list') { item.cancel(); return; }
-        if (item.model.id === "-1" || item.droptargetModel[0].id === "-1") { item.cancel(); return; }
-$log.log("list update")
-
-        // on cross list sortings received is not true
-        // during the first update
-        // which is fired on the source sortable
-        if (!item.received) {
-
-
-          // check that it's actually moving between the two lists
-          if (originNgModel != dropTarget) {
-$log.log("cancelled from list update")
-            item.cancel();
-            // put this here instead of in the returned promise instead deleteFromList
-            // so that it removes it from the dom asap instead of waiting for the promise to return
-            // but technically should wait til it gets deleted from the db before removing it from the model
-            refreshActivityList(item.model._id);
-          }
-        }
-      }
-    };
-
-    vm.sortableHeaderOptions = {
-      connectWith: ".connected-apps-container",
-      update: function(event, ui) {
-$log.log("header update");
-        var item = ui.item.sortable;
-        if (item.droptarget.attr('id') !== "trash") { item.cancel(); return; }
-//debugger;
-        // this is a major hack to store the id of the DOM element that needs to be deleted
-        // this is done so that the modal callback (in jquery) can remvoe the element from the DOM
-        $('#domId').attr('data-id',item.source[0].children[0].getAttribute('data-id'));
-        $('#modal-delete').modal('show');
-//           vm.deleteList(item.source[0].children[0].getAttribute('data-id'));
-
-        // this is a hack to prevent a dummy activity from somehow getting added to the activity list after
-        // a list is moved to the trash can.
-        item.cancel();
-      }
-    };
-//////////////////////////////////////////////////////////////////////
-    vm.list1 = [
-        {
-            label: "Men",
-            allowedTypes: ['man'],
-            max: 4,
-            people: [
-                {name: "Bob", type: "man"},
-                {name: "Charlie", type: "man"},
-                {name: "Dave", type: "man"}
-            ]
-        },
-        {
-            label: "Women",
-            allowedTypes: ['woman'],
-            max: 4,
-            people: [
-                {name: "Alice", type: "woman"},
-                {name: "Eve", type: "woman"},
-                {name: "Peggy", type: "woman"}
-            ]
-        },
-        {
-            label: "People",
-            allowedTypes: ['man', 'woman'],
-            max: 6,
-            people: [
-                {name: "Frank", type: "man"},
-                {name: "Mallory", type: "woman"},
-                {name: "Alex", type: "unknown"},
-                {name: "Oscar", type: "man"},
-                {name: "Wendy", type: "woman"}
-            ]
-        }
-    ];
-
-    // Model to JSON for demo purpose
-    // vm.$watch('lists', function(lists) {
-    //     vm.modelAsJson = angular.toJson(lists, true);
-    // }, true);
   }
 
 

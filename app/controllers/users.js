@@ -15,11 +15,12 @@ var superSecret = env.superSecret;
 // AUTHENTICATE USER
 //||||||||||||||||||||||||||--
 var userAuth = function (req, res, next) {
+  console.log("Got into userAuth..." + req.body.email);
   // find the user
   User.findOne({
       email: req.body.email
     }).exec(function(err, user) {
-
+console.log("found user..." + user)
       if (err) throw err;
 
       // no user with that phone number was found
@@ -111,14 +112,6 @@ var tokenVerify = function(req, res, next) {
 
 function index(req,res,next)
 {
-
-   // User.create([
-   //    { // 0
-   //      name: "Wayne",
-   //      email: "whtakeda@gmail.com",
-   //      password: "test"
-   //    }],function(x,y){});
-
 //  User.find({},'lists.activity.id lists.activity.title',function(err,l){
   User.find({},'lists',function(err,user){
     if (err) { console.log(err); }
@@ -127,17 +120,34 @@ function index(req,res,next)
   });
 }
 
+function create(req,res,next)
+{
+  console.log("Creating new user...");
+  var user = new User;
+  user.name = req.body.name;
+  user.email = req.body.email;
+  user.password = req.body.password;
+  user.lists.push({name:'My Bucket List'});
+  console.log(user);
+  user.save(function(err,data){
+    console.log(err);
+    res.json(data);
+  });
+}
+
 function show(req,res,next)
 {
-//  User.find({},'lists.activity.id lists.activity.title',function(err,l){
+//  console.log("Looking for user..." + req.params.id)
   User.findById(req.params.id,function(err,user){
     if (err) { console.log(err); }
+//    console.log("found user..." + user)
     res.json(user);
   });
 }
 
 module.exports = {
   index: index,
+  create: create,
   show: show,
   userAuth:     userAuth,
   tokenVerify:  tokenVerify

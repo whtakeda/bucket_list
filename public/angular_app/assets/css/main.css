@@ -22,6 +22,9 @@ body {
   margin:10px;
   padding:8px;
   cursor: pointer;
+  width:30%;
+  display: inline-block;
+  vertical-align:top;
 }
 
 .lists {
@@ -173,8 +176,8 @@ button:focus {
  * For the correct positioning of the placeholder element, the dnd-list and
  * it's children must have position: relative
  */
-.typesDemo ul[dnd-list],
-.typesDemo ul[dnd-list] > li {
+ul[dnd-list],
+ul[dnd-list] > li {
   position: relative;
 }
 
@@ -282,3 +285,4 @@ button:focus {
 .pointer-cursor {
   cursor: pointer;
 }
+

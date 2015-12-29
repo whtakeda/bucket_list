@@ -22,7 +22,8 @@ function create(req,res,next)
 
 function index(req,res,next)
 {
-  Activity.find({},'title _id',function(err,activities){
+
+  Activity.find({},function(err,activities){
     if (err) { console.log(err); }
     res.json(activities);
   });

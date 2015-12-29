@@ -10,6 +10,7 @@ var usersController = require('../controllers/users');
 module.exports = function(app, passport) {
 
   app.post('/login', usersController.userAuth);
+  app.post('/users', usersController.create);
   app.get('/users/:id',  usersController.tokenVerify, usersController.show);
 
   app.post('/activities', usersController.tokenVerify, activitiesController.create);
@@ -24,7 +25,7 @@ module.exports = function(app, passport) {
   app.get('/activities/:id', activitiesController.show);
   app.put('/activities/:id', usersController.tokenVerify, activitiesController.update);
 
-  app.get('/lists',usersController.index);
+  app.get('/lists/:id',listsController.show);
   app.get('/lists/:listid/activity/:activityid', usersController.tokenVerify, listsController.getActivity);
   app.put('/lists/:id', usersController.tokenVerify, listsController.update);
   app.put('/lists/activity/:id', usersController.tokenVerify, listsController.updateActivity);

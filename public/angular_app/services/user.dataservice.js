@@ -9,15 +9,41 @@
 
   function userDataService($log,$http) {
     var userObj = {
-      user: {},
-      currentUser: currentUser
+      data: {},
+      signupEmail: String,
+      signupPassword: String,
+      currentUser: currentUser,
+      currentUserData: currentUserData,
+      signup: signup,
+      whoami: whoami
     };
 
     return userObj;
 
+    function whoami()
+    {
+      return angular.toJson(userObj.user);
+    }
+
     function currentUser()
     {
       return $http.get('/me');
+    }
+
+    function currentUserData(id)
+    {
+      return $http.get('users/' + id);
+    }
+
+    function signup()
+    {
+      return $http.post('users',{name:userObj.signupName, email:userObj.signupEmail, password:userObj.signupPassword})
+    }
+
+    function clearUser()
+    {
+      signupEmail = signupPassword = "";
+      currentUser = currentUserData = {};
     }
   }
 })();

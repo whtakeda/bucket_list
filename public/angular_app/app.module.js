@@ -11,7 +11,7 @@
       $httpProvider.interceptors.push('authInterceptor');
     });
 
-  function router($stateProvider,$locationProvider){
+  function router($stateProvider,$locationProvider,$urlRouterProvider){
     $stateProvider
       .state('home',{
         url: '/',
@@ -70,8 +70,13 @@
         templateUrl: 'templates/login.html',
         controller: "LoginController",
         controllerAs: "vm"
+      })
+      .state('signup',{
+        url: '/signup',
+        templateUrl: 'templates/signup.html',
       });
 
+    $urlRouterProvider.otherwise("/");
 
 //    $locationProvider.html5Mode(true);
   }

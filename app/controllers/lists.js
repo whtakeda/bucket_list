@@ -9,10 +9,10 @@ var _ = require("underscore");
 
 function create(req,res,next)
 {
-  console.log("looking for" + req.body.id)
+//  console.log("looking for" + req.body.id)
   // TODO: have to actually find correct user once multiple users are added
   User.findById(req.body.id,function(err,user){
-//    console.log("User is " + user[0]);
+//    console.log("User is " + user);
 //    console.log("req.body is " + JSON.stringify(req.body));
     var list = {
       name: req.body.list.name,
@@ -33,11 +33,19 @@ function create(req,res,next)
 
 function index(req,res,next)
 {
-  Activity.find({},'title _id',function(err,activities){
+  console.log("looking for user..." + req.params.id)
+  User.findById(req.params.id,function(err,user){
     if (err) { console.log(err); }
+    console.log("found user..." + user)
     res.json(activities);
   });
 }
+
+function show(req,res,next)
+{
+  res.json("done");
+}
+
 
 function getActivity(req,res,next)
 {
@@ -114,75 +122,36 @@ function destroyActivity(req,res,next)
   });
 }
 
-
-// stil in development - has serious bugs
-// need to change the id parameter that gets passed in from a list index to an id in maincontroller
-// function update(req,res,next)
-// {
-//   console.log("Looking for " + req.params.id)
-//   User.find({"lists._id":req.params.id},function(err,user){
-//     if (err) { console.log(err); }
-//     console.log("found user " + user);
-//     req.body.forEach(function(activity){
-//       // record can come in with or without an activityId.
-//       // if it doesn't have an activityId, convert the _id to activityId
-//       // if a record already has an activityId then do nothing
-//       if (activity.activityId === undefined)
-//       {
-//         activity.activityId = activity._id;
-//         delete activity._id;
-//       }
-//     })
-//     var idx = req.params.id;
-// //    user[0].lists[idx].activity = req.body;
-//     user[0].lists.forEach(function(list){
-//       if (list._id = req.params.id)
-//       {
-//         list.activity = req.body;
-//       }
-//     });
-//     user[0].save(function(err,u){
-//       console.log(err)
-//       res.json(u);
-//     });
-//   });
-// }
-
+// pass the entire list of activities in rather than just the activity being updated
 function update(req,res,next)
 {
-  console.log("index is " + req.params.id)
-  User.find({},function(err,user){
+  console.log("Looking for " + req.params.id)
+//  User.find({"lists._id":req.params.id},function(err,user){
+  User.find({"lists._id":req.params.id},function(err,user){
     if (err) { console.log(err); }
-    console.log(user);
-    req.body.forEach(function(activity){
-//      console.log("aid is " + activity.activityId)
-      // record can come in with or without an activityId.
-      // if it doesn't have an acivityId, conver the _id to activityId
-      // if a record already has an activityId then do nothing
-      if (activity.activityId === undefined)
-      {
-//        console.log("changing id for " + activity.title)
-        activity.activityId = activity._id;
-        delete activity._id;
-      }
-      else
-      {
-//        console.log("not changing id for " + activity.title)
-      }
-    })
+    console.log("found user " + user);
+
     var idx = req.params.id;
-    user[0].lists[idx].activity = req.body;
+//    user[0].lists[idx].activity = req.body;
+    user[0].lists.forEach(function(list){
+      console.log(list._id == req.params.id)
+      if (list._id == req.params.id)
+      {
+        console.log(JSON.stringify(req.body));
+        list.activity = req.body;
+      }
+    });
     user[0].save(function(err,u){
-      console.log(err)
-      res.json(u);
+      console.log(err);
+      res.json(user[0].lists[0].activity.pop());
     });
   });
 }
 
-
 module.exports = {
   create: create,
   index: index,
+  show: show,
   getActivity: getActivity,
   updateActivity: updateActivity,
   destroy: destroy,

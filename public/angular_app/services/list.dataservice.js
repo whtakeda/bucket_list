@@ -14,6 +14,7 @@
       rating: 0,
       visible: true,
       listActivity: {
+        name: "",
         activityId: "",
         order: 0,
         completed: false,
@@ -28,12 +29,15 @@
       deleteList: deleteList,
       deleteActivity: deleteActivity,
       addPlaceholder: addPlaceholder,
+      removePlaceholder: removePlaceholder,
       updateList: updateList,
       clearList: clearList,
+      saveList: saveList,
       getListActivity: getListActivity,
       setListActivity: setListActivity,
       clearListActivity: clearListActivity,
-      updateListActivity: updateListActivity
+      updateListActivity: updateListActivity,
+      activityExists: activityExists
     };
 
     return list;
@@ -82,7 +86,6 @@
     // adds the placeholder.  see previous function for additional info
     function addPlaceholder(list)
     {
-//      debugger;
       if (list.activity.length === 0)
       {
          list.activity.push({title:"There are no activities in this list.  Drag an activity from the activities list", id:"-1"});
@@ -90,16 +93,16 @@
       }
     }
 
-    function updateList(id,data)
+//    function updateList(id,data)
+    function updateList(id,list)
     {
-      // remove placeholder if necessary before updating list
-//      debugger;
-      if (data.length>1)
-      {
-//        debugger;
-        data = removePlaceholder(data);
-      }
-      return $http.put('lists/' + id,data);
+      // // remove placeholder if necessary before updating list
+      // if (data.length>1)
+      // {
+      //   data = removePlaceholder(data);
+      // }
+//      return $http.put('lists/' + id,data);
+      return $http.put('lists/' + id,list);
     }
 
     function deleteActivity(id)
@@ -128,10 +131,10 @@
       return $http.post("lists",{list:list,id:id});
     }
 
-    function getLists()
+    function getLists(id)
     {
       $log.log("getting lists...");
-      return $http.get("lists");
+      return $http.get("users/" + id  + "/lists");
     }
 
     function clearList()
@@ -154,5 +157,13 @@
       list.listActivity.order = 0;
     }
 
+    function activityExists(list,id)
+    {
+       var x = (list.filter(function(activity){
+        return activity.activityId === id
+      })).length > 0;
+//       debugger;
+       return x;
+    }
   }
 })();

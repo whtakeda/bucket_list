@@ -4,16 +4,16 @@ var bcrypt      = require('bcrypt-nodejs');
 
 var listSchema = new mongoose.Schema({
   name: String,
-  visible: Boolean,
+  visible: {type:Boolean, default:true},
   rating: {type:Number, default:0},
   activity: [{
     activityId: String,
     title: String,      // TODO: pull this out later after testing
     order: Number,
-    completed: Boolean,
-    accepted: Boolean,
+    completed: {type:Boolean, default:false},
+    accepted: {type:Boolean, default:true},
     progress: {type:Number, default:0},
-    location: [Number,Number],
+    location: {type:String, default:""},
     reminderDate: Date
   }]
 });

@@ -1,6 +1,6 @@
 $(document).ready(function() {
   $('#modal-delete').on('show.bs.modal', function(evt) {
-    $(".modal-body").html('Delete list?');
+    $(".modal-body").html('Delete activity?');
   });
 
   $('#confirm').on('click', function(e) {
