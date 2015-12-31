@@ -2,7 +2,7 @@ body {
   padding:15px;
 }
 
-.background-img {
+/*.background-img {
     position: absolute;
     overflow: hidden;
     background-image: url('../images/bucket.jpg');
@@ -11,7 +11,7 @@ body {
     height:100%;
     opacity:0.5;
 }
-/* You could use :after - it doesn't really matter */
+*//* You could use :after - it doesn't really matter */
 
 .activities {
   text-align:center;

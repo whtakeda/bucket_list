@@ -5,9 +5,9 @@
     .module('app')
     .controller('MainController',MainController);
 
-  MainController.$inject = ['$log','$http','activityDataService','listDataService','authService','userDataService','$state','$uibModal'];
+  MainController.$inject = ['$scope','$log','$http','activityDataService','listDataService','authService','userDataService','$state','$uibModal'];
 
-  function MainController($log,$http,activityDataService,listDataService,authService,userDataService,$state,$uibModal)
+  function MainController($scope,$log,$http,activityDataService,listDataService,authService,userDataService,$state,$uibModal)
   {
     var vm = this;
     var activitiesCopy;
@@ -39,7 +39,6 @@
     vm.isLoggedIn = authService.isLoggedIn;
 
     vm.$state = $state;
-
 
     userDataService.currentUser().then(function(res){
       vm.currentUser = res.data;
@@ -159,6 +158,8 @@
           $log.log(err);
         });
     }
+
+
 
 
 ///////////////////////////////////////////////////////////////////////
@@ -327,11 +328,37 @@
         })
       })
     }
+///////////////////////
+    vm.modalLogin = modalLogin;
+    vm.loginData = {email:"", password:""};
+
+    function modalLogin(person) {
+      $uibModal.open({
+        templateUrl: '../templates/login.html',
+        controller: ['$uibModalInstance', 'loginDataService','loginData', modalLoginCtrl],
+        controllerAs: 'vm',
+        resolve: {
+          loginData: function () { return vm.loginData }
+        }
+      });
+    }
 
   }
 
 
 
+function modalLoginCtrl($uibModalInstance, loginDataService, loginData)
+{
+  var vm = this;
+  vm.loginData = loginData;
+  vm.ok = ok;
+
+  function ok()
+  {
+    loginDataService.login(vm.loginData.email,vm.loginData.password);
+    $uibModalInstance.close();
+  }
+}
 
 
 })();

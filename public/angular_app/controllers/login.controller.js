@@ -15,7 +15,13 @@
     vm.currentUser = userDataService.user;
     // Form data for login
     vm.loginData;
-    vm.cancel = cancel
+    vm.cancel = cancel;
+    vm.ok = ok;
+
+    function ok()
+    {
+       debugger;
+    }
 
     function cancel()
     {

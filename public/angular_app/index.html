@@ -22,8 +22,6 @@
 <body ng-controller="MainController as vm">
 <div class="background-img"></div>
 <nav class="navbar navbar-default">
-
-
   <div class="container-fluid">
     <!-- Brand and toggle get grouped for better mobile display -->
     <div class="navbar-header">
@@ -88,14 +86,16 @@
     <!-- <div ng-click="vm.toggle('list')" class="activity-header bevel">Activities</div> -->
     <div class="activity-header bevel">Activities</div>
     <div class="activity-container">
-      <div ng-model="vm.activities" class="first">
+      <div ng-model="vm.activities" class="first" ng-controller="ModalController">
 <!--         <div class="activities bevel" ng-dblclick="vm.showActivityView(); vm.showActivity(activity._id)" ui-sref="showActivity"
           ng-repeat="activity in vm.activities track by $index" ng-cloak>
  -->        <div class="activities bevel" ng-repeat="activity in vm.activities track by $index" ng-cloak>
           <div>{{activity.title}}</div>
           <div>{{activity.rating}}</div>
           <input type="button" value="Add" ng-click="vm.addToList(activity)">
-          <input type="button" value="View" ng-click="vm.showActivityView(); vm.showActivity(activity._id)">
+<!--           <input type="button" value="View" ng-click="vm.showActivityView(); vm.showActivity(activity._id)">
+ -->
+          <input type="button" value="View" ng-click="showActivity(); vm.showActivity(activity._id)">
         </div>
      </div>
     </div>
@@ -109,7 +109,6 @@
       <div class="template-frame" ui-view class="anim-in-out anim-fade" data-anim-speed="1000"></div>
     </div>
   </div>
-  <!-- trash can -->
 </div>
 
 <div class="modal fade" tabindex="-1" role="dialog" id="modal-delete">
@@ -130,6 +129,19 @@
   </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
 
+
+<!-- <div ng-controller="ModalController">
+ -->
+<div>
+    <button type="button" class="btn btn-default" ng-click="signup()">Signup</button>
+<!--     <button type="button" class="btn btn-default" ng-click="login()">Login</button>
+ -->
+    <button type="button" class="btn btn-default" ng-click="vm.modalLogin()">Login</button>
+    <button type="button" class="btn btn-default" ng-click="newActivity()">New Activity</button>
+
+
+</div>
+
 <span id="domId"></span>
 
   <script src="app.module.js"></script>
@@ -137,8 +149,10 @@
   <script src="services/user.dataservice.js"></script>
   <script src="services/activity.dataservice.js"></script>
   <script src="services/list.dataservice.js"></script>
+  <script src="services/login.dataservice.js"></script>
   <script src="controllers/main.controller.js"></script>
   <script src="controllers/login.controller.js"></script>
+  <script src="controllers/modal.controller.js"></script>
   </body>
 </html>
 

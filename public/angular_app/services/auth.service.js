@@ -47,7 +47,6 @@
 
     // log a user in
     authFactory.login = function(email, password) {
-
       // return the promise object and its data
       return $http.post('/login', {
         email: email,
