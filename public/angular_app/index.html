@@ -37,7 +37,9 @@
     <!-- Collect the nav links, forms, and other content for toggling -->
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
       <ul class="nav navbar-nav">
-        <li><a ui-sref="newActivity({isLoggedIn:vm.isLoggedIn()})" ng-show="vm.isLoggedIn()" ng-click="vm.activity.clearActivity()">New Activity</a></li>
+<!--         <li><a ui-sref="newActivity({isLoggedIn:vm.isLoggedIn()})" ng-show="vm.isLoggedIn()" ng-click="vm.activity.clearActivity()">New Activity</a></li>
+ -->
+        <li><a ng-click="vm.modalNewActivity()" ng-show="vm.isLoggedIn()" ng-click="vm.activity.clearActivity()" class="pointer-cursor">New Activity</a></li>
         <li><a ui-sref="newList({isLoggedIn:vm.isLoggedIn()})" ng-show="vm.isLoggedIn()">New List</a></li>
         <li><a ng-click="vm.test()" ng-show="vm.isLoggedIn()">Test</a></li>
       </ul>

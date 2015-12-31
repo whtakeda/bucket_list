@@ -36,11 +36,9 @@
       return $http.get('users/' + id);
     }
 
-    function signup(name,email,password)
+    function signup()
     {
-      // return $http.post('users',{name:userObj.signupName, email:userObj.signupEmail, password:userObj.signupPassword})
-
-      return $http.post('users',{name:name, email:email, password:password})
+      return $http.post('users',{name:userObj.signupName, email:userObj.signupEmail, password:userObj.signupPassword})
     }
 
     function clearUser()
