@@ -158,6 +158,19 @@
         });
     }
 
+    function getActivities()
+    {
+      vm.activity.getActivities()
+        .then(function(res){
+//          $log.log("res is " + angular.toJson(res.data));
+          vm.activity.activities = res.data;
+          activitiesCopy = vm.activity.activities.slice();
+        },
+        function(err){
+          $log.log(err);
+        });
+    }
+
 
 
 
@@ -226,7 +239,7 @@
       vm.activity.newActivity()
         .then(function(res){
           $log.log("got new activity..." + res.data);
-          vm.activities.push(res.data)
+          vm.activity.activities.push(res.data)
           vm.activity.clearActivity();
           $state.go('home');
         },
@@ -283,19 +296,6 @@
         });
     }
 
-    function getActivities()
-    {
-      vm.activity.getActivities()
-        .then(function(res){
-//          $log.log("res is " + angular.toJson(res.data));
-          vm.activities = res.data;
-          activitiesCopy = vm.activities.slice();
-        },
-        function(err){
-          $log.log(err);
-        });
-    }
-
     vm.display = display;
 
     function initialize()
@@ -337,7 +337,7 @@
       $uibModal.open({
         animation: true,
         templateUrl: '../templates/login.html',
-        controller: ['userDataService', '$uibModalInstance', 'loginDataService', '$state', ModalInstanceController],
+        controller: ['userDataService', '$uibModalInstance', 'loginDataService', 'activityDataService', '$state', '$log', ModalInstanceController],
         controllerAs: 'vm'
       });
     }
@@ -346,7 +346,7 @@
       $uibModal.open({
         animation: true,
         templateUrl: '../templates/signup.html',
-        controller: ['userDataService', '$uibModalInstance', 'loginDataService', '$state', ModalInstanceController],
+        controller: ['userDataService', '$uibModalInstance', 'loginDataService', 'activityDataService', '$state', '$log', ModalInstanceController],
         controllerAs: 'vm'
       });
     }
@@ -356,17 +356,18 @@
       $uibModal.open({
         animation: true,
         templateUrl: '../templates/new_activity.html',
-        controller: ['userDataService', '$uibModalInstance', 'loginDataService','$state', ModalInstanceController],
+        controller: ['userDataService', '$uibModalInstance', 'loginDataService', 'activityDataService', '$state', '$log', ModalInstanceController],
         controllerAs: 'vm'
       });
     }
   } // end main controller
 
-function ModalInstanceController(userDataService, $uibModalInstance, loginDataService, $state)
+function ModalInstanceController(userDataService, $uibModalInstance, loginDataService, activityDataService, $state, $log)
 {
   var vm = this;
   vm.user = userDataService;
   vm.loginData = loginDataService;
+  vm.activity = activityDataService;
 
   vm.login = login;
   vm.signup = signup;
@@ -381,7 +382,7 @@ function ModalInstanceController(userDataService, $uibModalInstance, loginDataSe
 
   function signup()
   {
-      userDataService.signup()
+      vm.user.signup()
         .then(function(res){
           $uibModalInstance.close();
         },
@@ -395,7 +396,16 @@ function ModalInstanceController(userDataService, $uibModalInstance, loginDataSe
 
   function newActivity()
   {
-    debugger;
+    vm.activity.newActivity()
+      .then(function(res){
+        $log.log("got new activity..." + res.data);
+        vm.activity.activities.push(res.data)
+        vm.activity.clearActivity();
+        $uibModalInstance.close();
+      },
+      function(err){
+        $log.log(err);
+      });
   }
 
   function cancel()

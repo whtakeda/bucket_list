@@ -17,6 +17,7 @@
       cost: "",
       duration: "",
       tags: "",
+      activities: [],
       newActivity: newActivity,
       getActivities: getActivities,
       showActivity: showActivity,

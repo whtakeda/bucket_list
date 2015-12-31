@@ -25,12 +25,6 @@
   <div class="container-fluid">
     <!-- Brand and toggle get grouped for better mobile display -->
     <div class="navbar-header">
-      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
-        <span class="sr-only">Toggle navigation</span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-      </button>
       <a class="navbar-brand" ui-sref="home">Bucket List</a>
     </div>
 
@@ -41,7 +35,7 @@
  -->
         <li><a ng-click="vm.modalNewActivity()" ng-show="vm.isLoggedIn()" ng-click="vm.activity.clearActivity()" class="pointer-cursor">New Activity</a></li>
         <li><a ui-sref="newList({isLoggedIn:vm.isLoggedIn()})" ng-show="vm.isLoggedIn()">New List</a></li>
-        <li><a ng-click="vm.test()" ng-show="vm.isLoggedIn()">Test</a></li>
+        <li><a style='display:inline-block'>Search&nbsp;</a><input type="text" ng-model="search.title" size="50"></input></li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
         <li><a ng-show="vm.isLoggedIn()" class="pointer-cursor" ng-cloak>Hi {{vm.user.data.name}}.  What's in your bucket today?</a></li>
@@ -91,7 +85,7 @@
       <div ng-model="vm.activities" class="first" ng-controller="ModalController">
 <!--         <div class="activities bevel" ng-dblclick="vm.showActivityView(); vm.showActivity(activity._id)" ui-sref="showActivity"
           ng-repeat="activity in vm.activities track by $index" ng-cloak>
- -->        <div class="activities bevel" ng-repeat="activity in vm.activities track by $index" ng-cloak>
+ -->        <div class="activities bevel" ng-repeat="activity in vm.activity.activities  | filter:search:strict track by $index" ng-cloak>
           <div>{{activity.title}}</div>
           <div>{{activity.rating}}</div>
           <input type="button" value="Add" ng-click="vm.addToList(activity)">
@@ -131,18 +125,6 @@
   </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
 
-
-<!-- <div ng-controller="ModalController">
- -->
-<div>
-    <button type="button" class="btn btn-default" ng-click="signup()">Signup</button>
-<!--     <button type="button" class="btn btn-default" ng-click="login()">Login</button>
- -->
-    <button type="button" class="btn btn-default" ng-click="vm.modalLogin()">Login</button>
-    <button type="button" class="btn btn-default" ng-click="newActivity()">New Activity</button>
-
-
-</div>
 
 <span id="domId"></span>
 
