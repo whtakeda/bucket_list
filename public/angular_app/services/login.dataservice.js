@@ -27,7 +27,6 @@
         var currentUser = res.data;
         userDataService.currentUserData(currentUser._id)
           .then(function(res){
-            debugger;
             userDataService.data = res.data;
             userDataService.data.lists.forEach(function(list){
             })

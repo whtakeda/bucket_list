@@ -43,9 +43,9 @@
       </ul>
       <ul class="nav navbar-nav navbar-right">
         <li><a ng-show="vm.isLoggedIn()" class="pointer-cursor" ng-cloak>Hi {{vm.user.data.name}}.  What's in your bucket today?</a></li>
-        <li><a ui-sref="login" ng-hide="vm.isLoggedIn()" class="pointer-cursor">Login</a></li>
+        <li><a ng-click="vm.modalLogin()" ng-hide="vm.isLoggedIn()" class="pointer-cursor">Login</a></li>
         <li><a ng-hide="vm.isLoggedIn()">|</a></li>
-        <li><a ui-sref="signup" ng-hide="vm.isLoggedIn()" class="pointer-cursor">Signup</a></li>
+        <li><a ng-click="vm.modalSignup()" ng-hide="vm.isLoggedIn()" class="pointer-cursor">Signup</a></li>
         <li><a ng-click="vm.logout()" ng-show="vm.isLoggedIn()" class="pointer-cursor">Logout</a></li>
       </ul>
 

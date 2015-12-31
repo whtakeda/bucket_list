@@ -32,7 +32,8 @@
 
     vm.lists = [];
     vm.test = test;
-
+userDataService.signupName = "test";
+vm.user.signupName = "test1";
 
 //    vm.currentUser = userDataService.currentUser;
     vm.logout = logout;
@@ -330,34 +331,69 @@
     }
 ///////////////////////
     vm.modalLogin = modalLogin;
+    vm.modalSignup = modalSignup;
     vm.loginData = {email:"", password:""};
 
-    function modalLogin(person) {
+    function modalLogin() {
       $uibModal.open({
+        animation: true,
         templateUrl: '../templates/login.html',
-        controller: ['$uibModalInstance', 'loginDataService','loginData', modalLoginCtrl],
+        controller: ['userDataService', '$uibModalInstance', 'loginDataService','mydata', '$state', modalLoginCtrl],
         controllerAs: 'vm',
         resolve: {
-          loginData: function () { return vm.loginData }
+          mydata: function () { return vm.mydata }
+        }
+      });
+    }
+
+    function modalSignup() {
+      $uibModal.open({
+        animation: true,
+        templateUrl: '../templates/signup.html',
+        controller: ['userDataService', '$uibModalInstance', 'loginDataService','mydata', '$state', modalLoginCtrl],
+        controllerAs: 'vm',
+        resolve: {
+          mydata: function () { return vm.user }
         }
       });
     }
 
   }
 
-
-
-function modalLoginCtrl($uibModalInstance, loginDataService, loginData)
+function modalLoginCtrl(userDataService, $uibModalInstance, loginDataService, mydata, $state)
 {
   var vm = this;
-  vm.loginData = loginData;
-  vm.ok = ok;
+  vm.mydata = mydata;
+  vm.login = login;
+  vm.signup = signup;
+  vm.cancel = cancel;
 
-  function ok()
+  function login()
   {
-    loginDataService.login(vm.loginData.email,vm.loginData.password);
+    loginDataService.login(vm.mydata.email,vm.mydata.password);
     $uibModalInstance.close();
   }
+
+  function signup()
+  {
+      userDataService.signup(vm.user.signupName,vm.user.signupEmail,vm.user.signupPassword)
+        .then(function(res){
+          $uibModalInstance.close();
+//          $state.go('login');
+        },
+        function(err){
+          $log.log(err);
+        });
+      // vm.user.signupName = "";
+      // vm.user.signupEmail = "";
+      // vm.user.signupPassword = "";
+  }
+
+  function cancel()
+  {
+    $uibModalInstance.close();
+  }
+
 }
 
 

@@ -10,8 +10,9 @@
   function userDataService($log,$http) {
     var userObj = {
       data: {},
-      signupEmail: String,
-      signupPassword: String,
+      signupName: "",
+      signupEmail: "",
+      signupPassword: "",
       currentUser: currentUser,
       currentUserData: currentUserData,
       signup: signup,
@@ -35,9 +36,11 @@
       return $http.get('users/' + id);
     }
 
-    function signup()
+    function signup(name,email,password)
     {
-      return $http.post('users',{name:userObj.signupName, email:userObj.signupEmail, password:userObj.signupPassword})
+      // return $http.post('users',{name:userObj.signupName, email:userObj.signupEmail, password:userObj.signupPassword})
+
+      return $http.post('users',{name:name, email:email, password:password})
     }
 
     function clearUser()
