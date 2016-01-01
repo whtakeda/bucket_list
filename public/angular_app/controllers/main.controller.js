@@ -331,6 +331,7 @@
     vm.modalLogin = modalLogin;
     vm.modalSignup = modalSignup;
     vm.modalNewActivity = modalNewActivity;
+    vm.modalShowActivity = modalShowActivity;
     vm.loginData = {email:"", password:""};
 
     function modalLogin() {
@@ -358,6 +359,22 @@
         templateUrl: '../templates/new_activity.html',
         controller: ['userDataService', '$uibModalInstance', 'loginDataService', 'activityDataService', '$state', '$log', ModalInstanceController],
         controllerAs: 'vm'
+      });
+    }
+
+    function modalShowActivity(id)
+    {
+      vm.activity._id = id;
+      $uibModal.open({
+        animation: true,
+        templateUrl: '../templates/show_activity.html',
+        controller: ['userDataService', '$uibModalInstance', 'loginDataService', 'activityDataService', '$state', '$log', ModalInstanceController],
+        controllerAs: 'vm',
+        resolve: {
+          activityid: function () {
+            return "hi";
+          }
+        }
       });
     }
   } // end main controller

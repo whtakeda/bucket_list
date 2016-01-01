@@ -29,9 +29,18 @@
 
     return activity;
 
-    function vote(val)
+    function vote(act)
     {
-      activity.rating += val;
+      // even though it's not as "efficient", just pass in the entire activity since we already have it and
+      // and update it instead of finding the the activity and updating just the rating
+      activity._id = act._id;
+      activity.title = act.title;
+      activity.description = act.description;
+      activity.rating = act.rating;
+      activity.location = act.location;
+      activity.cost = act.cost;
+      activity.duration = act.duration;
+      activity.tags = act.tags;
       updateActivity();
     }
 

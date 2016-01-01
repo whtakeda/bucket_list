@@ -85,13 +85,14 @@
       <div ng-model="vm.activities" class="first" ng-controller="ModalController">
 <!--         <div class="activities bevel" ng-dblclick="vm.showActivityView(); vm.showActivity(activity._id)" ui-sref="showActivity"
           ng-repeat="activity in vm.activities track by $index" ng-cloak>
- -->        <div class="activities bevel" ng-repeat="activity in vm.activity.activities  | filter:search:strict track by $index" ng-cloak>
+ -->
+          <div class="activities bevel" ng-repeat="activity in vm.activity.activities  | filter:search:strict track by $index" ng-cloak>
           <div>{{activity.title}}</div>
           <div>{{activity.rating}}</div>
           <input type="button" value="Add" ng-click="vm.addToList(activity)">
 <!--           <input type="button" value="View" ng-click="vm.showActivityView(); vm.showActivity(activity._id)">
  -->
-          <input type="button" value="View" ng-click="showActivity(); vm.showActivity(activity._id)">
+          <input type="button" value="View" ng-click="vm.modalShowActivity(activity._id)">
         </div>
      </div>
     </div>
