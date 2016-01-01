@@ -62,8 +62,12 @@
         templateUrl: 'templates/list_activity.html'
       })
       .state('test',{
-        url: '/test',
-        templateUrl: 'templates/test.html'
+          views: {
+            'test': {
+              url: '/test',
+              templateUrl: 'templates/list_activity.html'
+            }
+          }
       })
       .state('login',{
         url: '/login',
