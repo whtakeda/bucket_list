@@ -396,6 +396,7 @@ function ModalInstanceController(userDataService, $uibModalInstance, loginDataSe
   vm.login = login;
   vm.signup = signup;
   vm.newActivity = newActivity;
+  vm.updateUser = updateUser;
   vm.cancel = cancel;
 
   function login()
@@ -425,6 +426,17 @@ function ModalInstanceController(userDataService, $uibModalInstance, loginDataSe
         $log.log("got new activity..." + res.data);
         vm.activity.activities.push(res.data)
         vm.activity.clearActivity();
+        $uibModalInstance.close();
+      },
+      function(err){
+        $log.log(err);
+      });
+  }
+
+  function updateUser(id)
+  {
+    vm.user.update(id)
+      .then(function(res){
         $uibModalInstance.close();
       },
       function(err){

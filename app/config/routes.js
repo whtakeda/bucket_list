@@ -11,7 +11,8 @@ module.exports = function(app, passport) {
 
   app.post('/login', usersController.userAuth);
   app.post('/users', usersController.create);
-  app.get('/users/:id',  usersController.tokenVerify, usersController.show);
+  app.get('/users/:id', usersController.tokenVerify, usersController.show);
+  app.put('/users/:id', usersController.tokenVerify, usersController.update);
 
   app.post('/activities', usersController.tokenVerify, activitiesController.create);
   app.post('/lists', usersController.tokenVerify, listsController.create);

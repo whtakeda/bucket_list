@@ -128,7 +128,6 @@ function create(req,res,next)
   user.email = req.body.email;
   user.password = req.body.password;
   user.lists.push({name:'My Bucket List'});
-  console.log(user);
   user.save(function(err,data){
     console.log(err);
     res.json(data);
@@ -145,8 +144,23 @@ function show(req,res,next)
   });
 }
 
+function update(req,res,next)
+{
+  User.findById(req.params.id,function(err,user){
+    if (err) { console.log(err); }
+    user.name = req.body.user.name;
+    user.email = req.body.user.email;
+    user.lists = req.body.user.lists;
+    user.save(function(err,data){
+      console.log(err);
+      res.json(user);
+    });
+  });
+}
+
 module.exports = {
   index: index,
+  update: update,
   create: create,
   show: show,
   userAuth:     userAuth,

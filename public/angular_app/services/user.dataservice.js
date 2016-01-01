@@ -16,6 +16,7 @@
       currentUser: currentUser,
       currentUserData: currentUserData,
       signup: signup,
+      update: update,
       whoami: whoami
     };
 
@@ -38,7 +39,12 @@
 
     function signup()
     {
-      return $http.post('users',{name:userObj.signupName, email:userObj.signupEmail, password:userObj.signupPassword})
+      return $http.post('users',{name:userObj.signupName, email:userObj.signupEmail, password:userObj.signupPassword});
+    }
+
+    function update(id)
+    {
+      return $http.put('users/' + id, {user:userObj.data});
     }
 
     function clearUser()
