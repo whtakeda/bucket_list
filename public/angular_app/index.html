@@ -57,7 +57,7 @@
 <div>
   <div ul-view='templates'></div>
 
-  <!-- lists -->
+  <!--================== lists =====================-->
   <div class="col-xs-3 frame" ng-show="vm.isLoggedIn()">
     <div ng-repeat="list in vm.user.data.lists track by $index" ng-model="vm.lists">
       <div class="list-container" data-id="{{list._id}}">
@@ -89,7 +89,7 @@
 
   <div class="col-xs-1" ng-show="vm.isLoggedIn()"></div>
 
-  <!-- activities -->
+  <!--================== activities =====================-->
   <div class="col-xs-6 frame">
     <!-- <div ng-click="vm.toggle('list')" class="activity-header bevel">Activities</div> -->
     <div class="activity-header bevel">Activities</div>
