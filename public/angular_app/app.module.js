@@ -3,8 +3,16 @@
 
 
   angular
-    .module('app', ['ui.router','ui.sortable','dndLists','ui.bootstrap'])
+    .module('app', ['ui.router','ui.bootstrap','uiGmapgoogle-maps'])
     .config(router)
+    // .config(function(uiGmapGoogleMapApiProvider) {
+    //     uiGmapGoogleMapApiProvider.configure({
+    //         //    key: 'your api key',
+    //         key: 'AIzaSyBkcC3sY-M7wqMhukQ_MHX96alapahl9yw',
+    //         v: '3.20', //defaults to latest 3.X anyhow
+    //         libraries: 'weather,geometry,visualization'
+    //     });
+    // })
     .config(function($httpProvider) {
 
       // attach our auth interceptor to the http requests
@@ -61,19 +69,16 @@
         url: '/list/activity/',
         templateUrl: 'templates/list_activity.html'
       })
-      .state('test',{
-          views: {
-            'test': {
-              url: '/test',
-              templateUrl: 'templates/list_activity.html'
-            }
-          }
-      })
       .state('login',{
         url: '/login',
         templateUrl: 'templates/login.html',
         controller: "LoginController",
         controllerAs: "vm"
+      })
+      .state('test',{
+        url: '/test',
+        templateUrl: 'templates/test.html',
+        controller: "TestController"
       })
       .state('signup',{
         url: '/signup',

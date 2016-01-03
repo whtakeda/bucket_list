@@ -1,13 +1,14 @@
 (function(){
   'use strict';
 
+
   angular
     .module('app')
     .controller('MainController',MainController);
 
-  MainController.$inject = ['$scope','$log','$http','activityDataService','listDataService','authService','userDataService','$state','$uibModal'];
+  MainController.$inject = ['$scope','$log','$http','activityDataService','listDataService','authService','userDataService','$state','$uibModal','uiGmapGoogleMapApi'];
 
-  function MainController($scope,$log,$http,activityDataService,listDataService,authService,userDataService,$state,$uibModal)
+  function MainController($scope,$log,$http,activityDataService,listDataService,authService,userDataService,$state,$uibModal,uiGmapGoogleMapApi)
   {
     var vm = this;
     var activitiesCopy;
@@ -37,7 +38,99 @@
     vm.logout = logout;
     vm.isLoggedIn = authService.isLoggedIn;
 
+
     vm.$state = $state;
+//////////////////////////////
+        vm.marker = {};
+        vm.marker.coords = {};
+        vm.marker.options = {};
+        vm.map = {center: {latitude: 34, longitude: -118 }, zoom: 4 };
+        vm.options = {scrollwheel: false};
+
+
+    // $scope.map = {
+    //         events: {
+    //         tilesloaded: function (map) {
+    //         $scope.$apply(function () {
+    //         $log.info('this is the map instance', map);
+    //         });
+    //         }
+    //         }
+    //         }
+
+//        $scope.map = {center: {latitude: 51.219053, longitude: 4.404418 }, zoom: 10 };
+
+    //   vm.markers = {
+    //                   latitude: 45,
+    //                   longitude: -73.2,
+    //                   id: 1,
+    //                   title: "title",
+    //                   subject: "subject"
+    //               };
+    // vm.map = {
+    //         events: {
+    //         tilesloaded: function (map) {
+    //           debugger;
+    //         vm.$apply(function () {
+    //         $log.info('this is the map instance', map);
+    //         });
+    //       }
+    //     }
+    //   }
+   function geocodeAddress(address, callback){
+    var geocoder = new google.maps.Geocoder();
+      geocoder.geocode( { 'address': address}, function(results, status) {
+          if (status == google.maps.GeocoderStatus.OK) {
+              callback(results[0].geometry.location);
+          } else {
+              console.log("Geocode was not successful for the following reason: " + status);
+          }
+      });
+    }
+
+    vm.marker = {
+      id: 0,
+      coords: {
+        latitude: 40.1451,
+        longitude: -99.6680
+      },
+      options: { draggable: true },
+      events: {
+        dragend: function (marker, eventName, args) {
+          $log.log('marker dragend');
+          var lat = marker.getPosition().lat();
+          var lon = marker.getPosition().lng();
+          $log.log(lat);
+          $log.log(lon);
+
+          $scope.marker.options = {
+            draggable: true,
+            labelContent: "lat: " + $scope.marker.coords.latitude + ' ' + 'lon: ' + $scope.marker.coords.longitude,
+            labelAnchor: "100 0",
+            labelClass: "marker-labels"
+          };
+        }
+      }
+    };
+
+
+    uiGmapGoogleMapApi.then(function(maps) {
+      $log.log("Map loaded");
+
+  });  // end promise
+
+geocodeAddress('New York, NY',function(res){
+  vm.map.center = {latitude: res.lat(),longitude: res.lng()};
+  vm.map.zoom = 4;
+  vm.marker.id="1";
+  vm.marker.coords.latitude = res.lat();
+  vm.marker.coords.longitude = res.lng();
+  vm.marker.options.draggable = true;
+  $log.log(vm.marker);
+  $log.log(vm.marker.coords);
+
+    });
+////////////////////////////
 
     userDataService.currentUser().then(function(res){
       vm.currentUser = res.data;

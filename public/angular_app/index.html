@@ -5,21 +5,30 @@
   <title>Bucket List</title>
   <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
   <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+  <script src="http://maps.googleapis.com/maps/api/js?sensor=false"></script>
   <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
   <script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/jquery-ui.min.js"></script>
   <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js" integrity="sha512-K1qjQ+NcF2TYO/eI3M6v8EiNYZfA95pQumfvcVrTHtwQVDG+aHRqLi/ETn2uB+1JqwYqVG3LIvdm9lj6imS/pQ==" crossorigin="anonymous"></script>
   <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
   <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular-animate.js"></script>
   <script src="//cdnjs.cloudflare.com/ajax/libs/angular-ui-router/0.2.15/angular-ui-router.js"></script>
-  <script src="//rawgithub.com/angular-ui/ui-sortable/master/src/sortable.js"></script>
 
-  <script src="assets/js/angular-drag-and-drop-lists.min.js"></script>
+<!--
+    <script src="https://code.angularjs.org/1.3.14/angular.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/lodash.js/2.4.1/lodash.js"></script>
+    <script src="http://rawgit.com/angular-ui/angular-google-maps/2.0.X/dist/angular-google-maps.js"></script>
+-->
+
+  <script src="//cdnjs.cloudflare.com/ajax/libs/lodash.js/3.10.1/lodash.js"></script>
+  <script src="assets/js/angular-simple-logger.min.js"></script>
+  <script src="assets/js/angular-google-maps.min.js"></script>
   <link rel="stylesheet" type="text/css" href="assets/css/main.css">
   <script src="assets/js/main.js"></script>
   <script src="assets/js/ui-bootstrap-tpls-0.14.3.min.js"></script>
 
 </head>
 <body ng-controller="MainController as vm">
+
 <div class="background-img"></div>
 <nav class="navbar navbar-default">
   <div class="container-fluid">
@@ -36,6 +45,7 @@
         <li><a ng-click="vm.modalNewActivity()" ng-show="vm.isLoggedIn()" ng-click="vm.activity.clearActivity()" class="pointer-cursor">New Activity</a></li>
         <li><a ui-sref="newList({isLoggedIn:vm.isLoggedIn()})" ng-show="vm.isLoggedIn()">New List</a></li>
         <li><a style='display:inline-block'>Search&nbsp;</a><input type="text" ng-model="search.title" size="50"></input></li>
+        <li><a style='display:inline-block; ' ng-click="search.title=''"><img ng-src='assets/images/clear.png' style='height:25px' class='pointer-cursor'></a></li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
         <li><a ng-show="vm.isLoggedIn()" class="pointer-cursor" ng-cloak>Hi {{vm.user.data.name}}.  What's in your bucket today?</a></li>
@@ -54,14 +64,27 @@
 <input type="button" ng-click="vm.test()">
 <input type="button" ng-click="vm.display()">
  -->
+
 <div>
   <div ul-view='templates'></div>
+
+<div id="map_canvas">
+<!--     <ui-gmap-google-map center="vm.map.center" zoom="vm.map.zoom" draggable="true" options="vm.options">
+        <ui-gmap-marker coords="{latitude:34, longitude:-118}" options="vm.marker.options" idkey="vm.marker.id">
+        </ui-gmap-marker>
+    </ui-gmap-google-map>
+
+ -->    <ui-gmap-google-map center="vm.map.center" zoom="vm.map.zoom" options="vm.options" class="angular-google-map-container">
+        <ui-gmap-marker coords="vm.marker.coords" options="vm.marker.options" idkey="vm.marker.id">
+        </ui-gmap-marker>
+    </ui-gmap-google-map>
+</div>
+
 
   <!--================== lists =====================-->
   <div class="col-xs-3 frame" ng-show="vm.isLoggedIn()">
     <div ng-repeat="list in vm.user.data.lists track by $index" ng-model="vm.lists">
       <div class="list-container" data-id="{{list._id}}">
-        <div ui-view="test"></div>
         <div ng-click="vm.toggle($index)" ng-dblclick="vm.test()" ng-model="list.model" class="bevel list-header"
           name="list" data-id="{{list._id}}" ng-cloak>{{list.name}}
         </div>
@@ -77,9 +100,8 @@
           </div>
  -->
           <div class="centered"  ng-class="{'bevel lists': activity.id !== '-1'}" ng-repeat="activity in list.activity"
-            id="{{activity._id}}" ng-cloak>
+            id="{{activity._id}}" ng-click="vm.modalShowListActivity(activity._id)" ng-cloak>
               {{activity.title}} - <span ng-model="activity.progress">{{activity.progress}}</span>%
-              <input type='button' ng-click="vm.modalShowListActivity(activity._id)"></input>
           </div>
         </div>
       </div>
@@ -150,6 +172,7 @@
   <script src="controllers/main.controller.js"></script>
   <script src="controllers/login.controller.js"></script>
   <script src="controllers/modal.controller.js"></script>
-  </body>
+  <script src="controllers/test.controller.js"></script>
+</body>
 </html>
 
