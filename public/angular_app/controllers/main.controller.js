@@ -24,9 +24,10 @@
     vm.newList = newList;
     vm.deleteList = deleteList;
     vm.updateListActivity = updateListActivity;
-    vm.showActivity = showActivity;
-    vm.showListActivityView = showListActivityView;
-    vm.showActivityView = showActivityView;
+//    vm.showActivity = showActivity;
+//    vm.showListActivityView = showListActivityView;
+//    vm.showActivityView = showActivityView;
+    // vm.display = display;
     vm.cancel = cancel;
     vm.signup = signup;
     vm.addToList = addToList;
@@ -180,29 +181,28 @@
 
 
 ///////////////////////////////////////////////////////////////////////
-    function showActivityView()
-    {
-      $state.go('showActivity');
-    }
+    // function showActivityView()
+    // {
+    //   $state.go('showActivity');
+    // }
 
-    function showListActivityView()
-    {
-      $state.go('showListActivity');
-    }
+    // function showListActivityView()
+    // {
+    //   $state.go('showListActivity');
+    // }
 
-    function showActivity(id)
-    {
-      $log.log("getting activity with id..." + id)
-      if (id===undefined) { return; }
-      vm.activity.showActivity(id)
-        .then(function(res){
-//          debugger;
-          vm.activity.setValues(res.data[0]);
-        },
-        function(err){
-          $log.log(err);
-        });
-    }
+    // function showActivity(id)
+    // {
+    //   $log.log("getting activity with id..." + id)
+    //   if (id===undefined) { return; }
+    //   vm.activity.showActivity(id)
+    //     .then(function(res){
+    //       vm.activity.setValues(res.data[0]);
+    //     },
+    //     function(err){
+    //       $log.log(err);
+    //     });
+    // }
 
 
     function deleteList(id)
@@ -301,13 +301,12 @@
         });
     }
 
-    vm.display = display;
 
-    function initialize()
-    {
-      // do stuff here to set up initial view
-      slide.forEach(function(x,idx){$('#'+(idx)).slideUp()})
-    }
+    // function initialize()
+    // {
+    //   // do stuff here to set up initial view
+    //   slide.forEach(function(x,idx){$('#'+(idx)).slideUp()})
+    // }
 
     vm.toggle = function(idx){
       (slide[idx]) ? $('#'+(idx)).slideUp() : $('#'+(idx)).slideDown();
@@ -315,23 +314,24 @@
     }
 
     // TODO: throwaway
-    function display()
-    {
-      $log.log(vm.activity);
-      $log.log(angular.toJson(vm.lists[0].activity[0]));
-      $log.log(angular.toJson(vm.lists[0].activity[1]));
-    }
+    // function display()
+    // {
+    //   $log.log(vm.activity);
+    //   $log.log(angular.toJson(vm.lists[0].activity[0]));
+    //   $log.log(angular.toJson(vm.lists[0].activity[1]));
+    // }
 
     // not sure why but ui.sortable adds items onto the vm.list model when i cancel a drag and drop
     // this remvoes that element that was added.
-    function refreshActivityList(id)
-    {
-      vm.lists.forEach(function(list){
-        list.activity = list.activity.filter(function(a){
-          return a._id != id;
-        })
-      })
-    }
+    // function refreshActivityList(id)
+    // {
+    //   vm.lists.forEach(function(list){
+    //     list.activity = list.activity.filter(function(a){
+    //       return a._id != id;
+    //     })
+    //   })
+    // }
+
 ///////////////////////
     vm.modalLogin = modalLogin;
     vm.modalSignup = modalSignup;
@@ -377,9 +377,16 @@
       });
 
       vm.map.geocodeAddress(activity[0].location,function(res){
-        vm.map.center = {latitude: res.lat(),longitude: res.lng()};
-        vm.map.marker.id = "1";
-        vm.map.marker.coords = {latitude: res.lat(),longitude: res.lng()};
+        if (res !== "")
+        {
+          vm.map.center = {latitude: res.lat(),longitude: res.lng()};
+          vm.map.marker.id = "1";
+          vm.map.marker.coords = {latitude: res.lat(),longitude: res.lng()};
+        }
+        else
+        {
+          vm.map.marker.id = "0";
+        }
 
         // $log.log(vm.map.marker);
         // $log.log(vm.map.marker.coords);

@@ -32,7 +32,8 @@
           if (status == google.maps.GeocoderStatus.OK) {
               callback(results[0].geometry.location);
           } else {
-              console.log("Geocode was not successful for the following reason: " + status);
+              callback("");
+//              console.log("Geocode was not successful for the following reason: " + status);
           }
       });
     }
