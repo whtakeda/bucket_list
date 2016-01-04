@@ -200,11 +200,9 @@ button:focus {
 
 .modal-style {
   padding: 20px;
-  border: 1px solid black;
+  border-radius: 5px;
 }
 
-.map-style {
-  border:1px solid black;
-  width: 300px;
-  height: 225px;
+.map-container {
+  border:1px solid #000000;
 }

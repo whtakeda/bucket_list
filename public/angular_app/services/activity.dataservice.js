@@ -46,7 +46,7 @@
 
     function updateActivity()
     {
-      $log.log("updating activity...");
+      $log.log("updating activity..." + activity);
       return $http.put("activities/" + activity._id ,activity);
     }
 
