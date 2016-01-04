@@ -190,6 +190,18 @@ button:focus {
 }
 
 .angular-google-map-container {
-  height: 400px;
-  width: 400px;
+  height: 225px;
+  width: 300px;
+}
+
+.inline-block {
+  display:inline-block;
+}
+
+.modal-style {
+  padding: 20px;
+}
+
+.map-style {
+  border:1px solid black;
 }

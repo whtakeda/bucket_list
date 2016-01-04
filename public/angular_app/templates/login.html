@@ -1,21 +1,16 @@
-<div id="main" style="display:none">
-<h3 class="template-title">Login</h3>
-<form ng-submit="vm.login()">
-<div class="title-column">Email</div><input type="text" ng-model="vm.loginData.email" class="data-column"><br />
-<div class="title-column">Password</div><input type="password" ng-model="vm.loginData.password" class="data-column"><br /><br />
-<div class="btn-wrapper">
-<!-- <input type="submit" value="Login" class="template-btn">&nbsp;<input type="button" value="Cancel" ng-click="vm.cancel()" class="template-btn">
- -->
-<!-- <input type="submit" ng-click="ok()" value="Login" class="template-btn">&nbsp;<input type="button" value="Cancel" ng-click="cancel()" class="template-btn">
- -->
-<input type="button" ng-click="vm.login()" value="Login" class="template-btn">&nbsp;<input type="button" value="Cancel" ng-click="vm.cancel()" class="template-btn">
-</div>
-<br />
-</form>
+<div class="modal-style">
+  <h3 class="template-title">Login</h3>
+  <form ng-submit="vm.login()">
+  <div class="title-column">Email</div><input type="text" ng-model="vm.loginData.email" class="data-column"><br />
+  <div class="title-column">Password</div><input type="password" ng-model="vm.loginData.password" class="data-column"><br /><br />
+  <div class="btn-wrapper">
+  <!-- <input type="submit" value="Login" class="template-btn">&nbsp;<input type="button" value="Cancel" ng-click="vm.cancel()" class="template-btn">
+   -->
+  <!-- <input type="submit" ng-click="ok()" value="Login" class="template-btn">&nbsp;<input type="button" value="Cancel" ng-click="cancel()" class="template-btn">
+   -->
+  <input type="button" ng-click="vm.login()" value="Login" class="template-btn">&nbsp;<input type="button" value="Cancel" ng-click="vm.cancel()" class="template-btn">
+  </div>
+  <br />
+  </form>
 </div>
 
-<script>
-$(document).ready(function() {
-    $('#main').fadeIn(800);
-});
-</script>
