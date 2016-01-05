@@ -13,7 +13,6 @@ var listSchema = new mongoose.Schema({
     completed: {type:Boolean, default:false},
     accepted: {type:Boolean, default:true},
     progress: {type:Number, default:0},
-    location: {type:String, default:""},
     reminderDate: Date
   }]
 });

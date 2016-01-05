@@ -204,5 +204,18 @@ button:focus {
 }
 
 .map-container {
+  vertical-align: top;
   border:1px solid #000000;
+}
+
+.modal-dialog {
+  width:800px;
+}
+
+.modal-dialog-no-map {
+  width:500px;
+}
+
+.activity-detail {
+  max-width:450px;
 }

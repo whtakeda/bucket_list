@@ -33,10 +33,9 @@
     <!-- Collect the nav links, forms, and other content for toggling -->
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
       <ul class="nav navbar-nav">
-<!--         <li><a ui-sref="newActivity({isLoggedIn:vm.isLoggedIn()})" ng-show="vm.isLoggedIn()" ng-click="vm.activity.clearActivity()">New Activity</a></li>
- -->
         <li><a ng-click="vm.modalNewActivity()" ng-show="vm.isLoggedIn()" ng-click="vm.activity.clearActivity()" class="pointer-cursor">New Activity</a></li>
-        <li><a ui-sref="newList({isLoggedIn:vm.isLoggedIn()})" ng-show="vm.isLoggedIn()">New List</a></li>
+        <!-- <li><a ui-sref="newList({isLoggedIn:vm.isLoggedIn()})" ng-show="vm.isLoggedIn()">New List</a></li> -->
+
         <li><a style='display:inline-block'>Search&nbsp;</a><input type="text" ng-model="search.title" size="50"></input></li>
         <li><a style='display:inline-block; ' ng-click="search.title=''"><img ng-src='assets/images/clear.png' style='height:25px' class='pointer-cursor'></a></li>
       </ul>
@@ -60,19 +59,6 @@
 
 <div>
   <div ul-view='templates'></div>
-  <div id="map_canvas" ng-controller="MapController as vm">
-  <!--      <ui-gmap-google-map center="{latitude:34, longitude:-118}" zoom="6" draggable="true">
-          <ui-gmap-marker coords="{latitude:34, longitude:-118}" idkey="abc">
-          </ui-gmap-marker>
-      </ui-gmap-google-map>
-   -->
-<!--        <ui-gmap-google-map center="vm.map.center" zoom="vm.map.zoom" options="vm.options" class="angular-google-map-container">
-          <ui-gmap-marker coords="vm.marker.coords" options="vm.marker.options" idkey="vm.marker.id">
-          </ui-gmap-marker>
-      </ui-gmap-google-map>
- -->  </div>
-
-
 
   <!--================== lists =====================-->
   <div class="col-xs-3 frame" ng-show="vm.isLoggedIn()">
@@ -82,18 +68,8 @@
           name="list" data-id="{{list._id}}" ng-cloak>{{list.name}}
         </div>
         <div ng-model="list.activity" class="connected-apps-container" id="{{list._id}}">
-<!--           <div class="centered"  ng-class="{'bevel lists': activity.id !== '-1'}" ng-repeat="activity in list.activity"
-            id="{{activity._id}}" ng-dblclick="vm.showListActivityView(); vm.getListActivity(list._id,activity._id)" ng-cloak>
-              {{activity.title}} - <span ng-model="activity.progress">{{activity.progress}}</span>%<input type='button' ui-sref='test({id:activity._id})'></input>
-          </div>
- -->
-<!--           <div class="centered"  ng-class="{'bevel lists': activity.id !== '-1'}" ng-repeat="activity in list.activity"
-            id="{{activity._id}}" ng-cloak>
-              {{activity.title}} - <span ng-model="activity.progress">{{activity.progress}}</span>%<input type='button' ui-sref='test({id:activity._id})' ng-click="vm.getListActivity(list._id,activity._id)"></input>
-          </div>
- -->
           <div class="centered"  ng-class="{'bevel lists': activity.id !== '-1'}" ng-repeat="activity in list.activity"
-            id="{{activity._id}}" ng-click="vm.modalShowListActivity(activity._id)" ng-cloak>
+            id="{{activity._id}}" ng-click="vm.modalShowListActivity(activity._id,activity.activityId)" ng-cloak>
               {{activity.title}} - <span ng-model="activity.progress">{{activity.progress}}</span>%
           </div>
         </div>
@@ -110,15 +86,10 @@
     <div class="activity-header bevel">Activities</div>
     <div class="activity-container">
       <div ng-model="vm.activities" class="first" ng-controller="ModalController">
-<!--         <div class="activities bevel" ng-dblclick="vm.showActivityView(); vm.showActivity(activity._id)" ui-sref="showActivity"
-          ng-repeat="activity in vm.activities track by $index" ng-cloak>
- -->
           <div class="activities bevel" ng-repeat="activity in vm.activity.activities  | filter:search:strict track by $index" ng-cloak>
           <div>{{activity.title}}</div>
           <div>{{activity.rating}}</div>
           <input type="button" value="Add" ng-click="vm.addToList(activity)" ng-show="vm.isLoggedIn()">
-<!--           <input type="button" value="View" ng-click="vm.showActivityView(); vm.showActivity(activity._id)">
- -->
           <input type="button" value="View" ng-click="vm.modalShowActivity(activity._id)">
         </div>
      </div>

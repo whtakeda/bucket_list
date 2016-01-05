@@ -1,6 +1,6 @@
 <div id="main" ng-repeat="activity in vm.activity.activities | filter:vm.activity._id" class="modal-style">
-  <div class="inline-block" style="vertical-align:top">
-    <div class="title-column">Title:</div><div class="data-column">{{activity.title}}</div>
+  <div class="inline-block activity-detail">
+    <h3>{{activity.title}}</h3>
     <div></div>
     <div class="title-column">Description:</div><div class="data-column">{{activity.description}}</div>
     <div></div>
@@ -17,9 +17,6 @@
     <ui-gmap-google-map center="vm.map.center" zoom="vm.map.zoom" options="vm.options" class="angular-google-map-container" ng-hide="vm.map.marker.id === '0'">
         <ui-gmap-marker coords="vm.map.marker.coords" idkey="vm.map.marker.id" options="vm.map.marker.options"></ui-gmap-marker>
     </ui-gmap-google-map>
-    <div ng-show="vm.map.marker.id === '0'">
-      No map available for this activity
-    </div>
   </div>
   <div class="btn-wrapper">
 <!--   <span class="glyphicon glyphicon-thumbs-up" aria-hidden="true" data-value="1" ng-click="vm.activity.vote(1)" id="upvote"></span>

@@ -28,32 +28,32 @@
       $('#main').fadeOut(500,function(){$state.go('home')});
     }
 
-    function login() {
-      authService.login(vm.loginData.email, vm.loginData.password)
-        .then(function(res) {
-          $log.log(res.data.user);
-          userDataService.user = res.data.user;
+//     function login() {
+//       authService.login(vm.loginData.email, vm.loginData.password)
+//         .then(function(res) {
+//           $log.log(res.data.user);
+//           userDataService.user = res.data.user;
 
-///////////
-      userDataService.currentUser().then(function(res){
-        vm.currentUser = res.data;
-        userDataService.currentUserData(vm.currentUser._id)
-          .then(function(res){
-            userDataService.data = res.data;
-            userDataService.data.lists.forEach(function(list){
-            })
-          },
-          function(err){
-            $log.log(err);
-          });
-      },
-      function(err){
-        $log.log(err);
-      });
-///////////
-          $state.go('home');
-        });
-    };
+// ///////////
+//       userDataService.currentUser().then(function(res){
+//         vm.currentUser = res.data;
+//         userDataService.currentUserData(vm.currentUser._id)
+//           .then(function(res){
+//             userDataService.data = res.data;
+//             userDataService.data.lists.forEach(function(list){
+//             })
+//           },
+//           function(err){
+//             $log.log(err);
+//           });
+//       },
+//       function(err){
+//         $log.log(err);
+//       });
+// ///////////
+//           $state.go('home');
+//         });
+//     };
 
   }
 

@@ -50,7 +50,18 @@
       userDataService.currentUserData(vm.currentUser._id)
         .then(function(res){
           userDataService.data = res.data;
+          // because activity data is stored separately, i want to combine
+          // the information into the user activities
           userDataService.data.lists.forEach(function(list){
+            list.activity.forEach(function(activity){
+              var a = vm.activity.activities.filter(function(act){
+                return act._id === activity.activityId;
+              })[0];
+              activity.title = a.title;
+              activity.location = a.location;
+              activity.cost = a.cost; // TODO: currently not using this????
+              activity.description = a.description;
+            })
           })
         },
         function(err){
@@ -177,7 +188,10 @@
         });
     }
 
+    function getActivityLocation()
+    {
 
+    }
 
 
 ///////////////////////////////////////////////////////////////////////
@@ -401,14 +415,33 @@
 
     }
 
-    function modalShowListActivity(id)
+    function modalShowListActivity(id,activityId)
     {
       vm.activity._id = id;
-      $uibModal.open({
-        animation: true,
-        templateUrl: '../templates/list_activity.html',
-        controller: ['userDataService', '$uibModalInstance', 'loginDataService', 'activityDataService', '$state', '$log', 'uiGmapGoogleMapApi', ModalInstanceController],
-        controllerAs: 'vm'
+
+      var activity = vm.activity.activities.filter(function(activity){
+        return activity._id === activityId;
+      });
+
+      vm.map.geocodeAddress(activity[0].location,function(res){
+        if (res !== "")
+        {
+          vm.map.center = {latitude: res.lat(),longitude: res.lng()};
+          vm.map.marker.id = "1";
+          vm.map.marker.coords = {latitude: res.lat(),longitude: res.lng()};
+        }
+        else
+        {
+          vm.map.marker.id = "0";
+        }
+
+        $uibModal.open({
+          animation: true,
+          templateUrl: '../templates/list_activity.html',
+          size: 'sm',
+          controller: ['userDataService', '$uibModalInstance', 'loginDataService', 'activityDataService', '$state', '$log', 'uiGmapGoogleMapApi', ModalInstanceController],
+          controllerAs: 'vm'
+        });
       });
     }
   } // end main controller
