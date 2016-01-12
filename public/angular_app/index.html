@@ -88,7 +88,7 @@
           <input type="button" class="my-btn" value="View" ng-click="vm.modalShowActivity(activity._id)">
  -->
           <span class="my-btn" ng-click="vm.addToList(activity)" ng-show="vm.isLoggedIn()">Add</span>
-          &nbsp;|&nbsp;
+          <span ng-show="vm.isLoggedIn()">&nbsp;|&nbsp;</span>
           <span class="my-btn" ng-click="vm.modalShowActivity(activity._id)">View</span>
         </div>
      </div>
