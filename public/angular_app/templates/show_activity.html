@@ -19,13 +19,9 @@
     </ui-gmap-google-map>
   </div>
   <div class="btn-wrapper">
-<!--   <span class="glyphicon glyphicon-thumbs-up" aria-hidden="true" data-value="1" ng-click="vm.activity.vote(1)" id="upvote"></span>
-  &nbsp;&nbsp;<span class="like" id="rating" ng-model="vm.activity.rating">{{activity.rating}}</span>&nbsp;&nbsp;
-  <span class="glyphicon glyphicon-thumbs-down" aria-hidden="true" data-value="-1" ng-click="vm.activity.vote(-1)" id="downvote"></span>
- -->
-    <span class="glyphicon glyphicon-thumbs-up pointer-cursor" aria-hidden="true" data-value="1" ng-click="activity.rating=activity.rating+1; vm.activity.vote(activity,1)" id="upvote"></span>
-    &nbsp;&nbsp;<span class="like" id="rating" ng-model="activity.rating">{{activity.rating}}</span>&nbsp;&nbsp;
-    <span class="glyphicon glyphicon-thumbs-down pointer-cursor" aria-hidden="true" data-value="-1" ng-click="activity.rating=activity.rating-1; vm.activity.vote(activity,-1)" id="downvote"></span>
+    <span class="glyphicon glyphicon-thumbs-up pointer-cursor" aria-hidden="true" data-value="1" ng-click="activity.rating=activity.rating+1; vm.activity.vote(activity,1)" id="upvote" ng-show='vm.isLoggedIn()'></span>
+    &nbsp;&nbsp;<span class="like" id="rating" ng-model="activity.rating">Rating: {{activity.rating}}</span>&nbsp;&nbsp;
+    <span class="glyphicon glyphicon-thumbs-down pointer-cursor" aria-hidden="true" data-value="-1" ng-click="activity.rating=activity.rating-1; vm.activity.vote(activity,-1)" id="downvote" ng-show='vm.isLoggedIn()'></span>
     &nbsp;&nbsp;&nbsp;&nbsp;
     <input type="button" value="Close" ng-click="vm.cancel()" class="template-btn">
   </div>

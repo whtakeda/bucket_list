@@ -63,6 +63,14 @@
               activity.description = a.description;
             })
           })
+          // load other user lists only after loading current user
+          vm.list.getAllLists()
+            .then(function(res){
+              vm.list.all = res.data.filter(function(users){
+                return users._id !== vm.currentUser._id;
+              });
+            })
+
         },
         function(err){
           $log.log(err);
@@ -95,7 +103,6 @@
     }
 
     getActivities();
-//    getLists();
 
 
     function signup()
@@ -159,7 +166,6 @@
 
     function updateListActivity()
     {
-//      $log.log("started updating activity list...")
       vm.list.listActivity.progress = parseInt(angular.element("#progress").val());
       var activity = vm.user.data.lists[0].activity.filter(function(activity){
         return activity._id === vm.list.listActivity.activityId;
@@ -167,7 +173,6 @@
       activity[0].progress = parseInt(angular.element("#progress").val());
       vm.list.updateListActivity()
         .then(function(res){
-//          $log.log("done updating...");
           vm.list.clearListActivity();
         },
         function(err){
@@ -179,7 +184,6 @@
     {
       vm.activity.getActivities()
         .then(function(res){
-//          $log.log("res is " + angular.toJson(res.data));
           vm.activity.activities = res.data;
           activitiesCopy = vm.activity.activities.slice();
         },
@@ -221,7 +225,6 @@
 
     function deleteList(id)
     {
-      $log.log("deleting...." + id);
       vm.list.deleteList(id)
         .then(function(res){
           // just remove list from currentUser
@@ -352,13 +355,15 @@
     vm.modalNewActivity = modalNewActivity;
     vm.modalShowActivity = modalShowActivity;
     vm.modalShowListActivity = modalShowListActivity;
+    vm.modalShowListActivityOther = modalShowListActivityOther;
     vm.loginData = {email:"", password:""};
 
     function modalLogin() {
       $uibModal.open({
         animation: true,
         templateUrl: '../templates/login.html',
-        controller: ['userDataService', '$uibModalInstance', 'loginDataService', 'activityDataService', '$state', '$log', ModalInstanceController],
+        size: 'md',
+        controller: ModalInstanceController,
         controllerAs: 'vm'
       });
     }
@@ -367,7 +372,8 @@
       $uibModal.open({
         animation: true,
         templateUrl: '../templates/signup.html',
-        controller: ['userDataService', '$uibModalInstance', 'loginDataService', 'activityDataService', '$state', '$log', 'uiGmapGoogleMapApi', ModalInstanceController],
+        size: 'md',
+        controller: ModalInstanceController,
         controllerAs: 'vm'
       });
     }
@@ -377,7 +383,7 @@
       $uibModal.open({
         animation: true,
         templateUrl: '../templates/new_activity.html',
-        controller: ['userDataService', '$uibModalInstance', 'loginDataService', 'activityDataService', '$state', '$log', 'uiGmapGoogleMapApi', ModalInstanceController],
+        controller: ModalInstanceController,
         controllerAs: 'vm'
       });
     }
@@ -402,13 +408,11 @@
           vm.map.marker.id = "0";
         }
 
-        // $log.log(vm.map.marker);
-        // $log.log(vm.map.marker.coords);
         $uibModal.open({
           animation: true,
           templateUrl: '../templates/show_activity.html',
           size: 'lg',
-          controller: ['userDataService', '$uibModalInstance', 'loginDataService', 'activityDataService', '$state', '$log', 'uiGmapGoogleMapApi', ModalInstanceController],
+          controller: ModalInstanceController,
           controllerAs: 'vm'
         });
       });
@@ -438,21 +442,55 @@
         $uibModal.open({
           animation: true,
           templateUrl: '../templates/list_activity.html',
-          size: 'sm',
-          controller: ['userDataService', '$uibModalInstance', 'loginDataService', 'activityDataService', '$state', '$log', 'uiGmapGoogleMapApi', ModalInstanceController],
+          size: 'lg',
+          controller: ModalInstanceController,
           controllerAs: 'vm'
         });
       });
     }
+
+    function modalShowListActivityOther(id,activityId)
+    {
+      vm.activity._id = id;
+
+      vm.activity.currActivity = vm.activity.activities.filter(function(activity){
+        return activity._id === activityId;
+      })[0];
+
+      vm.map.geocodeAddress(vm.activity.currActivity.location,function(res){
+        if (res !== "")
+        {
+          vm.map.center = {latitude: res.lat(),longitude: res.lng()};
+          vm.map.marker.id = "1";
+          vm.map.marker.coords = {latitude: res.lat(),longitude: res.lng()};
+        }
+        else
+        {
+          vm.map.marker.id = "0";
+        }
+
+        $uibModal.open({
+          animation: true,
+          templateUrl: '../templates/list_activity_other.html',
+          size: 'lg',
+          controller: ModalInstanceController,
+          controllerAs: 'vm'
+        });
+      });
+    }
+
   } // end main controller
 
-function ModalInstanceController(userDataService, $uibModalInstance, loginDataService, activityDataService, $state, $log, $uiGmapGoogleMapApi)
+ModalInstanceController.$inject = ['userDataService', 'authService', '$uibModalInstance', 'loginDataService', 'activityDataService', '$state', '$log', 'uiGmapGoogleMapApi']
+
+function ModalInstanceController(userDataService, authService, $uibModalInstance, loginDataService, activityDataService, $state, $log, $uiGmapGoogleMapApi)
 {
   var vm = this;
   vm.user = userDataService;
   vm.loginData = loginDataService;
   vm.activity = activityDataService;
 
+  vm.isLoggedIn = authService.isLoggedIn;
 
   vm.login = login;
   vm.signup = signup;

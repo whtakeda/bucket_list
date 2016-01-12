@@ -3,7 +3,7 @@
 
 
   angular
-    .module('app', ['ui.router','ui.bootstrap','uiGmapgoogle-maps'])
+    .module('app', ['ui.router','ui.bootstrap','uiGmapgoogle-maps','ngAnimate'])
     .config(router)
     // .config(function(uiGmapGoogleMapApiProvider) {
     //     uiGmapGoogleMapApiProvider.configure({
@@ -25,6 +25,7 @@
         url: '/',
         templateUrl: 'templates/home.html'
       })
+      // leave all the routes in here for now because i might want to use them later
       // .state('activities',{
       //   url: '/activities',
       //   templateUrl: 'templates/activities.html',

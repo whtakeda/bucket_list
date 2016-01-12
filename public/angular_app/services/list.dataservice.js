@@ -23,6 +23,7 @@
         location: "",
         reminderDate: ""
       },
+      all: [],
       activity: [],
       newList: newList,
       getLists: getLists,
@@ -37,14 +38,19 @@
       setListActivity: setListActivity,
       clearListActivity: clearListActivity,
       updateListActivity: updateListActivity,
-      activityExists: activityExists
+      activityExists: activityExists,
+      getAllLists: getAllLists
     };
 
     return list;
 
+    function getAllLists()
+    {
+      return $http.get("lists");
+    }
+
     function updateListActivity()
     {
-//      debugger;
       // TODO - verify list has data before sending request.
       return $http.put("lists/activity/" + list.listActivity.activityId, list.listActivity)
     }
@@ -56,7 +62,6 @@
 
     function setListActivity(activity)
     {
-//      debugger;
       list.listActivity.activityId = activity._id;
       list.listActivity.name = activity.title;
       list.listActivity.completed = activity.completed;
@@ -127,13 +132,11 @@
 
     function newList(id)
     {
-      $log.log("creating new list...");
       return $http.post("lists",{list:list,id:id});
     }
 
     function getLists(id)
     {
-      $log.log("getting lists...");
       return $http.get("users/" + id  + "/lists");
     }
 
@@ -159,11 +162,10 @@
 
     function activityExists(list,id)
     {
-       var x = (list.filter(function(activity){
+      var x = (list.filter(function(activity){
         return activity.activityId === id
       })).length > 0;
-//       debugger;
-       return x;
+      return x;
     }
   }
 })();

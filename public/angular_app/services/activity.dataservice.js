@@ -46,7 +46,6 @@
 
     function updateActivity()
     {
-      $log.log("updating activity..." + activity);
       return $http.put("activities/" + activity._id ,activity);
     }
 
@@ -64,25 +63,21 @@
 
     function showActivity(id)
     {
-      $log.log("in showActivity...")
       return $http.get("activities/" + id);
     }
 
     function getActivities()
     {
-      $log.log("getting activities...");
       return $http.get("activities");
     }
 
     function newActivity()
     {
-      $log.log("creating new activity..." + activity.title);
       return $http.post("activities",activity);
     }
 
     function clearActivity()
     {
-      $log.log("clearing activity...");
       activity.title = "";
       activity.description = "";
       activity.rating = 0;

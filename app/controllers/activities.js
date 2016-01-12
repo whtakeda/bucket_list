@@ -31,10 +31,8 @@ function index(req,res,next)
 
 function show(req,res,next)
 {
-//  console.log("looking for activity with id..." + req.params.id)
   Activity.find({"_id":req.params.id},function(err,activity){
     if (err) { console.log(err); }
-//    console.log("found record..." + activity)
     res.json(activity);
   });
 }
@@ -45,7 +43,6 @@ function update(req,res,next)
     if (err) { console.log(err); }
     activity[0].title = req.body.title;
     activity[0].description = req.body.description;
-//    activity[0].rating = activity[0].rating + req.body.rating;
     activity[0].rating = req.body.rating;
     activity[0].location = req.body.location;
     activity[0].cost = req.body.cost;

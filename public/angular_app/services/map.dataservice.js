@@ -15,7 +15,7 @@
           latitude: 0,
           longitude: 0
         },
-        labelContent: "hi",
+        labelContent: "",
         events: {}
       },
       center: {latitude: 0, longitude: 0 },

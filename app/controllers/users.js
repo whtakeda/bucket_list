@@ -20,7 +20,6 @@ var userAuth = function (req, res, next) {
   User.findOne({
       email: req.body.email
     }).exec(function(err, user) {
-console.log("found user..." + user)
       if (err) throw err;
 
       // no user with that phone number was found
@@ -49,7 +48,6 @@ console.log("found user..." + user)
           }, superSecret, {
             expiresIn: 43200 // expires in 30 days
           });
-console.log("user is " + user)
           // return the information including token as JSON
           res.json({
             success: true,
@@ -65,7 +63,7 @@ console.log("user is " + user)
   };
 
 //||||||||||||||||||||||||||--
-// VERIFIY TOKEN
+// VERIFY TOKEN
 //||||||||||||||||||||||||||--
 var tokenVerify = function(req, res, next) {
   // do logging
@@ -73,9 +71,6 @@ var tokenVerify = function(req, res, next) {
 
   // check header or url parameters or post parameters for token
   var token = req.body.token || req.query.token || req.headers['x-access-token'];
-// console.log("1-"+req.body.token);
-// console.log("2-"+req.query.token);
-// console.log("3-"+req.headers['x-access-token']);
   // decode token
   if (token) {
 
@@ -112,10 +107,8 @@ var tokenVerify = function(req, res, next) {
 
 function index(req,res,next)
 {
-//  User.find({},'lists.activity.id lists.activity.title',function(err,l){
   User.find({},'lists',function(err,user){
     if (err) { console.log(err); }
-//    console.log(user[0].lists);
     res.json(user[0].lists);
   });
 }
@@ -136,10 +129,8 @@ function create(req,res,next)
 
 function show(req,res,next)
 {
-//  console.log("Looking for user..." + req.params.id)
   User.findById(req.params.id,function(err,user){
     if (err) { console.log(err); }
-//    console.log("found user..." + user)
     res.json(user);
   });
 }
