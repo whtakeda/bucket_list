@@ -25,10 +25,11 @@ track your progress in your quest to complete your bucket list.
 - CSS
 - BootStrap
 - jQuery
-- Node
+- Node.js
 - Express
 - Angular
 - MongoDB
+- JavaScript
 
 # API
 
