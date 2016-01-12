@@ -5,7 +5,7 @@ var env = require('./environment');
 // Use different database URIs based on whether an env var exists.
 var dbUri = process.env.MONGOLAB_URI || 'mongodb://localhost/' + env.localEnvVars.SAFE_TITLE;
 //dbUri = 'mongodb://localhost/' + env.SAFE_TITLE;
-dbUri = 'mongodb://localhost/bucket_list';
+// dbUri = 'mongodb://localhost/bucket_list';
 
 if (!process.env.MONGOLAB_URI) {
   // check that MongoD is running...
