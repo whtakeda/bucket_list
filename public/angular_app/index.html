@@ -84,8 +84,12 @@
           <div ng-class="{'activities':vm.isLoggedIn(), 'activities-logged-out':!vm.isLoggedIn(), 'bevel':true}" ng-repeat="activity in vm.activity.activities  | filter:search:strict track by $index" ng-cloak>
           <div>{{activity.title}}</div>
           <div>Rating: {{activity.rating}}</div>
-          <input type="button" class="my-btn" value="Add" ng-click="vm.addToList(activity)" ng-show="vm.isLoggedIn()">
+<!--           <input type="button" class="my-btn" value="Add" ng-click="vm.addToList(activity)" ng-show="vm.isLoggedIn()">
           <input type="button" class="my-btn" value="View" ng-click="vm.modalShowActivity(activity._id)">
+ -->
+          <span class="my-btn" ng-click="vm.addToList(activity)" ng-show="vm.isLoggedIn()">Add</span>
+          &nbsp;|&nbsp;
+          <span class="my-btn" ng-click="vm.modalShowActivity(activity._id)">View</span>
         </div>
      </div>
     </div>
